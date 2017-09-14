@@ -1,4 +1,4 @@
-package com.example.lucky.barcodechecker;
+package com.project.barcodechecker;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.lucky.barcodechecker", appContext.getPackageName());
+        assertEquals("com.project.barcodechecker", appContext.getPackageName());
     }
 }

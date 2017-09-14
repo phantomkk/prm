@@ -1,4 +1,4 @@
-package com.example.lucky.barcodechecker;
+package com.project.barcodechecker;
 
 import org.junit.Test;
 
