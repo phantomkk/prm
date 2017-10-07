@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_history"
+        android:icon="@drawable/ic_history_black_24dp"
+        android:title="@string/item_history"/>
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:title="@string/item_search"/>
+    <item
+        android:id="@+id/action_scan"
+        android:icon="@drawable/ic_photo_camera_black_24dp"
+        android:title="@string/item_camera"/>
+    <item
+        android:id="@+id/action_list"
+        android:icon="@drawable/ic_format_list_bulleted_black_24dp"
+        android:title="@string/item_list"/>
+    <item
+        android:id="@+id/action_setting"
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:title="@string/item_setting"/>
+</menu>
