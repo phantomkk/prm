@@ -1,7 +1,5 @@
 package com.project.barcodechecker.fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,8 +8,8 @@ import android.view.ViewGroup;
 
 import com.project.barcodechecker.R;
 
-public class SettingFragment extends Fragment {
-
+public class SettingFragment extends Fragment  {
+    private static SettingFragment instance = new SettingFragment();
     public static SettingFragment newInstance() {
         SettingFragment fragment = new SettingFragment();
         return fragment;
@@ -21,5 +19,9 @@ public class SettingFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_setting, container, false);
+    }
+
+    public static SettingFragment getInstance() {
+        return instance;
     }
 }

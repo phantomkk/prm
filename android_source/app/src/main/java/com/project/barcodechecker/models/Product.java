@@ -40,6 +40,19 @@ public class Product {
     @Expose
     private String description;
 
+    public Product(Integer id, int categoryID, String name, Double price, String country, String address, String phone, String email, String code, String description) {
+        this.id = id;
+        this.categoryID = categoryID;
+        this.name = name;
+        this.price = price;
+        this.country = country;
+        this.address = address;
+        this.phone = phone;
+        this.email = email;
+        this.code = code;
+        this.description = description;
+    }
+
     public String toString() {
         return "id:  " + id + "\n" +
                 "categoryID: " + categoryID + "\n" +

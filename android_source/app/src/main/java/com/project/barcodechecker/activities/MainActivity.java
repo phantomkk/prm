@@ -7,12 +7,16 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.project.barcodechecker.R;
+import com.project.barcodechecker.fragments.FragmentFactory;
 import com.project.barcodechecker.fragments.HistoryFragment;
 import com.project.barcodechecker.fragments.ListFragment;
 import com.project.barcodechecker.fragments.ScanFragment;
@@ -29,40 +33,60 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
     private ProductService pService;
     private BottomNavigationView bottomNavigationView;
     private FrameLayout mainFrame;
+    private ActionBar actionbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setView();
+        actionbar = getSupportActionBar();
+        actionbar.setTitle("Scan");
         pService = APIUtils.getPService();
-        pService.getProducts().enqueue(new Callback<List<Product>>() {
+        pService.getProductById(10).enqueue(new Callback<Product>() {
             @Override
-            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+            public void onResponse(Call<Product> call, Response<Product> response) {
                 if (response.isSuccessful()) {
-                    String demo = "";
-                    for (Product p : response.body()) {
-                        demo = demo.concat(p.toString());
-                    }
-//                    ((TextView)findViewById(R.id.txt_show_products))
-//                            .setText(demo);
+                    String demo = response.body().getName() ;
                     Log.d("Log", demo);
-
+                    Toast.makeText(MainActivity.this, demo, Toast.LENGTH_SHORT).show();
                 } else {
                     Log.d("ELSE", "Successful but else");
                 }
-
             }
 
             @Override
-            public void onFailure(Call<List<Product>> call, Throwable t) {
-                Log.d("ERROR", "ERROR roi");
+            public void onFailure(Call<Product> call, Throwable t) {
+
             }
         });
+//        pService.getProducts().enqueue(new Callback<List<Product>>() {
+//            @Override
+//            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+//                if (response.isSuccessful()) {
+//                    String demo = response.body().size() +"";
+////                    for (Product p : response.body()) {
+////                        demo = demo.concat(p.toString());
+////                    }
+////                    ((TextView)findViewById(R.id.txt_show_products))
+////                            .setText(demo);
+//                    Log.d("Log", demo);
+//
+//                } else {
+//                    Log.d("ELSE", "Successful but else");
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<Product>> call, Throwable t) {
+//                Log.d("ERROR", "ERROR roi");
+//            }
+//        });
         //hello luc
     }
 
@@ -76,19 +100,24 @@ public class MainActivity extends Activity {
                 Fragment selectedFragment = ScanFragment.newInstance();
                 switch (item.getItemId()) {
                     case R.id.action_history:
-                        selectedFragment = HistoryFragment.newInstance();
+                        selectedFragment = FragmentFactory.getFragment(HistoryFragment.class);
+                        actionbar.setTitle("History");
                         break;
                     case R.id.action_search:
-                        selectedFragment = SearchFragment.newInstance();
+                        selectedFragment = FragmentFactory.getFragment(SearchFragment.class);
+                        actionbar.setTitle("Search");
                         break;
                     case R.id.action_scan:
-                        selectedFragment = ScanFragment.newInstance();
+                        selectedFragment = FragmentFactory.getFragment(ScanFragment.class);
+                        actionbar.setTitle("Scan");
                         break;
                     case R.id.action_list:
-                        selectedFragment = ListFragment.newInstance();
+                        selectedFragment = FragmentFactory.getFragment(ListFragment.class);
+                        actionbar.setTitle("List category");
                         break;
                     case R.id.action_setting:
-                        selectedFragment = SettingFragment.newInstance();
+                        selectedFragment = FragmentFactory.getFragment(SettingFragment.class);
+                        actionbar.setTitle("Setting");
                         break;
 
                 }

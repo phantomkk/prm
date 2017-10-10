@@ -18,5 +18,6 @@ public interface ProductService {
     Call<List<Product>> getProducts();
     @GET("/api/products/{id}")
     Call<Product> getProductById(@Path("id") Integer id);
-
+//    @GET("/api/products/category/{id}")
+//    Call<Product> getProductByCategoryId(@Path("id") Integer id);
 }

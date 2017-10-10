@@ -5,9 +5,12 @@
     tools:context="com.project.barcodechecker.fragments.HistoryFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="history hardcode" />
+        android:layout_height="wrap_content"
+        android:id="@+id/list_history_frag_history"
+        >
+
+    </ListView>
 
 </FrameLayout>

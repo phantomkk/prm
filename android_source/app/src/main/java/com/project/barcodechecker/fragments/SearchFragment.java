@@ -1,7 +1,5 @@
 package com.project.barcodechecker.fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,7 +10,7 @@ import com.project.barcodechecker.R;
 
 public class SearchFragment extends Fragment {
 
-
+    private static SearchFragment instance = new SearchFragment();
     public static SearchFragment newInstance() {
         SearchFragment fragment = new SearchFragment();
         return fragment;
@@ -24,4 +22,7 @@ public class SearchFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_search, container, false);
     }
 
+    public static SearchFragment getInstance() {
+        return instance;
+    }
 }

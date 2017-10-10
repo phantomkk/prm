@@ -2,10 +2,6 @@ package com.project.barcodechecker.utils;
 
 import com.project.barcodechecker.api.services.ProductService;
 import com.project.barcodechecker.api.services.RetrofitClient;
-import com.project.barcodechecker.utils.MyConstant;
-import com.project.barcodechecker.utils.Utils;
-
-import retrofit2.Retrofit;
 
 /**
  * Created by lucky on 13-Sep-17.

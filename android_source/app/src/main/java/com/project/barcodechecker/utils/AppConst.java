@@ -6,5 +6,5 @@ import android.os.Build;
  * Created by lucky on 14-Sep-17.
  */
 
-public class MyConstant {
+public class AppConst {
 }

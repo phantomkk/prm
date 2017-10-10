@@ -1,7 +1,5 @@
 package com.project.barcodechecker.fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,11 +8,14 @@ import android.view.ViewGroup;
 
 import com.project.barcodechecker.R;
 
-public class ScanFragment extends Fragment {
-
+public class ScanFragment extends Fragment  {
+    private static ScanFragment instance = new ScanFragment();
     public static ScanFragment newInstance() {
         ScanFragment fragment = new ScanFragment();
         return fragment;
+    }
+    public static ScanFragment getInstance() {
+        return instance;
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
