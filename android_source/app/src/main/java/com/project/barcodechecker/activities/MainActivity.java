@@ -103,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.action_history:
                         selectedFragment = FragmentFactory.getFragment(HistoryFragment.class);
                         actionbar.setTitle("History");
+                        Log.v("LOG", "history");
                         break;
                     case R.id.action_search:
                         selectedFragment = FragmentFactory.getFragment(SearchFragment.class);
