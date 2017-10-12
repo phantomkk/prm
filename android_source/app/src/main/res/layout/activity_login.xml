@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical"
+    tools:context="com.project.barcodechecker.activities.LoginActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/tool_bar" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="15dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingLeft="35dp"
+            android:paddingRight="35dp">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@android:color/white"
+                android:hint="@string/hint_username"
+                android:padding="10dp"
+                android:maxLines="1"
+                android:inputType="text"
+                android:textColorHint="@color/color_grey_400" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:background="@android:color/white"
+                android:hint="@string/hint_password"
+                android:inputType="text"
+                android:padding="10dp"
+                android:maxLines="1"
+                android:textColorHint="@color/color_grey_400"
+
+                />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/button_primary"
+                android:text="@string/button_login"
+                android:textColor="@color/color_white" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/linearLayout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginEnd="35dp"
+            android:layout_marginStart="35dp"
+            android:gravity="center_horizontal"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:autoLink="web"
+            android:text="@string/button_register"  />
+    </RelativeLayout>
+</LinearLayout>

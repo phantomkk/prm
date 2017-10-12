@@ -52,6 +52,9 @@ public class Product {
         this.code = code;
         this.description = description;
     }
+    public Product(){
+
+    }
 
     public String toString() {
         return "id:  " + id + "\n" +

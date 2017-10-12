@@ -7,4 +7,7 @@ import android.os.Build;
  */
 
 public class AppConst {
+    public final static String DATE_NO_TIME = "dd/MM/yyyy";
+
+    public final static String PRODUCT_PARAM = "PRODUCT_PARAM";
 }
