@@ -1,12 +1,17 @@
 package com.project.barcodechecker.activities;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -19,6 +24,7 @@ import com.project.barcodechecker.R;
 import com.project.barcodechecker.fragments.FragmentFactory;
 import com.project.barcodechecker.fragments.HistoryFragment;
 import com.project.barcodechecker.fragments.ListFragment;
+import com.project.barcodechecker.fragments.ScanBlankFragment;
 import com.project.barcodechecker.fragments.ScanFragment;
 import com.project.barcodechecker.fragments.SearchFragment;
 import com.project.barcodechecker.fragments.SettingFragment;
@@ -38,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     private FrameLayout mainFrame;
     private ActionBar actionbar;
+    private Class<?> mClss;
+    private static final int ZXING_CAMERA_PERMISSION = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Fragment selectedFragment = ScanFragment.newInstance();
+                Fragment selectedFragment = ScanBlankFragment.newInstance();
                 switch (item.getItemId()) {
                     case R.id.action_history:
                         selectedFragment = FragmentFactory.getFragment(HistoryFragment.class);
@@ -110,8 +119,16 @@ public class MainActivity extends AppCompatActivity {
                         actionbar.setTitle("Search");
                         break;
                     case R.id.action_scan:
-                        selectedFragment = FragmentFactory.getFragment(ScanFragment.class);
-                        actionbar.setTitle("Scan");
+                        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA)
+                                != PackageManager.PERMISSION_GRANTED) {
+                            mClss = ScanBlankFragment.class;
+                            ActivityCompat.requestPermissions(MainActivity.this,
+                                    new String[]{Manifest.permission.CAMERA}, ZXING_CAMERA_PERMISSION);
+                        } else {
+                            mClss=ScanFragment.class;
+                            selectedFragment = FragmentFactory.getFragment(mClss);
+                            actionbar.setTitle("Scan");
+                        }
                         break;
                     case R.id.action_list:
                         selectedFragment = FragmentFactory.getFragment(ListFragment.class);
@@ -130,5 +147,26 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,  String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case ZXING_CAMERA_PERMISSION:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if(mClss != null) {
+                        mClss = ScanFragment.class;
+                        actionbar.setTitle("Scan");
+                        FragmentManager fm = getFragmentManager();
+                        FragmentTransaction transaction = fm.beginTransaction();
+                        transaction.replace(R.id.main_frame_main_actv, FragmentFactory.getFragment(mClss));
+                        transaction.commit();
+                    }
+                } else {
+                    Toast.makeText(this, "Please grant camera permission to use the QR Scanner", Toast.LENGTH_SHORT).show();
+                }
+                return;
+        }
     }
 }
