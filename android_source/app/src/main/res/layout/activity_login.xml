@@ -7,7 +7,15 @@
     android:background="@color/colorPrimary"
     android:orientation="vertical"
     tools:context="com.project.barcodechecker.activities.LoginActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/tool_bar" />
+
+    </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -93,7 +101,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:gravity="center_horizontal"
             android:textColor="@color/color_white"
-            android:text="@string/button_register" />
+            android:text="@string/link_register" />
     </RelativeLayout>
 
     <RelativeLayout

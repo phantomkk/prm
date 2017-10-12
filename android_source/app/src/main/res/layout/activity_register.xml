@@ -1,9 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.project.barcodechecker.activities.RegisterActivity">
+    android:background="@color/colorPrimary"
+    android:orientation="vertical"
+    tools:context="com.project.barcodechecker.activities.LoginActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/tool_bar" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="15dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingLeft="35dp"
+            android:paddingRight="35dp">
+
+            <EditText
+                android:id="@+id/edt_username_reg_atv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@android:color/white"
+                android:hint="@string/hint_username"
+                android:inputType="text"
+                android:maxLines="1"
+                android:padding="10dp"
+                android:textColorHint="@color/color_grey_400" />
+
+            <TextView
+                android:id="@+id/txt_error_username_reg_atv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:text="Username password not valid"
+                android:textColor="@color/color_white"
+                android:visibility="invisible"
+
+                />
+
+            <EditText
+                android:id="@+id/edt_email_reg_atv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@android:color/white"
+                android:hint="@string/hint_email"
+                android:inputType="text"
+                android:maxLines="1"
+                android:padding="10dp"
+                android:textColorHint="@color/color_grey_400" />
+
+            <TextView
+                android:id="@+id/txt_error_email_reg_atv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:text="Username password not valid"
+                android:textColor="@color/color_white"
+                android:visibility="invisible"
+
+                />
+
+            <EditText
+                android:id="@+id/edt_password_reg_atv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:hint="@string/hint_password"
+                android:inputType="text"
+                android:maxLines="1"
+                android:padding="10dp"
+                android:textColorHint="@color/color_grey_400"
+
+                />
+
+            <TextView
+                android:id="@+id/txt_error_password_reg_atv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginBottom="20dp"
+                android:text="Username password not valid"
+                android:textColor="@color/color_white"
+                android:visibility="invisible"
+
+                />
+
+            <EditText
+                android:id="@+id/edt_re_pwd_reg_atv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:hint="@string/hint_password_retype"
+                android:inputType="text"
+                android:maxLines="1"
+                android:padding="10dp"
+                android:textColorHint="@color/color_grey_400"
+
+                />
+
+            <TextView
+                android:id="@+id/txt_error_repwd_reg_atv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginBottom="20dp"
+                android:text="Username password not valid"
+                android:textColor="@color/color_white"
+                android:visibility="invisible"
+
+                />
+
+            <Button
+                android:id="@+id/btn_register_reg_atv"
+                style="@style/button_primary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/button_register"
+                android:textColor="@color/color_white" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txt_register_atv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/linearLayout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginEnd="35dp"
+            android:layout_marginStart="35dp"
+            android:autoLink="web"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:gravity="center_horizontal"
+            android:text="@string/link_login"
+            android:textColor="@color/color_white" />
+    </RelativeLayout>
+
+</LinearLayout>

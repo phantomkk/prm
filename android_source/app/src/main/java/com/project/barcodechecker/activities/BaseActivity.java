@@ -18,7 +18,7 @@ import com.project.barcodechecker.R;
  */
 
 public abstract class BaseActivity extends Activity {
-    private Toolbar toolbar;
+    public Toolbar toolbar;
     private TextView txtTitle;
     private ImageButton btnBack;
     private ProgressDialog progressDialog;
@@ -38,7 +38,6 @@ public abstract class BaseActivity extends Activity {
     }
 
     public void initToolbar() {
-
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         btnBack = (ImageButton) findViewById(R.id.btn_back_toolbar);
         btnBack.setOnClickListener(
@@ -49,6 +48,18 @@ public abstract class BaseActivity extends Activity {
                     }
                 }
         );
+    }
+
+    public void hideButtonBack(boolean hide) {
+        if (btnBack != null) {
+            if (hide) {
+                btnBack.setVisibility(View.INVISIBLE);
+            } else {
+                btnBack.setVisibility(View.VISIBLE);
+            }
+        }else{
+            Log.e("ERROR", "BaseActivity: btnBack is null");
+        }
     }
 
     public void setToolbarTitle(String title) {

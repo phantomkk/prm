@@ -23,8 +23,8 @@ public class LoginActivity extends BaseActivity {
         setToolbarTitle(getString(R.string.button_login));
         btnLogin = (Button) findViewById(R.id.btn_login_lgn_atv);
         txtRegister = (TextView) findViewById(R.id.txt_register_atv);
-        txtErrPwd = (TextView) findViewById(R.id.txt_error_username);
-        txtErrUsr = (TextView) findViewById(R.id.txt_error_password);
+        txtErrPwd = (TextView) findViewById(R.id.txt_error_password);
+        txtErrUsr = (TextView) findViewById(R.id.txt_error_username);
         edtUsername = (EditText) findViewById(R.id.edt_username_login_atv);
         edtPassword = (EditText) findViewById(R.id.edt_password_login_atv);
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -67,10 +67,8 @@ public class LoginActivity extends BaseActivity {
     }
 
     public String checkValid(String value, String type) {
-        if (value == null) {
-            return "NULL";
-        }
-        if (value.length() < 8 || value.length() > 25) {
+
+        if (value == null || value.length() < 8 || value.length() > 25) {
             return "Độ dài " + type + " không hợp lệ. Vui lòng nhập lại.";
         }
         if (value.matches("[a-zA-Z0-9\\-\\_\\@]")) {

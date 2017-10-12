@@ -1,6 +1,7 @@
 package com.project.barcodechecker.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -14,7 +15,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.project.barcodechecker.R;
+import com.project.barcodechecker.activities.DetailActivity;
 import com.project.barcodechecker.models.MenuItem;
+import com.project.barcodechecker.utils.AppConst;
 
 import java.util.List;
 
@@ -24,10 +27,11 @@ import java.util.List;
 
 public class CategoryAdapter extends ArrayAdapter<MenuItem> {
     private int resourceID;
-
-    public CategoryAdapter(Context context, int resourceID, List<MenuItem> list) {
+    private OnCategoryClickListener onCategoryClickListener;
+    public CategoryAdapter(Context context, int resourceID, List<MenuItem> list, OnCategoryClickListener onCategoryClickListener) {
         super(context, resourceID, list);
         this.resourceID = resourceID;
+        this.onCategoryClickListener = onCategoryClickListener;
     }
 
     private static class ViewHolder {
@@ -37,7 +41,7 @@ public class CategoryAdapter extends ArrayAdapter<MenuItem> {
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         MenuItem item = getItem(position);
         ViewHolder viewHolder;
         if (convertView == null) {
@@ -53,6 +57,16 @@ public class CategoryAdapter extends ArrayAdapter<MenuItem> {
 
         viewHolder.imgIcon.setImageDrawable(ContextCompat.getDrawable(getContext(), item.getIcon()));
         viewHolder.txtName.setText(item.getName());
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onCategoryClickListener.onCategoryClick(v, position);
+            }
+        });
         return convertView;
+    }
+
+    public interface OnCategoryClickListener{
+        void onCategoryClick(View v, int position);
     }
 }

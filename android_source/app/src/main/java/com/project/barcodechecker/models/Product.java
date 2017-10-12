@@ -7,7 +7,9 @@ package com.project.barcodechecker.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Product {
+import java.io.Serializable;
+
+public class Product implements Serializable {
 
     @SerializedName("ID")
     @Expose
@@ -36,6 +38,9 @@ public class Product {
     @SerializedName("Code")
     @Expose
     private String code;
+    @SerializedName("ImgDefault")
+    @Expose
+    private String imgDefault;
     @SerializedName("Description")
     @Expose
     private String description;
@@ -147,5 +152,13 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getImgDefault() {
+        return imgDefault;
+    }
+
+    public void setImgDefault(String imgDefault) {
+        this.imgDefault = imgDefault;
     }
 }

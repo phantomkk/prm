@@ -1,5 +1,6 @@
 package com.project.barcodechecker.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.TypedValue;
@@ -14,8 +15,10 @@ import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.project.barcodechecker.R;
+import com.project.barcodechecker.activities.DetailActivity;
 import com.project.barcodechecker.adapters.HistoryAdapter;
 import com.project.barcodechecker.models.Product;
+import com.project.barcodechecker.utils.AppConst;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -106,7 +109,9 @@ public class HistoryFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                Intent intent = new Intent(getActivity(), DetailActivity.class);
+                intent.putExtra(AppConst.PRODUCT_PARAM, list.get(position));
+                startActivity(intent);
             }
         });
 

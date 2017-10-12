@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.project.barcodechecker.R;
 import com.project.barcodechecker.models.Product;
 import com.project.barcodechecker.utils.AppConst;
+import com.squareup.picasso.Picasso;
 
 import java.util.Locale;
 
@@ -23,6 +24,11 @@ public class DetailActivity extends BaseActivity {
     private ImageView imgProduct;
     private Product product;
     private FrameLayout frameComments;
+
+    @Override
+    protected int getLayoutResourceId() {
+        return R.layout.activity_detail;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +44,6 @@ public class DetailActivity extends BaseActivity {
             product = (Product) (b.get(AppConst.PRODUCT_PARAM));
             setValues(product);
         }
-    }
-
-    @Override
-    protected int getLayoutResourceId() {
-        return R.layout.activity_detail;
     }
 
     private void bindingView() {
@@ -63,6 +64,7 @@ public class DetailActivity extends BaseActivity {
             showMessage("An error occur!");
             Log.e("ERROR", "DetailActivity.setValues(*): Product null");
         }
+        Picasso.with(this).load(p.getImgDefault()).into(imgProduct);
         txtCode.setText(p.getCode());
         txtName.setText(p.getName());
         txtPrice.setText(String.format(Locale.US, "%1f", p.getPrice()));
