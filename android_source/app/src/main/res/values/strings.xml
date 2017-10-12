@@ -8,4 +8,13 @@
     <string name="item_camera">Scan</string>
     <string name="item_list">List</string>
     <string name="item_setting">Setting</string>
+    <string name="lbl_code">Mã sản phẩm:</string>
+    <string name="lbl_name">Tên sản phẩm:</string>
+    <string name="lbl_company">Công ty:</string>
+    <string name="lbl_contact">Liên hệ:</string>
+    <string name="lbl_description">Mô tả:</string>
+    <string name="lbl_rating">Đánh giá</string>
+
+
+
 </resources>

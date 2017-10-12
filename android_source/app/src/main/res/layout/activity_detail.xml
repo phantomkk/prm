@@ -6,4 +6,147 @@
     android:layout_height="match_parent"
     tools:context="com.project.barcodechecker.activities.DetailActivity">
 
+    <ImageView
+        android:id="@+id/img_description_detail_atv"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/ic_shopping_cart_black_24dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/img_description_detail_atv"
+        android:orientation="vertical"
+        android:padding="15dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="100">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                style="@style/lbl_style"
+                android:text="@string/lbl_code"
+                />
+
+            <TextView
+                android:id="@+id/txt_code_detail_atv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                style="@style/value_style"
+                android:text="code" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="100">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                style="@style/lbl_style"
+                android:text="@string/lbl_name" />
+
+            <TextView
+                android:id="@+id/txt_name_detail_atv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                style="@style/value_style"
+                android:text="name" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="100">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                style="@style/lbl_style"
+                android:text="@string/lbl_company" />
+
+            <TextView
+                android:id="@+id/txt_company_detail_atv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                style="@style/value_style"
+                android:text="hello" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+
+            android:weightSum="100">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                style="@style/lbl_style"
+                android:text="@string/lbl_contact" />
+
+            <TextView
+                android:id="@+id/txt_contact_detail_atv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                style="@style/value_style"
+                android:text="rating" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="100">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                style="@style/lbl_style"
+                android:text="@string/lbl_rating" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="100">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                style="@style/lbl_style"
+                android:text="@string/lbl_description" />
+
+            <TextView
+                android:id="@+id/txt_description_detail_atv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                style="@style/value_style"
+                android:text="hello" />
+        </LinearLayout>
+    </LinearLayout>
 </RelativeLayout>

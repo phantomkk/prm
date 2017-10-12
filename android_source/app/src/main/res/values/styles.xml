@@ -8,4 +8,13 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="lbl_style" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">@color/color_blue_grey_600</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="value_style" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">@color/color_blue_grey_900</item>
+        <item name="android:textStyle">normal</item>
+    </style>
 </resources>
