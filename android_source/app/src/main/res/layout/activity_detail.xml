@@ -24,8 +24,8 @@
 
         <ImageView
             android:id="@+id/img_product_detail_atv"
-            android:layout_width="170dp"
-            android:layout_height="170dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:src="@drawable/ic_shopping_cart_black_24dp" />
@@ -170,15 +170,21 @@
                     android:layout_weight="@integer/left_side_detail_atv"
                     android:text="@string/lbl_rating" />
 
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/right_side_detail_atv">
+
                     <RatingBar
                         android:id="@+id/rbar_star"
-                        style="?android:attr/ratingBarStyleSmall"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="@integer/right_side_detail_atv"
-                        android:numStars="10"
-                        android:rating="1"
+                        android:numStars="5"
+                        style="@style/Base.Widget.AppCompat.RatingBar.Small"
+                        android:isIndicator="false"
+                        android:backgroundTint="@color/colorSecondary"
                         />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout

@@ -1,6 +1,7 @@
 package com.project.barcodechecker.activities;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -20,6 +21,7 @@ public abstract class BaseActivity extends Activity {
     private Toolbar toolbar;
     private TextView txtTitle;
     private ImageButton btnBack;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle bundle) {
@@ -54,6 +56,22 @@ public abstract class BaseActivity extends Activity {
             txtTitle.setText(title);
         } else {
             Log.e("ERROR", "BaseActivity.setToolbarTitle(*): toolbar null");
+        }
+    }
+
+
+    public void showLoading() {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage("Loading...");
+            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.show();
+        }
+    }
+
+    public void hideLoading() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
         }
     }
 }

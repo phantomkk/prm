@@ -10,16 +10,6 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/tool_bar" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
@@ -35,48 +25,85 @@
             android:paddingRight="35dp">
 
             <EditText
+                android:id="@+id/edt_username_login_atv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:background="@android:color/white"
                 android:hint="@string/hint_username"
-                android:padding="10dp"
-                android:maxLines="1"
                 android:inputType="text"
+                android:maxLines="1"
+                android:padding="10dp"
                 android:textColorHint="@color/color_grey_400" />
 
+            <TextView
+                android:id="@+id/txt_error_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:text="Username password not valid"
+                android:textColor="@color/color_white"
+                android:visibility="invisible"
+
+                />
+
             <EditText
+                android:id="@+id/edt_password_login_atv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
                 android:background="@android:color/white"
                 android:hint="@string/hint_password"
                 android:inputType="text"
-                android:padding="10dp"
                 android:maxLines="1"
+                android:padding="10dp"
                 android:textColorHint="@color/color_grey_400"
 
                 />
 
+            <TextView
+                android:id="@+id/txt_error_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginBottom="20dp"
+                android:text="Username password not valid"
+                android:textColor="@color/color_white"
+                android:visibility="invisible"
+
+                />
+
             <Button
+                android:id="@+id/btn_login_lgn_atv"
+                style="@style/button_primary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/button_primary"
                 android:text="@string/button_login"
                 android:textColor="@color/color_white" />
         </LinearLayout>
 
         <TextView
-            android:id="@+id/button"
+            android:id="@+id/txt_register_atv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/linearLayout"
             android:layout_centerHorizontal="true"
             android:layout_marginEnd="35dp"
             android:layout_marginStart="35dp"
-            android:gravity="center_horizontal"
-            android:background="?attr/selectableItemBackgroundBorderless"
             android:autoLink="web"
-            android:text="@string/button_register"  />
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:gravity="center_horizontal"
+            android:textColor="@color/color_white"
+            android:text="@string/button_register" />
     </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/tool_bar" />
+
+    </RelativeLayout>
+
 </LinearLayout>
