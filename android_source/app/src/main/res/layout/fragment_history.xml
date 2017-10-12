@@ -5,12 +5,9 @@
     tools:context="com.project.barcodechecker.fragments.HistoryFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <ListView
+    <com.baoyz.swipemenulistview.SwipeMenuListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/list_history_frag_history"
-        >
-
-    </ListView>
+        android:id="@+id/list_history_frag_history"/>
 
 </FrameLayout>
