@@ -26,7 +26,7 @@ import com.project.barcodechecker.fragments.SearchFragment;
 import com.project.barcodechecker.fragments.SettingFragment;
 import com.project.barcodechecker.models.Product;
 import com.project.barcodechecker.api.services.ProductService;
-import com.project.barcodechecker.utils.APIUtils;
+import com.project.barcodechecker.api.services.APIServiceManager;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,7 +52,7 @@ public class MainActivity extends BaseActivity {
         setToolbarTitle("Scan");
         hideButtonBack(true);
         setView();
-        pService = APIUtils.getPService();
+        pService = APIServiceManager.getPService();
         showLoading();
         pService.getProductById(10).enqueue(new Callback<Product>() {
             @Override
@@ -110,12 +110,12 @@ public class MainActivity extends BaseActivity {
                 switch (item.getItemId()) {
                     case R.id.action_history:
                         selectedFragment = FragmentFactory.getFragment(HistoryFragment.class);
-                        setToolbarTitle("History");
+                        setToolbarTitle("Lịch sử tra cứu");
                         Log.v("LOG", "history");
                         break;
                     case R.id.action_search:
                         selectedFragment = FragmentFactory.getFragment(SearchFragment.class);
-                        setToolbarTitle("Search");
+                        setToolbarTitle("Tìm kiếm sản phẩm");
                         break;
                     case R.id.action_scan:
                         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA)
@@ -126,16 +126,16 @@ public class MainActivity extends BaseActivity {
                         } else {
                             mClss=ScanFragment.class;
                             selectedFragment = FragmentFactory.getFragment(mClss);
-                            setToolbarTitle("Scan");
+                            setToolbarTitle("Quét mã");
                         }
                         break;
                     case R.id.action_list:
                         selectedFragment = FragmentFactory.getFragment(CategoryFragment.class);
-                        setToolbarTitle("List category");
+                        setToolbarTitle("Danh mục sản phẩm");
                         break;
                     case R.id.action_setting:
                         selectedFragment = FragmentFactory.getFragment(SettingFragment.class);
-                        setToolbarTitle("Setting");
+                        setToolbarTitle("Thiết lập");
                         break;
 
                 }

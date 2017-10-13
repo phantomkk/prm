@@ -23,7 +23,7 @@ import com.project.barcodechecker.R;
 import com.project.barcodechecker.activities.MainActivity;
 import com.project.barcodechecker.api.services.ProductService;
 import com.project.barcodechecker.models.Product;
-import com.project.barcodechecker.utils.APIUtils;
+import com.project.barcodechecker.api.services.APIServiceManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -168,7 +168,7 @@ public class ScanFragment extends Fragment  implements MessageDialogFragment.Mes
             Ringtone r = RingtoneManager.getRingtone(getActivity().getApplicationContext(), notification);
             r.play();
         } catch (Exception e) {}
-        pService = APIUtils.getPService();
+        pService = APIServiceManager.getPService();
         pService.getProductByCode("4909965386").enqueue(new Callback<Product>() {
             @Override
             public void onResponse(Call<Product> call, Response<Product> response) {
