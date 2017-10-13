@@ -82,9 +82,9 @@ public class HistoryFragment extends Fragment {
 
             private void createMenu1(SwipeMenu menu) {
                 SwipeMenuItem item1 = new SwipeMenuItem(getActivity().getApplicationContext());
-                item1.setBackground(R.color.color_red_50);
+                item1.setBackground(R.color.color_red_500);
                 item1.setWidth(dp2px(60));
-                item1.setIcon(R.drawable.ic_card_travel_black_24dp);
+                item1.setIcon(R.drawable.ic_action_delete);
                 menu.addMenuItem(item1);
             }
         };
