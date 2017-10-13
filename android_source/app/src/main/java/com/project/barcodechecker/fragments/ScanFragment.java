@@ -80,6 +80,7 @@ public class ScanFragment extends Fragment  implements MessageDialogFragment.Mes
         setHasOptionsMenu(true);
     }
 
+
     public void onCreateOptionsMenu (Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
