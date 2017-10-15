@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.project.barcodechecker.R;
+import com.project.barcodechecker.activities.BaseActivity;
 
 /**
  * Created by Lenovo on 13/10/2017.
@@ -16,10 +17,10 @@ public class BaseScannerActivity extends AppCompatActivity {
     public void setupToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        final ActionBar ab = getSupportActionBar();
-        if(ab != null) {
-            ab.setDisplayHomeAsUpEnabled(true);
-        }
+        //final ActionBar ab = getSupportActionBar();
+//        if(ab != null) {
+//            ab.setDisplayHomeAsUpEnabled(true);
+//        }
     }
 
     @Override
@@ -32,4 +33,5 @@ public class BaseScannerActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

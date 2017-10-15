@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.project.barcodechecker.R;
+import com.project.barcodechecker.models.History;
 import com.project.barcodechecker.models.Product;
 
 import org.w3c.dom.Text;
@@ -25,10 +26,10 @@ import java.util.List;
  * Created by lucky on 07-Oct-17.
  */
 
-public class HistoryAdapter extends ArrayAdapter<Product>  {
+public class HistoryAdapter extends ArrayAdapter<History>  {
     private int resourceID;
     private int lastPosition = -1;
-    public HistoryAdapter(@NonNull Context context, @LayoutRes int resourceID,@NonNull  List<Product> list) {
+    public HistoryAdapter(@NonNull Context context, @LayoutRes int resourceID,@NonNull  List<History> list) {
         super(context, resourceID, list);
         this.resourceID = resourceID;
     }
@@ -42,7 +43,7 @@ public class HistoryAdapter extends ArrayAdapter<Product>  {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 //        return super.getView(position, convertView, parent);
-        Product product = getItem(position);
+        History history = getItem(position);
         ViewHolder viewHolder;
         final View result;
         if(convertView == null){
@@ -61,8 +62,8 @@ public class HistoryAdapter extends ArrayAdapter<Product>  {
 //        result.startAnimation(animation);
 //        lastPosition = position;
 
-        viewHolder.txtProductName.setText(product.getName());
-        viewHolder.txtProductCode.setText(product.getCode());
+        viewHolder.txtProductName.setText(history.getProductName());
+        viewHolder.txtProductCode.setText(history.getProductCode());
         return convertView;
     }
 }

@@ -17,7 +17,7 @@ import com.project.barcodechecker.utils.AppConst;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryFragment extends Fragment {
+public class CategoryFragment extends LoadingFragment {
     private ListView lvCategory;
     private List<MenuItem> list;
     private static CategoryFragment instance;
