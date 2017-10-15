@@ -41,4 +41,10 @@
         android:text="20/10/2013 22:20"
         android:textSize="12sp"
         android:textColor="@color/color_blue_grey_300" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/txt_date_item_cmt"
+        android:background="@color/color_blue_grey_100"
+        />
 </RelativeLayout>

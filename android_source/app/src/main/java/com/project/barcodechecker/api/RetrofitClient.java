@@ -1,4 +1,4 @@
-package com.project.barcodechecker.api.services;
+package com.project.barcodechecker.api;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

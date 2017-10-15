@@ -10,7 +10,7 @@ import com.project.barcodechecker.R;
 import com.project.barcodechecker.adapters.ProductAdapter;
 import com.project.barcodechecker.api.services.ProductService;
 import com.project.barcodechecker.models.Product;
-import com.project.barcodechecker.api.services.APIServiceManager;
+import com.project.barcodechecker.api.APIServiceManager;
 import com.project.barcodechecker.utils.AppConst;
 
 import java.util.ArrayList;

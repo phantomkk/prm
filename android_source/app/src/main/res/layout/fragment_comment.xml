@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingTop="10dp"
     tools:context="com.project.barcodechecker.fragments.CommentFragment">
 
     <LinearLayout
@@ -24,21 +25,39 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Viết bình luận."
-                android:inputType="text"
+                android:gravity="top"
+                android:inputType="textMultiLine"
                 android:minHeight="70dp"
+                android:textSize="15sp"
                 android:background="@color/color_blue_grey_50"
                 android:minLines="5" />
         </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/btn_comment_frag_cmt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:background="@drawable/button_primary"
-            android:textColor="@color/color_white"
-            android:minHeight="30dp"
-            android:text="Đăng" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bình luận không được bỏ trống."
+                android:layout_toLeftOf="@+id/btn_comment_frag_cmt"
+                android:layout_centerVertical="true"
+                android:textColor="@color/color_red_700"
+                android:visibility="invisible"
+                android:id="@+id/txt_error_comment_frag_cmt"
+                />
+            <Button
+                android:id="@+id/btn_comment_frag_cmt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:background="@drawable/button_primary"
+                android:textColor="@color/color_white"
+                android:minHeight="30dp"
+                android:layout_marginTop="5dp"
+                android:layout_alignParentRight="true"
+                android:text="Đăng" />
+        </RelativeLayout>
         <TextView
             style="@style/lbl_style"
             android:layout_width="wrap_content"

@@ -1,11 +1,11 @@
 package com.project.barcodechecker.models;
 
-import android.text.method.DateTimeKeyListener;
 
 import com.google.gson.annotations.SerializedName;
+import com.project.barcodechecker.utils.AppConst;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.text.SimpleDateFormat;
 
 /**
  * Created by lucky on 12-Oct-17.
@@ -21,10 +21,10 @@ public class Comment implements Serializable {
     private int userID;
     @SerializedName("ProductID")
     private int productID;
-    @SerializedName("Comment")
+    @SerializedName("Comment1")
     private String comment;
     @SerializedName("DateCreated")
-    private Date dateCreated;
+    private String dateCreated;
 
     public User getUser() {
         return user;
@@ -66,11 +66,11 @@ public class Comment implements Serializable {
         this.comment = comment;
     }
 
-    public Date getDateCreated() {
+    public String getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(Date dateCreated) {
+    public void setDateCreated(String dateCreated) {
         this.dateCreated = dateCreated;
     }
 }

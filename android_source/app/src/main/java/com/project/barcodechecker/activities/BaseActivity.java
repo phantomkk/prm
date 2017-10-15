@@ -86,4 +86,8 @@ public abstract class BaseActivity extends Activity {
             progressDialog.dismiss();
         }
     }
+
+    public void logError(String activityName, String message){
+        Log.e(activityName, message);
+    }
 }

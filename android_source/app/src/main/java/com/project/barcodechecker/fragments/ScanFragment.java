@@ -9,31 +9,25 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.app.Fragment;
-import android.support.annotation.RequiresApi;
 import android.support.v4.view.MenuItemCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.project.barcodechecker.R;
 import com.project.barcodechecker.activities.DetailActivity;
-import com.project.barcodechecker.activities.MainActivity;
-import com.project.barcodechecker.api.services.APIServiceManager;
+import com.project.barcodechecker.api.APIServiceManager;
 import com.project.barcodechecker.api.services.ProductService;
 import com.project.barcodechecker.databaseHelper.HistoryDatabaseHelper;
 import com.project.barcodechecker.models.History;
 import com.project.barcodechecker.models.Product;
 import com.project.barcodechecker.utils.AppConst;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,12 +1,9 @@
 package com.project.barcodechecker.activities;
 
-import android.app.ActionBar;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -14,14 +11,13 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.project.barcodechecker.R;
-import com.project.barcodechecker.api.services.APIServiceManager;
+import com.project.barcodechecker.api.APIServiceManager;
 import com.project.barcodechecker.api.services.ProductService;
 import com.project.barcodechecker.fragments.CommentFragment;
 import com.project.barcodechecker.models.Comment;
 import com.project.barcodechecker.models.Product;
 import com.project.barcodechecker.utils.AppConst;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
 
 import java.util.List;
 import java.util.Locale;
@@ -98,6 +94,7 @@ public class DetailActivity extends BaseActivity {
 
     private void getComments(Product product) {
         if (product != null) {
+            commentFragment.setProduct(product);
             ProductService productService = APIServiceManager.getPService();
             showLoading();
             productService.getProductComments(product.getId()).enqueue(new Callback<List<Comment>>() {
@@ -114,9 +111,9 @@ public class DetailActivity extends BaseActivity {
 
                 @Override
                 public void onFailure(Call<List<Comment>> call, Throwable t) {
-                    Log.e("DetailActivity", "Failse");
+                    Log.e("DetailActivity", "Load comment Failse" + t.getCause());
                     hideLoading();
-                }
+                    }
             });
         } else {
             Log.e("DetailActivity: ", " Product is null.");

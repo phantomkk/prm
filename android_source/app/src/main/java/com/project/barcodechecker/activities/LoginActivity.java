@@ -9,8 +9,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.project.barcodechecker.R;
+import com.project.barcodechecker.api.APIServiceManager;
+import com.project.barcodechecker.api.services.UserService;
+import com.project.barcodechecker.models.User;
+import com.project.barcodechecker.utils.CoreManager;
 
 import org.w3c.dom.Text;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends BaseActivity {
     private Button btnLogin;
@@ -63,6 +71,30 @@ public class LoginActivity extends BaseActivity {
             txtErrPwd.setVisibility(View.INVISIBLE);
 
         }
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(password);
+
+        UserService userService = APIServiceManager.getUserService();
+        showLoading();
+        userService.login(user).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful()) {
+                    CoreManager.setUser(response.body());
+                    finish();
+                } else {
+                    logError("ERROR LoginActivity", "ELSE");
+                }
+                hideLoading();
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                logError("ERROR LoginActivity", "loginProcess(): ERROR post user");
+                hideLoading();
+            }
+        });
 
     }
 

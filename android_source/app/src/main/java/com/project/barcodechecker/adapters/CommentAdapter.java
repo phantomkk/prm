@@ -43,7 +43,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         Picasso.with(context).load(c.getUser().getAvatar()).error(R.drawable.ic_insert_emoticon_black_24dp).into(holder.imgAvatar);
         holder.txtContent.setText(c.getComment());
         holder.txtName.setText(c.getUser().getName());
-//        holder.txtDate.setText(sdf.format(c.getDateCreated()));
+        holder.txtDate.setText(c.getDateCreated());
     }
 
     @Override

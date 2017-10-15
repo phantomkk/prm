@@ -11,6 +11,7 @@ public class AppConst {
 
     public final static String DATE_NO_TIME = "dd/MM/yyyy";
     public final static String DATE_AND_TIME = "dd/MM/yyyy HH:mm";
+    public final static String DATE_AND_TIME_SQL = "yyyy/MM/dd HH:mm";
 
     public final static String PRODUCT_PARAM = "PRODUCT_PARAM";
     public final static String CATEGORY_PARAM = "CATEGORY_PARAM";
