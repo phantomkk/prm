@@ -61,7 +61,8 @@ public class ListProductActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<List<Product>> call, Throwable t) {
-                Log.e("ERROR", "ListProductActivity: Error Load API");
+                Log.e("ERROR", "ListProductActivity: Error Load API== " + t.getMessage() );
+
                 hideLoading();
             }
         });
