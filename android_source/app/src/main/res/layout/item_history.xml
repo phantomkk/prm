@@ -14,6 +14,7 @@
         android:id="@+id/txt_code_item_history"
         android:layout_marginBottom="5dp"
         android:text="hard"
+        style="@style/value_style"
         />
     <TextView
         android:layout_width="match_parent"
@@ -21,6 +22,7 @@
         android:id="@+id/txt_name_item_history"
         android:text="hard"
         android:layout_marginBottom="5dp"
+        style="@style/value_style"
         />
 <View
     android:layout_width="match_parent"

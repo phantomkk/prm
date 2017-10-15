@@ -14,8 +14,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -31,8 +29,7 @@ import com.project.barcodechecker.fragments.SearchFragment;
 import com.project.barcodechecker.fragments.SettingFragment;
 import com.project.barcodechecker.models.Product;
 import com.project.barcodechecker.api.services.ProductService;
-import com.project.barcodechecker.utils.APIUtils;
-import com.squareup.picasso.Picasso;
+import com.project.barcodechecker.api.services.APIServiceManager;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -45,31 +42,65 @@ public class MainActivity extends AppCompatActivity {
     private FrameLayout mainFrame;
     private ActionBar actionbar;
     private Class<?> mClss;
-    Toolbar toolbar;
     private static final int ZXING_CAMERA_PERMISSION = 1;
 
 
-//    @Override
-//    protected int getLayoutResourceId() {
-//        return R.layout.activity_main;
-//    }
+    @Override
+    protected int getLayoutResourceId() {
+        return R.layout.activity_main;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
-        getSupportActionBar().setTitle("Scan");
+        setToolbarTitle("Scan");
+        hideButtonBack(true);
         setView();
+        pService = APIServiceManager.getPService();
+        showLoading();
+        pService.getProductById(10).enqueue(new Callback<Product>() {
+            @Override
+            public void onResponse(Call<Product> call, Response<Product> response) {
+                hideLoading();
+                if (response.isSuccessful()) {
+                    String demo = response.body().getName() ;
+                    Log.d("Log", demo);
+                    Toast.makeText(MainActivity.this, demo, Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.d("ELSE", "Successful but else");
+                }
+            }
 
+            @Override
+            public void onFailure(Call<Product> call, Throwable t) {
+                hideLoading();
+            }
+        });
+//        pService.getProducts().enqueue(new Callback<List<Product>>() {
+//            @Override
+//            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+//                if (response.isSuccessful()) {
+//                    String demo = response.body().size() +"";
+////                    for (Product p : response.body()) {
+////                        demo = demo.concat(p.toString());
+////                    }
+////                    ((TextView)findViewById(R.id.txt_show_products))
+////                            .setText(demo);
+//                    Log.d("Log", demo);
+//
+//                } else {
+//                    Log.d("ELSE", "Successful but else");
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<Product>> call, Throwable t) {
+//                Log.d("ERROR", "ERROR roi");
+//            }
+//        });
+        //hello luc
     }
 
-
-//    @Override
-//    public void initToolbar() {
-////        super.initToolbar();
-//    }
 
     private void setView() {
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation_main_actv);
@@ -128,14 +159,14 @@ public class MainActivity extends AppCompatActivity {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if(mClss != null) {
                         mClss = ScanFragment.class;
-                        //actionbar.setTitle("Scan");
+                        actionbar.setTitle("Scan");
                         FragmentManager fm = getFragmentManager();
                         FragmentTransaction transaction = fm.beginTransaction();
                         transaction.replace(R.id.main_frame_main_actv, FragmentFactory.getFragment(mClss));
                         transaction.commit();
                     }
                 } else {
-                    //showMessage("Please grant camera permission to use the QR Scanner");
+                    showMessage("Please grant camera permission to use the QR Scanner");
                 }
                 return;
         }

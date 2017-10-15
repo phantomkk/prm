@@ -1,21 +1,17 @@
 package com.project.barcodechecker.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.GridView;
-import android.widget.TextView;
 
 import com.project.barcodechecker.R;
 import com.project.barcodechecker.adapters.ProductAdapter;
 import com.project.barcodechecker.api.services.ProductService;
 import com.project.barcodechecker.models.Product;
-import com.project.barcodechecker.utils.APIUtils;
+import com.project.barcodechecker.api.services.APIServiceManager;
 import com.project.barcodechecker.utils.AppConst;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,14 +37,14 @@ public class ListProductActivity extends BaseActivity {
         Intent intent = getIntent();
         Bundle b = (Bundle) intent.getExtras();
         int position = (int)b.get(AppConst.CATEGORY_PARAM);
-        service = APIUtils.getPService();
+        service = APIServiceManager.getPService();
         showLoading();
         service.getProductByCategoryId(position).enqueue(new Callback<List<Product>>() {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
-                Log.d("D", response.body().size() + "");
 
                 if(response.isSuccessful()){
+                Log.d("D", response.body().size() + "");
                     list = response.body(); adapter = new ProductAdapter(ListProductActivity.this, list, new ProductAdapter.OnMyProductClickListener() {
                         @Override
                         public void onItemClick(View v, int position) {
@@ -65,7 +61,8 @@ public class ListProductActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<List<Product>> call, Throwable t) {
-                Log.e("ERROR", "ListProductActivity: Error Load API");
+                Log.e("ERROR", "ListProductActivity: Error Load API== " + t.getMessage() );
+
                 hideLoading();
             }
         });

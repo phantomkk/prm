@@ -26,6 +26,7 @@
             android:id="@+id/edt_search_frag_search"
             android:backgroundTint="@color/color_white"
             android:background="@color/color_transparent"
+            android:textColor="@color/color_white"
             android:inputType="number"
             android:layout_alignTop="@id/img_icon_search_frag_search"
             android:layout_alignBottom="@id/img_icon_search_frag_search"
