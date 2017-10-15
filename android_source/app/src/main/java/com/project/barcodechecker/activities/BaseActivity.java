@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import com.project.barcodechecker.R;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * Created by lucky on 13-Sep-17.
  */
@@ -22,13 +24,14 @@ public abstract class BaseActivity extends Activity {
     private TextView txtTitle;
     private ImageButton btnBack;
     private ProgressDialog progressDialog;
-
+    private CircleImageView imgAvatar;
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         setContentView(getLayoutResourceId());
         initToolbar();
         txtTitle = (TextView) findViewById(R.id.txt_toolbar_title);
+        imgAvatar = (CircleImageView) findViewById(R.id.profile_image);
     }
 
     protected abstract int getLayoutResourceId();

@@ -1,8 +1,12 @@
 package com.project.barcodechecker.fragments;
 
+import android.app.DialogFragment;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,16 +21,28 @@ import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.project.barcodechecker.R;
 import com.project.barcodechecker.activities.DetailActivity;
 import com.project.barcodechecker.adapters.HistoryAdapter;
+import com.project.barcodechecker.api.services.APIServiceManager;
+import com.project.barcodechecker.api.services.ProductService;
+import com.project.barcodechecker.databaseHelper.HistoryDatabaseHelper;
+import com.project.barcodechecker.models.History;
 import com.project.barcodechecker.models.Product;
 import com.project.barcodechecker.utils.AppConst;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HistoryFragment extends Fragment {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class HistoryFragment extends LoadingFragment{
     private ListView lvHistory;
-    private List<Product> list;
+    private List<History> list;
     SwipeMenuListView listView;
+    HistoryDatabaseHelper historyDatabaseHelper;
+    HistoryAdapter adapter;
+    private ProductService pService;
+
     private static HistoryFragment instance= new HistoryFragment();
     public HistoryFragment() {
     }
@@ -46,26 +62,9 @@ public class HistoryFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_history, container, false);
         listView = (SwipeMenuListView) v.findViewById(R.id.list_history_frag_history);
-        list = new ArrayList<>();
-        list.add(new Product(1, 1, "Baocaosu", 999d, "Vietname","nguyen van luong", "0255255225", "luc@email.com", "0223652665", "No description"));
-        list.add(new Product(1, 1, "Baocaosu", 999d, "Vietname","nguyen van luong", "0255255225", "luc@email.com", "0223652665", "No description"));
-        list.add(new Product(1, 1, "Baocaosu", 999d, "Vietname","nguyen van luong", "0255255225", "luc@email.com", "0223652665", "No description"));
-        list.add(new Product(1, 1, "Baocaosu", 999d, "Vietname","nguyen van luong", "0255255225", "luc@email.com", "0223652665", "No description"));
-        list.add(new Product(1, 1, "Baocaosu", 999d, "Vietname","nguyen van luong", "0255255225", "luc@email.com", "0223652665", "No description"));
-        list.add(new Product(1, 1, "Baocaosu", 999d, "Vietname","nguyen van luong", "0255255225", "luc@email.com", "0223652665", "No description"));
-        list.add(new Product(1, 1, "Baocaosu", 999d, "Vietname","nguyen van luong", "0255255225", "luc@email.com", "0223652665", "No description"));
-        list.add(new Product(1, 1, "Baocaosu", 999d, "Vietname","nguyen van luong", "0255255225", "luc@email.com", "0223652665", "No description"));
-        list.add(new Product(1, 1, "Baocaosu", 999d, "Vietname","nguyen van luong", "0255255225", "luc@email.com", "0223652665", "No description"));
-        list.add(new Product(1, 1, "Baocaosu", 999d, "Vietname","nguyen van luong", "0255255225", "luc@email.com", "0223652665", "No description"));
-        list.add(new Product(1, 1, "Baocaosu", 999d, "Vietname","nguyen van luong", "0255255225", "luc@email.com", "0223652665", "No description"));
-        list.add(new Product(1, 1, "Baocaosu", 999d, "Vietname","nguyen van luong", "0255255225", "luc@email.com", "0223652665", "No description"));
-        list.add(new Product(1, 1, "Baocaosu", 999d, "Vietname","nguyen van luong", "0255255225", "luc@email.com", "0223652665", "No description"));
-        list.add(new Product(1, 1, "Baocaosu", 999d, "Vietname","nguyen van luong", "0255255225", "luc@email.com", "0223652665", "No description"));
-        list.add(new Product(1, 1, "Baocaosu", 999d, "Vietname","nguyen van luong", "0255255225", "luc@email.com", "0223652665", "No description"));
-        list.add(new Product(1, 1, "Baocaosu", 999d, "Vietname","nguyen van luong", "0255255225", "luc@email.com", "0223652665", "No description"));
-        list.add(new Product(1, 1, "Baocaosu", 999d, "Vietname","nguyen van luong", "0255255225", "luc@email.com", "0223652665", "No description"));
-        list.add(new Product(1, 1, "Baocaosu", 999d, "Vietname","nguyen van luong", "0255255225", "luc@email.com", "0223652665", "No description"));
-        HistoryAdapter adapter = new HistoryAdapter(getContext(),R.layout.item_history,list);
+        historyDatabaseHelper = new HistoryDatabaseHelper(getContext());
+        list = historyDatabaseHelper.getAllHistories();
+        adapter = new HistoryAdapter(getContext(),R.layout.item_history,list);
 
         listView.setAdapter(adapter);
         SwipeMenuCreator creator = new SwipeMenuCreator() {
@@ -98,8 +97,7 @@ public class HistoryFragment extends Fragment {
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
                 switch (index) {
                     case 0:
-                        // open
-                        //showConfirmDeleteDialog(position);
+                        showConfirmDeleteDialog(position);
                         break;
                 }
                 return false;
@@ -109,15 +107,65 @@ public class HistoryFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), DetailActivity.class);
-                intent.putExtra(AppConst.PRODUCT_PARAM, list.get(position));
-                startActivity(intent);
+                showLoading();
+                pService = APIServiceManager.getPService();
+                pService.getProductByCode("9597394955974").enqueue(new Callback<Product>() {
+                    @Override
+                    public void onResponse(Call<Product> call, Response<Product> response) {
+                        closeLoading();
+                        if (response.isSuccessful()) {
+                            //showMessageDialog("Name = " + response.body().getName());
+                            Product product = response.body();
+                            Intent intent = new Intent(getActivity(), DetailActivity.class);
+                            intent.putExtra(AppConst.PRODUCT_PARAM, product);
+                            startActivity(intent);
+                        } else {
+                          //  showMessageDialog("Successful but else");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Product> call, Throwable t) {
+                        closeLoading();
+                      //  showMessageDialog("Fail");
+                    }
+                });
+
             }
         });
 
-
-
         return v;
+    }
+//    public void showMessageDialog(String message) {
+//        DialogFragment fragment = MessageDialogFragment.newInstance("Scan Results", message, );
+//        fragment.show(getFragmentManager(), "scan_results");
+//    }
+//
+//    public void closeMessageDialog() {
+//        closeDialog("scan_results");
+//    }
+
+
+
+
+    public void showConfirmDeleteDialog(final int position) {
+        AlertDialog.Builder builder;
+        builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Delete")
+                .setMessage("Are you sure to delete this history?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        historyDatabaseHelper.deleteNote(list.get(position).getId());
+                        list.remove(position);
+                        adapter.notifyDataSetChanged();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .show();
     }
 
     private int dp2px(int dp) {
