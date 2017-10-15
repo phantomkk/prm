@@ -20,6 +20,7 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.project.barcodechecker.R;
+import com.project.barcodechecker.api.APIServiceManager;
 import com.project.barcodechecker.fragments.BaseScannerActivity;
 import com.project.barcodechecker.fragments.FragmentFactory;
 import com.project.barcodechecker.fragments.HistoryFragment;
@@ -30,7 +31,6 @@ import com.project.barcodechecker.fragments.SearchFragment;
 import com.project.barcodechecker.fragments.SettingFragment;
 import com.project.barcodechecker.models.Product;
 import com.project.barcodechecker.api.services.ProductService;
-import com.project.barcodechecker.api.services.APIServiceManager;
 
 import retrofit2.Call;
 import retrofit2.Callback;

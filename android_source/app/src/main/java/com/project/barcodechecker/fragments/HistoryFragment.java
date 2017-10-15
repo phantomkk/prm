@@ -21,7 +21,7 @@ import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.project.barcodechecker.R;
 import com.project.barcodechecker.activities.DetailActivity;
 import com.project.barcodechecker.adapters.HistoryAdapter;
-import com.project.barcodechecker.api.services.APIServiceManager;
+import com.project.barcodechecker.api.APIServiceManager;
 import com.project.barcodechecker.api.services.ProductService;
 import com.project.barcodechecker.databaseHelper.HistoryDatabaseHelper;
 import com.project.barcodechecker.models.History;
