@@ -17,219 +17,238 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="15dp">
-
-        <ImageView
-            android:id="@+id/img_product_detail_atv"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/ic_shopping_cart_black_24dp" />
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/img_product_detail_atv"
-            android:orientation="vertical"
-            android:padding="15dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <LinearLayout
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                android:weightSum="100">
+                android:layout_height="match_parent"
+                android:padding="15dp">
 
-                <TextView
-                    style="@style/lbl_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/left_side_detail_atv"
-                    android:text="@string/lbl_code" />
-
-                <TextView
-                    android:id="@+id/txt_code_detail_atv"
-                    style="@style/value_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/right_side_detail_atv"
-                    android:text="code" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                android:weightSum="100">
-
-                <TextView
-                    style="@style/lbl_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/left_side_detail_atv"
-                    android:text="@string/lbl_name" />
-
-                <TextView
-                    android:id="@+id/txt_name_detail_atv"
-                    style="@style/value_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/right_side_detail_atv"
-                    android:text="name" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                android:weightSum="100">
-
-                <TextView
-                    style="@style/lbl_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/left_side_detail_atv"
-                    android:text="@string/lbl_price" />
-
-                <TextView
-                    android:id="@+id/txt_price_detail_atv"
-                    style="@style/value_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/right_side_detail_atv"
-                    android:text="price" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                android:weightSum="100">
-
-                <TextView
-                    style="@style/lbl_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/left_side_detail_atv"
-                    android:text="@string/lbl_company" />
-
-                <TextView
-                    android:id="@+id/txt_company_detail_atv"
-                    style="@style/value_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/right_side_detail_atv"
-                    android:text="hello" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-
-                android:weightSum="100">
-
-                <TextView
-                    style="@style/lbl_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/left_side_detail_atv"
-                    android:text="@string/lbl_contact" />
-
-                <TextView
-                    android:id="@+id/txt_contact_detail_atv"
-                    style="@style/value_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/right_side_detail_atv"
-                    android:text="rating" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:weightSum="100">
-
-                <TextView
-                    android:id="@+id/textView"
-                    style="@style/lbl_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/left_side_detail_atv"
-                    android:text="@string/lbl_rating" />
+                <ImageView
+                    android:id="@+id/img_product_detail_atv"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/ic_shopping_cart_black_24dp" />
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/right_side_detail_atv">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/img_product_detail_atv"
+                    android:orientation="vertical"
+                    android:padding="15dp">
 
-                    <RatingBar
-                        android:id="@+id/rbar_star"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:numStars="5"
-                        style="@style/Base.Widget.AppCompat.RatingBar.Small"
-                        android:isIndicator="false"
-                        android:backgroundTint="@color/colorSecondary"
-                        />
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
+                        android:weightSum="100">
+
+                        <TextView
+                            style="@style/lbl_style"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="@integer/left_side_detail_atv"
+                            android:text="@string/lbl_code" />
+
+                        <TextView
+                            android:id="@+id/txt_code_detail_atv"
+                            style="@style/value_style"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="@integer/right_side_detail_atv"
+                            android:text="code" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
+                        android:weightSum="100">
+
+                        <TextView
+                            style="@style/lbl_style"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="@integer/left_side_detail_atv"
+                            android:text="@string/lbl_name" />
+
+                        <TextView
+                            android:id="@+id/txt_name_detail_atv"
+                            style="@style/value_style"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="@integer/right_side_detail_atv"
+                            android:text="name" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
+                        android:weightSum="100">
+
+                        <TextView
+                            style="@style/lbl_style"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="@integer/left_side_detail_atv"
+                            android:text="@string/lbl_price" />
+
+                        <TextView
+                            android:id="@+id/txt_price_detail_atv"
+                            style="@style/value_style"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="@integer/right_side_detail_atv"
+                            android:text="price" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
+                        android:weightSum="100">
+
+                        <TextView
+                            style="@style/lbl_style"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="@integer/left_side_detail_atv"
+                            android:text="@string/lbl_company" />
+
+                        <TextView
+                            android:id="@+id/txt_company_detail_atv"
+                            style="@style/value_style"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="@integer/right_side_detail_atv"
+                            android:text="hello" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
+
+                        android:weightSum="100">
+
+                        <TextView
+                            style="@style/lbl_style"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="@integer/left_side_detail_atv"
+                            android:text="@string/lbl_contact" />
+
+                        <TextView
+                            android:id="@+id/txt_contact_detail_atv"
+                            style="@style/value_style"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="@integer/right_side_detail_atv"
+                            android:text="rating" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:weightSum="100">
+
+                        <TextView
+                            android:id="@+id/textView"
+                            style="@style/lbl_style"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="@integer/left_side_detail_atv"
+                            android:text="@string/lbl_rating" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="@integer/right_side_detail_atv">
+
+                            <RatingBar
+                                android:id="@+id/rbar_star"
+                                style="@style/Base.Widget.AppCompat.RatingBar.Small"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:backgroundTint="@color/colorSecondary"
+                                android:isIndicator="false"
+                                android:numStars="5" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
+                        android:weightSum="100">
+
+                        <TextView
+                            style="@style/lbl_style"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="@integer/left_side_detail_atv"
+                            android:text="@string/lbl_description" />
+
+                        <TextView
+                            android:id="@+id/txt_description_detail_atv"
+                            style="@style/value_style"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="@integer/right_side_detail_atv"
+                            android:text="hello" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
+                        android:weightSum="100">
+
+                        <TextView
+                            style="@style/lbl_style"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="@integer/left_side_detail_atv"
+                            android:text="Bình luận:"
+                            android:textStyle="bold" />
+
+                      </LinearLayout>
+                    <View
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/color_blue_grey_300" />
+
+                    <FrameLayout
+                        android:id="@+id/frm_comment_detail_atv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
-            </LinearLayout>
+            </RelativeLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                android:weightSum="100">
-
-                <TextView
-                    style="@style/lbl_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/left_side_detail_atv"
-                    android:text="@string/lbl_description" />
-
-                <TextView
-                    android:id="@+id/txt_description_detail_atv"
-                    style="@style/value_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/right_side_detail_atv"
-                    android:text="hello" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                android:weightSum="100">
-
-                <TextView
-                    style="@style/lbl_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/left_side_detail_atv"
-                    android:text="@string/lbl_comment" />
-
-            </LinearLayout>
-
-            <FrameLayout
-                android:id="@+id/frm_comment_detail_atv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
         </LinearLayout>
-    </RelativeLayout>
+    </ScrollView>
 </LinearLayout>

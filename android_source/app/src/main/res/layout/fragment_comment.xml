@@ -1,19 +1,63 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context="com.project.barcodechecker.fragments.CommentFragment">
 
-   <LinearLayout
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:weightSum="100"
-       >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-       <android.support.v7.widget.RecyclerView
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-</android.support.v7.widget.RecyclerView>
+            <ImageView
+                android:id="@+id/img_avatar_frag_cmt"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/ic_shopping_cart_black_24dp" />
+
+            <EditText
+                android:id="@+id/edt_content_frag_cmt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Viết bình luận."
+                android:inputType="text"
+                android:minHeight="70dp"
+                android:background="@color/color_blue_grey_50"
+                android:minLines="5" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_comment_frag_cmt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:background="@drawable/button_primary"
+            android:textColor="@color/color_white"
+            android:minHeight="30dp"
+            android:text="Đăng" />
+        <TextView
+            style="@style/lbl_style"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="@integer/left_side_detail_atv"
+            android:text="@string/lbl_comment"
+            android:textColor="@color/color_blue_grey_700"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/color_blue_grey_300" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rcv_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false" />
+
     </LinearLayout>
 </FrameLayout>

@@ -40,7 +40,7 @@
     <string name="lbl_company">Công ty:</string>
     <string name="lbl_contact">Liên hệ:</string>
     <string name="lbl_description">Mô tả:</string>
-    <string name="lbl_comment">Bình luận:</string>
+    <string name="lbl_comment">Xem bình luận:</string>
     <string name="lbl_rating">Đánh giá</string>
 
     <!--Login-->

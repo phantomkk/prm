@@ -40,10 +40,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     @Override
     public void onBindViewHolder(CommentViewHolder holder, int position) {
         Comment c = getItem(position);
-        Picasso.with(context).load(c.getAvatar()).error(R.drawable.ic_insert_emoticon_black_24dp).into(holder.imgAvatar);
+        Picasso.with(context).load(c.getUser().getAvatar()).error(R.drawable.ic_insert_emoticon_black_24dp).into(holder.imgAvatar);
         holder.txtContent.setText(c.getComment());
-        holder.txtName.setText(c.getName());
-        holder.txtDate.setText(sdf.format(c.getDate()));
+        holder.txtName.setText(c.getUser().getName());
+//        holder.txtDate.setText(sdf.format(c.getDateCreated()));
     }
 
     @Override
@@ -51,15 +51,19 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         return list.size();
     }
 
-    public Comment getItem(int position) {
+    private Comment getItem(int position) {
         return list.get(position);
     }
 
     public class CommentViewHolder extends RecyclerView.ViewHolder {
-        public ImageView imgAvatar;
-        public TextView txtName, txtContent,txtDate;
-        public CommentViewHolder(View itemView) {
+        private ImageView imgAvatar;
+        private TextView txtName, txtContent,txtDate;
+        private CommentViewHolder(View itemView) {
             super(itemView);
+            imgAvatar = (ImageView) itemView.findViewById(R.id.img_avatar_item_cmt);
+            txtName = (TextView) itemView.findViewById(R.id.txt_name_item_cmt);
+            txtContent = (TextView) itemView.findViewById(R.id.txt_content_item_cmt);
+            txtDate = (TextView) itemView.findViewById(R.id.txt_date_item_cmt);
         }
     }
 }

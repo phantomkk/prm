@@ -52,26 +52,26 @@ public class MainActivity extends BaseActivity {
         setToolbarTitle("Scan");
         hideButtonBack(true);
         setView();
-        pService = APIServiceManager.getPService();
-        showLoading();
-        pService.getProductById(10).enqueue(new Callback<Product>() {
-            @Override
-            public void onResponse(Call<Product> call, Response<Product> response) {
-                hideLoading();
-                if (response.isSuccessful()) {
-                    String demo = response.body().getName() ;
-                    Log.d("Log", demo);
-                    Toast.makeText(MainActivity.this, demo, Toast.LENGTH_SHORT).show();
-                } else {
-                    Log.d("ELSE", "Successful but else");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Product> call, Throwable t) {
-                hideLoading();
-            }
-        });
+//        pService = APIServiceManager.getPService();
+//        showLoading();
+//        pService.getProductById(10).enqueue(new Callback<Product>() {
+//            @Override
+//            public void onResponse(Call<Product> call, Response<Product> response) {
+//                hideLoading();
+//                if (response.isSuccessful()) {
+//                    String demo = response.body().getName() ;
+//                    Log.d("Log", demo);
+//                    Toast.makeText(MainActivity.this, demo, Toast.LENGTH_SHORT).show();
+//                } else {
+//                    Log.d("ELSE", "Successful but else");
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Product> call, Throwable t) {
+//                hideLoading();
+//            }
+//        });
 //        pService.getProducts().enqueue(new Callback<List<Product>>() {
 //            @Override
 //            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {

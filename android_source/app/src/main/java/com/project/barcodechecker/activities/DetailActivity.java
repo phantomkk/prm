@@ -1,6 +1,8 @@
 package com.project.barcodechecker.activities;
 
 import android.app.ActionBar;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,11 +14,21 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.project.barcodechecker.R;
+import com.project.barcodechecker.api.services.APIServiceManager;
+import com.project.barcodechecker.api.services.ProductService;
+import com.project.barcodechecker.fragments.CommentFragment;
+import com.project.barcodechecker.models.Comment;
 import com.project.barcodechecker.models.Product;
 import com.project.barcodechecker.utils.AppConst;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
+import java.util.List;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DetailActivity extends BaseActivity {
     private TextView txtCode, txtName, txtPrice, txtCompany, txtContact, txtDescription;
@@ -24,6 +36,8 @@ public class DetailActivity extends BaseActivity {
     private ImageView imgProduct;
     private Product product;
     private FrameLayout frameComments;
+    private List<Comment> list;
+    private CommentFragment commentFragment;
 
     @Override
     protected int getLayoutResourceId() {
@@ -34,9 +48,9 @@ public class DetailActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         bindingView();
-        initToolbar();
+//        initToolbar();
+        setFragmentComment();
         setToolbarTitle("Xem chi tiết sản phẩm");
-
         //get item
         Intent previousPage = getIntent();
         Bundle b = previousPage.getExtras();
@@ -44,6 +58,7 @@ public class DetailActivity extends BaseActivity {
             product = (Product) (b.get(AppConst.PRODUCT_PARAM));
             setValues(product);
         }
+        getComments(product);
     }
 
     private void bindingView() {
@@ -56,6 +71,14 @@ public class DetailActivity extends BaseActivity {
         imgProduct = (ImageView) findViewById(R.id.img_product_detail_atv);
         rbStar = (RatingBar) findViewById(R.id.rbar_star);
         frameComments = (FrameLayout) findViewById(R.id.frm_comment_detail_atv);
+    }
+
+    private void setFragmentComment() {
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        commentFragment = new CommentFragment();
+        transaction.replace(R.id.frm_comment_detail_atv, commentFragment);
+        transaction.commit();
     }
 
     private void setValues(Product p) {
@@ -71,6 +94,33 @@ public class DetailActivity extends BaseActivity {
 //        txtCompany.setText();
         txtDescription.setText(p.getDescription());
         txtContact.setText(p.getPhone());
+    }
+
+    private void getComments(Product product) {
+        if (product != null) {
+            ProductService productService = APIServiceManager.getPService();
+            showLoading();
+            productService.getProductComments(product.getId()).enqueue(new Callback<List<Comment>>() {
+                @Override
+                public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
+                    if (response.isSuccessful()) {
+                        list = response.body();
+                        commentFragment.setData(list);
+                    } else {
+                        Log.e("DetailActivity", "ELSE");
+                    }
+                    hideLoading();
+                }
+
+                @Override
+                public void onFailure(Call<List<Comment>> call, Throwable t) {
+                    Log.e("DetailActivity", "Failse");
+                    hideLoading();
+                }
+            });
+        } else {
+            Log.e("DetailActivity: ", " Product is null.");
+        }
     }
 
 }

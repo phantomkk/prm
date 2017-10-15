@@ -38,6 +38,7 @@ public abstract class BaseActivity extends Activity {
     }
 
     public void initToolbar() {
+        Log.e("TOOLBAR", "INIT");
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         btnBack = (ImageButton) findViewById(R.id.btn_back_toolbar);
         btnBack.setOnClickListener(

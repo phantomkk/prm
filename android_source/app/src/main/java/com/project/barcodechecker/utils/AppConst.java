@@ -10,6 +10,7 @@ public class AppConst {
     public final static String SERVER_NAME = "http://api61984.azurewebsites.net/";
 
     public final static String DATE_NO_TIME = "dd/MM/yyyy";
+    public final static String DATE_AND_TIME = "dd/MM/yyyy HH:mm";
 
     public final static String PRODUCT_PARAM = "PRODUCT_PARAM";
     public final static String CATEGORY_PARAM = "CATEGORY_PARAM";
@@ -20,7 +21,4 @@ public class AppConst {
     public final static int CATEGORY_LEANING = 5;
     public final static int CATEGORY_SPORT = 6;
     public final static int CATEGORY_JEWELRY = 7;
-//    public final static int CATEGORY_1 = 1;
-//    public final static int CATEGORY_1 = 1;
-//    public final static int CATEGORY_1 = 1;
 }

@@ -1,5 +1,6 @@
 package com.project.barcodechecker.api.services;
 
+import com.project.barcodechecker.models.Comment;
 import com.project.barcodechecker.models.Product;
 
 import java.util.List;
@@ -22,4 +23,6 @@ public interface ProductService {
     Call<Product> getProductByCode(@Path("code") String code);
     @GET("/api/products/category/{id}")
     Call<List<Product>> getProductByCategoryId(@Path("id") Integer id);
+    @GET("/api/products/{id}/comments")
+    Call<List<Comment>> getProductComments(@Path("id") Integer id);
 }
