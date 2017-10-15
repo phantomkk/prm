@@ -15,13 +15,14 @@ import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by lucky on 12-Oct-17.
  */
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
-    private SimpleDateFormat sdf = new SimpleDateFormat(AppConst.DATE_NO_TIME);
+    private SimpleDateFormat sdf = new SimpleDateFormat(AppConst.DATE_NO_TIME, Locale.US);
     private List<Comment> list;
     private Context context;
 
