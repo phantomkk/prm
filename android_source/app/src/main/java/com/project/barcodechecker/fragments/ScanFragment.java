@@ -2,11 +2,15 @@ package com.project.barcodechecker.fragments;
 
 import android.app.DialogFragment;
 import android.app.FragmentManager;
+import android.content.Intent;
+import android.icu.util.Calendar;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.annotation.RequiresApi;
 import android.support.v4.view.MenuItemCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,11 +24,16 @@ import android.widget.Toast;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.project.barcodechecker.R;
+import com.project.barcodechecker.activities.DetailActivity;
 import com.project.barcodechecker.activities.MainActivity;
 import com.project.barcodechecker.api.services.ProductService;
+import com.project.barcodechecker.databaseHelper.HistoryDatabaseHelper;
+import com.project.barcodechecker.models.History;
 import com.project.barcodechecker.models.Product;
-import com.project.barcodechecker.api.services.APIServiceManager;
+import com.project.barcodechecker.utils.APIUtils;
+import com.project.barcodechecker.utils.AppConst;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +42,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ScanFragment extends Fragment  implements MessageDialogFragment.MessageDialogListener,
+public class ScanFragment extends LoadingFragment implements MessageDialogFragment.MessageDialogListener,
         ZXingScannerView.ResultHandler, FormatSelectorDialogFragment.FormatSelectorDialogListener,
         CameraSelectorDialogFragment.CameraSelectorDialogListener{
     private static ScanFragment instance = new ScanFragment();
@@ -80,10 +89,9 @@ public class ScanFragment extends Fragment  implements MessageDialogFragment.Mes
         setHasOptionsMenu(true);
     }
 
-
+    @Override
     public void onCreateOptionsMenu (Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-
         MenuItem menuItem;
 
         if(mFlash) {
@@ -147,6 +155,7 @@ public class ScanFragment extends Fragment  implements MessageDialogFragment.Mes
     @Override
     public void onResume() {
         super.onResume();
+        //setHasOptionsMenu(isVisible());
         mScannerView.setResultHandler(this);
         mScannerView.startCamera(mCameraId);
         mScannerView.setFlash(mFlash);
@@ -169,12 +178,25 @@ public class ScanFragment extends Fragment  implements MessageDialogFragment.Mes
             Ringtone r = RingtoneManager.getRingtone(getActivity().getApplicationContext(), notification);
             r.play();
         } catch (Exception e) {}
-        pService = APIServiceManager.getPService();
-        pService.getProductByCode("4909965386").enqueue(new Callback<Product>() {
+        showLoading();
+        pService = APIUtils.getPService();
+        pService.getProductByCode("9597394955974").enqueue(new Callback<Product>() {
             @Override
             public void onResponse(Call<Product> call, Response<Product> response) {
+                closeLoading();
                 if (response.isSuccessful()) {
-                    showMessageDialog("Name = " + response.body().getName());
+                    Product product = response.body();
+                    History history = new History();
+                    history.setProductName(product.getName());
+                    history.setProductCode(product.getCode());
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        history.setDatetime(Calendar.getInstance().getTime().toString());
+                    }
+                    HistoryDatabaseHelper historyDatabaseHelper = new HistoryDatabaseHelper(getContext());
+                    historyDatabaseHelper.addHistory(history);
+                    Intent intent = new Intent(getActivity(), DetailActivity.class);
+                    intent.putExtra(AppConst.PRODUCT_PARAM, product);
+                    startActivity(intent);
                 } else {
                     showMessageDialog("Successful but else");
                 }
@@ -182,6 +204,7 @@ public class ScanFragment extends Fragment  implements MessageDialogFragment.Mes
 
             @Override
             public void onFailure(Call<Product> call, Throwable t) {
+                closeLoading();
                 showMessageDialog("Fail");
             }
         });
