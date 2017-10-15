@@ -26,11 +26,11 @@ import com.google.zxing.Result;
 import com.project.barcodechecker.R;
 import com.project.barcodechecker.activities.DetailActivity;
 import com.project.barcodechecker.activities.MainActivity;
+import com.project.barcodechecker.api.services.APIServiceManager;
 import com.project.barcodechecker.api.services.ProductService;
 import com.project.barcodechecker.databaseHelper.HistoryDatabaseHelper;
 import com.project.barcodechecker.models.History;
-import com.project.barcodechecker.models.Product;
-import com.project.barcodechecker.utils.APIUtils;
+import com.project.barcodechecker.models.Product; 
 import com.project.barcodechecker.utils.AppConst;
 
 import java.sql.Time;
@@ -179,7 +179,7 @@ public class ScanFragment extends LoadingFragment implements MessageDialogFragme
             r.play();
         } catch (Exception e) {}
         showLoading();
-        pService = APIUtils.getPService();
+        pService = APIServiceManager.getPService();
         pService.getProductByCode("9597394955974").enqueue(new Callback<Product>() {
             @Override
             public void onResponse(Call<Product> call, Response<Product> response) {
