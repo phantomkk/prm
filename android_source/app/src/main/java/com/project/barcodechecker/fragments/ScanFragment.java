@@ -30,7 +30,7 @@ import com.project.barcodechecker.api.services.APIServiceManager;
 import com.project.barcodechecker.api.services.ProductService;
 import com.project.barcodechecker.databaseHelper.HistoryDatabaseHelper;
 import com.project.barcodechecker.models.History;
-import com.project.barcodechecker.models.Product; 
+import com.project.barcodechecker.models.Product;
 import com.project.barcodechecker.utils.AppConst;
 
 import java.sql.Time;
