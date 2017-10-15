@@ -21,11 +21,11 @@ import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.project.barcodechecker.R;
 import com.project.barcodechecker.activities.DetailActivity;
 import com.project.barcodechecker.adapters.HistoryAdapter;
+import com.project.barcodechecker.api.services.APIServiceManager;
 import com.project.barcodechecker.api.services.ProductService;
 import com.project.barcodechecker.databaseHelper.HistoryDatabaseHelper;
 import com.project.barcodechecker.models.History;
 import com.project.barcodechecker.models.Product;
-import com.project.barcodechecker.utils.APIUtils;
 import com.project.barcodechecker.utils.AppConst;
 
 import java.util.ArrayList;
@@ -108,7 +108,7 @@ public class HistoryFragment extends LoadingFragment{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 showLoading();
-                pService = APIUtils.getPService();
+                pService = APIServiceManager.getPService();
                 pService.getProductByCode("9597394955974").enqueue(new Callback<Product>() {
                     @Override
                     public void onResponse(Call<Product> call, Response<Product> response) {

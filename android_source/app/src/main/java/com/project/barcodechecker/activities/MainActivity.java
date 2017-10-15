@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -42,18 +43,25 @@ public class MainActivity extends AppCompatActivity {
     private FrameLayout mainFrame;
     private ActionBar actionbar;
     private Class<?> mClss;
+    Toolbar toolbar;
+    private ProgressDialog progressDialog;
     private static final int ZXING_CAMERA_PERMISSION = 1;
 
 
-    @Override
-    protected int getLayoutResourceId() {
-        return R.layout.activity_main;
-    }
+//    @Override
+//    protected int getLayoutResourceId() {
+//        return R.layout.activity_main;
+//    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setToolbarTitle("Scan");
-        hideButtonBack(true);
+        //setToolbarTitle("Scan");
+        //hideButtonBack(true);
+        setContentView(R.layout.activity_main);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setTitle("Scan");
         setView();
         pService = APIServiceManager.getPService();
         showLoading();
@@ -72,36 +80,26 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Product> call, Throwable t) {
-                hideLoading();
+               hideLoading();
             }
         });
-//        pService.getProducts().enqueue(new Callback<List<Product>>() {
-//            @Override
-//            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
-//                if (response.isSuccessful()) {
-//                    String demo = response.body().size() +"";
-////                    for (Product p : response.body()) {
-////                        demo = demo.concat(p.toString());
-////                    }
-////                    ((TextView)findViewById(R.id.txt_show_products))
-////                            .setText(demo);
-//                    Log.d("Log", demo);
-//
-//                } else {
-//                    Log.d("ELSE", "Successful but else");
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<Product>> call, Throwable t) {
-//                Log.d("ERROR", "ERROR roi");
-//            }
-//        });
-        //hello luc
+
     }
 
+    public void showLoading() {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage("Loading...");
+            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.show();
+        }
+    }
 
+    public void hideLoading() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+    }
     private void setView() {
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation_main_actv);
         mainFrame = (FrameLayout) findViewById(R.id.main_frame_main_actv);
@@ -166,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
                         transaction.commit();
                     }
                 } else {
-                    showMessage("Please grant camera permission to use the QR Scanner");
+                    //showMessage("Please grant camera permission to use the QR Scanner");
                 }
                 return;
         }
