@@ -25,4 +25,7 @@ public interface ProductService {
     Call<List<Product>> getProductByCategoryId(@Path("id") Integer id);
     @GET("/api/products/{id}/comments")
     Call<List<Comment>> getProductComments(@Path("id") Integer id);
+    @GET("/api/products/name/{name}")
+    Call<List<Product>> searchProduct(@Path("name") String name);
+
 }

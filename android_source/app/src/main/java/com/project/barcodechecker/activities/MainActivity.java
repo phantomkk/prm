@@ -31,6 +31,7 @@ import com.project.barcodechecker.fragments.SearchFragment;
 import com.project.barcodechecker.fragments.SettingFragment;
 import com.project.barcodechecker.models.Product;
 import com.project.barcodechecker.api.services.ProductService;
+import com.project.barcodechecker.utils.CoreManager;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setTitle("Scan");
         setView();
+        CoreManager.getUser(this);
         pService = APIServiceManager.getPService();
         showLoading();
         pService.getProductById(10).enqueue(new Callback<Product>() {

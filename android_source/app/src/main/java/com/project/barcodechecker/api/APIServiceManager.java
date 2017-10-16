@@ -26,5 +26,4 @@ public class APIServiceManager {
     public static CommentService getCommentService(){
         return RetrofitClient.getClient(getURL()).create(CommentService.class);
     }
-
 }

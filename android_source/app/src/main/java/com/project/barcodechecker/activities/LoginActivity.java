@@ -81,7 +81,7 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
-                    CoreManager.setUser(response.body());
+                    CoreManager.setUser(LoginActivity.this, response.body());
                     finish();
                 } else {
                     logError("ERROR LoginActivity", "ELSE");

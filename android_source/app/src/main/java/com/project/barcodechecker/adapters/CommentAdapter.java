@@ -2,6 +2,7 @@ package com.project.barcodechecker.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +12,12 @@ import android.widget.TextView;
 import com.project.barcodechecker.R;
 import com.project.barcodechecker.models.Comment;
 import com.project.barcodechecker.utils.AppConst;
+import com.project.barcodechecker.utils.Utils;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -40,9 +44,21 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     @Override
     public void onBindViewHolder(CommentViewHolder holder, int position) {
         Comment c = getItem(position);
-        Picasso.with(context).load(c.getUser().getAvatar()).error(R.drawable.ic_insert_emoticon_black_24dp).into(holder.imgAvatar);
+        if(c.getUser() != null) {
+            Picasso.with(context).load(c.getUser().getAvatar()).error(R.drawable.ic_insert_emoticon_black_24dp).into(holder.imgAvatar);
+        }else{
+            Picasso.with(context).load(R.drawable.ic_insert_emoticon_black_24dp).into(holder.imgAvatar);
+        }
         holder.txtContent.setText(c.getComment());
         holder.txtName.setText(c.getUser().getName());
+//        SimpleDateFormat sdf = new SimpleDateFormat(AppConst.DATE_AND_TIME, Locale.US);
+//        Date d = null;
+//        try {
+//            d = sdf.parse(c.getDateCreated());
+//        } catch (ParseException e) {
+//            Log.e("ERROR", "CommentAdapter onBindViewHolder");
+//            e.printStackTrace();
+//        }
         holder.txtDate.setText(c.getDateCreated());
     }
 
@@ -57,7 +73,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     public class CommentViewHolder extends RecyclerView.ViewHolder {
         private ImageView imgAvatar;
-        private TextView txtName, txtContent,txtDate;
+        private TextView txtName, txtContent, txtDate;
+
         private CommentViewHolder(View itemView) {
             super(itemView);
             imgAvatar = (ImageView) itemView.findViewById(R.id.img_avatar_item_cmt);

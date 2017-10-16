@@ -12,6 +12,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.project.barcodechecker.R;
+import com.project.barcodechecker.models.User;
+import com.project.barcodechecker.utils.CoreManager;
+import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -25,6 +28,7 @@ public abstract class BaseActivity extends Activity {
     private ImageButton btnBack;
     private ProgressDialog progressDialog;
     private CircleImageView imgAvatar;
+
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -32,6 +36,10 @@ public abstract class BaseActivity extends Activity {
         initToolbar();
         txtTitle = (TextView) findViewById(R.id.txt_toolbar_title);
         imgAvatar = (CircleImageView) findViewById(R.id.profile_image);
+        User u = CoreManager.getUser(this);
+        if (u != null && u.getAvatar() != null) {
+            Picasso.with(this).load(u.getAvatar()).error(R.drawable.ic_shopping_cart_black_24dp).into(imgAvatar);
+        }
     }
 
     protected abstract int getLayoutResourceId();
@@ -61,7 +69,7 @@ public abstract class BaseActivity extends Activity {
             } else {
                 btnBack.setVisibility(View.VISIBLE);
             }
-        }else{
+        } else {
             Log.e("ERROR", "BaseActivity: btnBack is null");
         }
     }
@@ -90,7 +98,7 @@ public abstract class BaseActivity extends Activity {
         }
     }
 
-    public void logError(String activityName, String message){
+    public void logError(String activityName, String message) {
         Log.e(activityName, message);
     }
 }

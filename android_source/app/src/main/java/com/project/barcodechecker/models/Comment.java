@@ -1,6 +1,8 @@
 package com.project.barcodechecker.models;
 
 
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 import com.project.barcodechecker.utils.AppConst;
 
@@ -11,7 +13,7 @@ import java.text.SimpleDateFormat;
  * Created by lucky on 12-Oct-17.
  */
 
-public class Comment implements Serializable {
+public class Comment implements Serializable, Comparable<Comment>{
 
     @SerializedName("User")
     private User user;
@@ -72,5 +74,10 @@ public class Comment implements Serializable {
 
     public void setDateCreated(String dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    @Override
+    public int compareTo(@NonNull Comment o) {
+        return o.dateCreated.compareTo(dateCreated);
     }
 }

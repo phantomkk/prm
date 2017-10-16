@@ -4,6 +4,8 @@ package com.project.barcodechecker.models;
  * Created by lucky on 13-Sep-17.
  */
 
+import android.support.annotation.Nullable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -44,22 +46,12 @@ public class Product implements Serializable {
     @SerializedName("Description")
     @Expose
     private String description;
-
-    public Product(Integer id, int categoryID, String name, Double price, String country, String address, String phone, String email, String code, String description) {
-        this.id = id;
-        this.categoryID = categoryID;
-        this.name = name;
-        this.price = price;
-        this.country = country;
-        this.address = address;
-        this.phone = phone;
-        this.email = email;
-        this.code = code;
-        this.description = description;
-    }
-    public Product(){
-
-    }
+    @SerializedName("CategoryName")
+    private String categoryName;
+    @SerializedName("ComanyName")
+    private String comanyName;
+    @SerializedName("AverageRating")
+    private double averageRating;
 
     public String toString() {
         return "id:  " + id + "\n" +
@@ -160,5 +152,29 @@ public class Product implements Serializable {
 
     public void setImgDefault(String imgDefault) {
         this.imgDefault = imgDefault;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public String getComanyName() {
+        return comanyName;
+    }
+
+    public void setComanyName(String comanyName) {
+        this.comanyName = comanyName;
+    }
+
+    public double getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(double averageRating) {
+        this.averageRating = averageRating;
     }
 }

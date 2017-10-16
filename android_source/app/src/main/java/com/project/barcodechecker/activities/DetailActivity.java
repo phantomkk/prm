@@ -2,23 +2,34 @@ package com.project.barcodechecker.activities;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.project.barcodechecker.R;
 import com.project.barcodechecker.api.APIServiceManager;
+import com.project.barcodechecker.api.services.CommentService;
 import com.project.barcodechecker.api.services.ProductService;
 import com.project.barcodechecker.fragments.CommentFragment;
 import com.project.barcodechecker.models.Comment;
 import com.project.barcodechecker.models.Product;
+import com.project.barcodechecker.models.User;
 import com.project.barcodechecker.utils.AppConst;
+import com.project.barcodechecker.utils.CoreManager;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -26,7 +37,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DetailActivity extends BaseActivity {
+public class DetailActivity extends BaseActivity implements CommentFragment.ButtonPostCommentClickListener {
     private TextView txtCode, txtName, txtPrice, txtCompany, txtContact, txtDescription;
     private RatingBar rbStar;
     private ImageView imgProduct;
@@ -54,7 +65,7 @@ public class DetailActivity extends BaseActivity {
             product = (Product) (b.get(AppConst.PRODUCT_PARAM));
             setValues(product);
         }
-        getComments(product);
+        loadComments(product);
     }
 
     private void bindingView() {
@@ -86,13 +97,14 @@ public class DetailActivity extends BaseActivity {
         Picasso.with(this).load(p.getImgDefault()).into(imgProduct);
         txtCode.setText(p.getCode());
         txtName.setText(p.getName());
-        txtPrice.setText(String.format(Locale.US, "%1f", p.getPrice()));
+        txtPrice.setText(String.format(Locale.US, "%3f", p.getPrice()));
 //        txtCompany.setText();
         txtDescription.setText(p.getDescription());
         txtContact.setText(p.getPhone());
+        rbStar.setRating((float)p.getAverageRating());
     }
 
-    private void getComments(Product product) {
+    private void loadComments(Product product) {
         if (product != null) {
             commentFragment.setProduct(product);
             ProductService productService = APIServiceManager.getPService();
@@ -120,4 +132,61 @@ public class DetailActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void postCmtClickListener(String content, final EditText edtCmt, TextView txtError) {
+        if(content.length()==0){
+            txtError.setVisibility(View.VISIBLE);
+            return;
+        }else{
+            txtError.setVisibility(View.INVISIBLE);
+        }
+        User u = CoreManager.getUser(this);
+        if(u == null){
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setMessage("Bạn cần phải đăng nhập để bình luận!")
+                    .setPositiveButton("Đăng nhập", positiveListener)
+                    .setNegativeButton("Thôi kệ lười đăng nhập lắm", null)
+                    .show();
+
+        }else{
+            Log.e("USER", u.getId()+"");
+            Date date = Calendar.getInstance().getTime();
+            final Comment comment = new Comment();
+            comment.setUserID(u.getId());
+            comment.setComment(content);
+            comment.setUser(u);
+            comment.setProductID(product==null ? 1 : product.getId());
+            comment.setDateCreated(new SimpleDateFormat(AppConst.DATE_AND_TIME_SQL,Locale.US).format(date));
+            CommentService commentService = APIServiceManager.getCommentService();
+            showLoading();
+            commentService.postComment(comment).enqueue(new Callback<Comment>() {
+                @Override
+                public void onResponse(Call<Comment> call, Response<Comment> response) {
+                    if(response.isSuccessful()){
+                        commentFragment.updateData(response.body());
+                    }else{
+                        edtCmt.setText("EROR");
+                        Log.e("ERROR", "DetailActivity ELSE" );
+                    }
+                    edtCmt.setText("");
+                    hideLoading();
+                    Toast.makeText(DetailActivity.this, "Đăng bình luận thành công.", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(Call<Comment> call, Throwable t) {
+                    Log.e("ERROR", "CommentFragment commentClickListener: " + t.getCause());
+                    edtCmt.setText("");
+                    hideLoading();
+                }
+            });
+        }
+    }
+    final DialogInterface.OnClickListener positiveListener =new DialogInterface.OnClickListener(){
+
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            startActivity(new Intent(DetailActivity.this, LoginActivity.class));
+        }
+    };
 }
