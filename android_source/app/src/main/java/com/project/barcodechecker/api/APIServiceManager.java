@@ -1,8 +1,10 @@
 package com.project.barcodechecker.api;
 
+import com.project.barcodechecker.api.services.CategoryService;
 import com.project.barcodechecker.api.services.CommentService;
 import com.project.barcodechecker.api.services.ProductService;
 import com.project.barcodechecker.api.services.UserService;
+import com.project.barcodechecker.models.Category;
 import com.project.barcodechecker.utils.AppConst;
 
 /**
@@ -19,6 +21,9 @@ public class APIServiceManager {
     }
     public static ProductService getPService(){
         return RetrofitClient.getClient(getURL()).create(ProductService.class);
+    }
+    public static CategoryService getCategoryService(){
+        return RetrofitClient.getClient(getURL()).create(CategoryService.class);
     }
     public static UserService getUserService(){
         return RetrofitClient.getClient(getURL()).create(UserService.class);

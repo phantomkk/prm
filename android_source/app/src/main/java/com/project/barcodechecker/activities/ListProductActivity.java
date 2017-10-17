@@ -8,6 +8,7 @@ import android.widget.GridView;
 
 import com.project.barcodechecker.R;
 import com.project.barcodechecker.adapters.ProductAdapter;
+import com.project.barcodechecker.api.services.CategoryService;
 import com.project.barcodechecker.api.services.ProductService;
 import com.project.barcodechecker.models.Product;
 import com.project.barcodechecker.api.APIServiceManager;
@@ -24,7 +25,7 @@ public class ListProductActivity extends BaseActivity {
     private GridView gvProducts;
     private List<Product> list;
     private ProductAdapter adapter;
-    private ProductService service;
+    private CategoryService service;
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_list_product;
@@ -37,15 +38,14 @@ public class ListProductActivity extends BaseActivity {
         Intent intent = getIntent();
         Bundle b = (Bundle) intent.getExtras();
         int position = (int)b.get(AppConst.CATEGORY_PARAM);
-        service = APIServiceManager.getPService();
+        service = APIServiceManager.getCategoryService();
         showLoading();
         service.getProductByCategoryId(position).enqueue(new Callback<List<Product>>() {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
-
                 if(response.isSuccessful()){
-                Log.d("D", response.body().size() + "");
-                    list = response.body(); adapter = new ProductAdapter(ListProductActivity.this, list, new ProductAdapter.OnMyProductClickListener() {
+                    list = response.body();
+                    adapter = new ProductAdapter(ListProductActivity.this, list, new ProductAdapter.OnMyProductClickListener() {
                         @Override
                         public void onItemClick(View v, int position) {
                             Intent intent = new Intent(ListProductActivity.this, DetailActivity.class);

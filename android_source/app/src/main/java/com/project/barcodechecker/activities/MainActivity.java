@@ -65,27 +65,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Scan");
         setView();
         CoreManager.getUser(this);
-        pService = APIServiceManager.getPService();
-        showLoading();
-        pService.getProductById(10).enqueue(new Callback<Product>() {
-            @Override
-            public void onResponse(Call<Product> call, Response<Product> response) {
-                hideLoading();
-                if (response.isSuccessful()) {
-                    String demo = response.body().getName() ;
-                    Log.d("Log", demo);
-                    Toast.makeText(MainActivity.this, demo, Toast.LENGTH_SHORT).show();
-                } else {
-                    Log.d("ELSE", "Successful but else");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Product> call, Throwable t) {
-               hideLoading();
-            }
-        });
-
     }
 
     public void showLoading() {
