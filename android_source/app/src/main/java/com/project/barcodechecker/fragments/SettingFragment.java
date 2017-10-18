@@ -1,14 +1,14 @@
 package com.project.barcodechecker.fragments;
 
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.project.barcodechecker.R;
 
-public class SettingFragment extends Fragment  {
+public class SettingFragment extends Fragment {
     private static SettingFragment instance = new SettingFragment();
     public static SettingFragment newInstance() {
         SettingFragment fragment = new SettingFragment();

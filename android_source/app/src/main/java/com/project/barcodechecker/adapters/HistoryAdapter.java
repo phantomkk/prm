@@ -26,10 +26,10 @@ import java.util.List;
  * Created by lucky on 07-Oct-17.
  */
 
-public class HistoryAdapter extends ArrayAdapter<History>  {
+public class HistoryAdapter extends ArrayAdapter<Product>  {
     private int resourceID;
     private int lastPosition = -1;
-    public HistoryAdapter(@NonNull Context context, @LayoutRes int resourceID,@NonNull  List<History> list) {
+    public HistoryAdapter(@NonNull Context context, @LayoutRes int resourceID,@NonNull  List<Product> list) {
         super(context, resourceID, list);
         this.resourceID = resourceID;
     }
@@ -43,7 +43,7 @@ public class HistoryAdapter extends ArrayAdapter<History>  {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 //        return super.getView(position, convertView, parent);
-        History history = getItem(position);
+        Product product = getItem(position);
         ViewHolder viewHolder;
         final View result;
         if(convertView == null){
@@ -62,8 +62,8 @@ public class HistoryAdapter extends ArrayAdapter<History>  {
 //        result.startAnimation(animation);
 //        lastPosition = position;
 
-        viewHolder.txtProductName.setText(history.getProductName());
-        viewHolder.txtProductCode.setText(history.getProductCode());
+        viewHolder.txtProductName.setText(product.getName());
+        viewHolder.txtProductCode.setText(product.getCode());
         return convertView;
     }
 }

@@ -17,7 +17,7 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
  * Created by Lenovo on 12/10/2017.
  */
 
-public class FormatSelectorDialogFragment  extends DialogFragment {
+public class FormatSelectorDialogFragment  extends android.support.v4.app.DialogFragment {
     public interface FormatSelectorDialogListener{
         public void onFormatsSaved(ArrayList<Integer> selectedIndices);
     }
