@@ -46,7 +46,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
         return list.size();
     }
 
-    public class SearchHolder extends RecyclerView.ViewHolder {
+    public class SearchHolder extends RecyclerView.ViewHolder{
         private TextView txtName;
         private TextView txtCode;
         private ImageView imgProduct;
@@ -57,5 +57,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
             txtCode = (TextView) itemView.findViewById(R.id.txt_code_search_frag);
             imgProduct = (ImageView) itemView.findViewById(R.id.img_product_search_frag);
         }
+
+
     }
 }

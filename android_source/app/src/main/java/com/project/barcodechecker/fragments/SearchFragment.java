@@ -1,6 +1,7 @@
 package com.project.barcodechecker.fragments;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,11 +18,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.project.barcodechecker.R;
+import com.project.barcodechecker.activities.DetailActivity;
 import com.project.barcodechecker.adapters.SearchAdapter;
 import com.project.barcodechecker.api.APIServiceManager;
 import com.project.barcodechecker.api.services.ProductService;
 import com.project.barcodechecker.models.Comment;
 import com.project.barcodechecker.models.Product;
+import com.project.barcodechecker.utils.AppConst;
+import com.project.barcodechecker.utils.ItemClickSupport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +60,14 @@ public class SearchFragment extends LoadingFragment {
         rcvSearch.setLayoutManager(new LinearLayoutManager(getContext()));
         rcvSearch.setAdapter(adapter);
         productService = APIServiceManager.getPService();
+        ItemClickSupport.addTo(rcvSearch).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+            @Override
+            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                Intent intent = new Intent(getActivity(), DetailActivity.class);
+                intent.putExtra(AppConst.PRODUCT_PARAM, list.get(position));
+                startActivity(intent);
+            }
+        });
         edtSearch.setOnEditorActionListener(
                 new EditText.OnEditorActionListener() {
                     @Override
