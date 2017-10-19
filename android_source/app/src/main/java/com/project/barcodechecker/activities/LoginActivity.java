@@ -84,14 +84,14 @@ public class LoginActivity extends BaseActivity {
                     CoreManager.setUser(LoginActivity.this, response.body());
                     finish();
                 } else {
-                    logError("ERROR LoginActivity", "ELSE");
+                    logError(LoginActivity.class.getSimpleName(), "loginProcess","API ELSE");
                 }
                 hideLoading();
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                logError("ERROR LoginActivity", "loginProcess(): ERROR post user");
+                logError(LoginActivity.class.getSimpleName(), "loginProcess", "Failure " + t.getMessage());
                 hideLoading();
             }
         });

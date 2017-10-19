@@ -93,6 +93,7 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
             p = new Product();
             showMessage("An error occur!");
             Log.e("ERROR", "DetailActivity.setValues(*): Product null");
+            logError(DetailActivity.class.getSimpleName(), "setValues", "Product null");
         }
         Picasso.with(this).load(p.getImgDefault()).into(imgProduct);
         txtCode.setText(p.getCode());
@@ -101,7 +102,7 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
 //        txtCompany.setText();
         txtDescription.setText(p.getDescription());
         txtContact.setText(p.getPhone());
-        rbStar.setRating((float)p.getAverageRating());
+        rbStar.setRating((float) p.getAverageRating());
     }
 
     private void loadComments(Product product) {
@@ -116,57 +117,57 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
                         list = response.body();
                         commentFragment.setData(list);
                     } else {
-                        Log.e("DetailActivity", "ELSE");
+                        logError(DetailActivity.class.getSimpleName(), "loadComments", "ELSE ");
                     }
                     hideLoading();
                 }
 
                 @Override
                 public void onFailure(Call<List<Comment>> call, Throwable t) {
-                    Log.e("DetailActivity", "Load comment Failse" + t.getCause());
                     hideLoading();
-                    }
+                    logError(DetailActivity.class.getSimpleName(), "loadComments", "Failure API " + t.getMessage());
+                }
             });
         } else {
-            Log.e("DetailActivity: ", " Product is null.");
+            logError(DetailActivity.class.getSimpleName(), "loadComments", "PRODUCT null");
         }
     }
 
     @Override
     public void postCmtClickListener(String content, final EditText edtCmt, TextView txtError) {
-        if(content.length()==0){
+        if (content.length() == 0) {
             txtError.setVisibility(View.VISIBLE);
             return;
-        }else{
+        } else {
             txtError.setVisibility(View.INVISIBLE);
         }
         User u = CoreManager.getUser(this);
-        if(u == null){
+        if (u == null) {
             AlertDialog.Builder dialog = new AlertDialog.Builder(this);
             dialog.setMessage("Bạn cần phải đăng nhập để bình luận!")
                     .setPositiveButton("Đăng nhập", positiveListener)
                     .setNegativeButton("Thôi kệ lười đăng nhập lắm", null)
                     .show();
-
-        }else{
-            Log.e("USER", u.getId()+"");
+        } else {
             Date date = Calendar.getInstance().getTime();
             final Comment comment = new Comment();
             comment.setUserID(u.getId());
             comment.setComment(content);
-            comment.setUser(u);
-            comment.setProductID(product==null ? 1 : product.getId());
-            comment.setDateCreated(new SimpleDateFormat(AppConst.DATE_AND_TIME_SQL,Locale.US).format(date));
+            comment.setName(u.getName());
+            comment.setUserAvatar(u.getAvatar());
+            comment.setUserID(u.getId());
+            comment.setProductID(product == null ? 1 : product.getId());
+            comment.setDateCreated(new SimpleDateFormat(AppConst.DATE_AND_TIME_SQL, Locale.US).format(date));
             CommentService commentService = APIServiceManager.getCommentService();
             showLoading();
             commentService.postComment(comment).enqueue(new Callback<Comment>() {
                 @Override
                 public void onResponse(Call<Comment> call, Response<Comment> response) {
-                    if(response.isSuccessful()){
+                    if (response.isSuccessful()) {
                         commentFragment.updateData(response.body());
-                    }else{
+                    } else {
                         edtCmt.setText("EROR");
-                        Log.e("ERROR", "DetailActivity ELSE" );
+                        logError(DetailActivity.class.getSimpleName(), "postCmtClickListener", "ELSE API postComment");
                     }
                     edtCmt.setText("");
                     hideLoading();
@@ -175,14 +176,15 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
 
                 @Override
                 public void onFailure(Call<Comment> call, Throwable t) {
-                    Log.e("ERROR", "CommentFragment commentClickListener: " + t.getCause());
+                    logError(DetailActivity.class.getSimpleName(), "postCmtClickListener", "Failue API " + t.getCause());
                     edtCmt.setText("");
                     hideLoading();
                 }
             });
         }
     }
-    final DialogInterface.OnClickListener positiveListener =new DialogInterface.OnClickListener(){
+
+    final DialogInterface.OnClickListener positiveListener = new DialogInterface.OnClickListener() {
 
         @Override
         public void onClick(DialogInterface dialog, int which) {

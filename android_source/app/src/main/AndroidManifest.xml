@@ -21,8 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.LoginActivity" />
-        <activity android:name=".activities.TestActivity" />
-        <activity android:name=".activities.RegisterfActivity" />
+        <activity android:name=".activities.RegisterActivity" />
         <activity android:name=".activities.DetailActivity"
             android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".activities.ListProductActivity"/>

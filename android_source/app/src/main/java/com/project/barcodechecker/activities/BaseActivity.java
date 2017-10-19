@@ -2,6 +2,7 @@ package com.project.barcodechecker.activities;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -36,11 +37,19 @@ public abstract class BaseActivity extends Activity {
         initToolbar();
         txtTitle = (TextView) findViewById(R.id.txt_toolbar_title);
         imgAvatar = (CircleImageView) findViewById(R.id.profile_image);
+        imgAvatar.setOnClickListener(imgClickListener);
         User u = CoreManager.getUser(this);
         if (u != null && u.getAvatar() != null) {
             Picasso.with(this).load(u.getAvatar()).error(R.drawable.ic_shopping_cart_black_24dp).into(imgAvatar);
         }
     }
+
+    private View.OnClickListener imgClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            //todoư
+        }
+    };
 
     protected abstract int getLayoutResourceId();
 
@@ -87,18 +96,22 @@ public abstract class BaseActivity extends Activity {
         if (progressDialog == null) {
             progressDialog = new ProgressDialog(this);
             progressDialog.setMessage("Loading...");
-            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    showMessage("Cancel dialog");
+                }
+            });
             progressDialog.show();
         }
     }
-
     public void hideLoading() {
         if (progressDialog != null) {
             progressDialog.dismiss();
         }
     }
 
-    public void logError( String message) {
-        Log.e("LOG_EROR", message);
+    public void logError(String activity, String method, String message) {
+        Log.e("LOG_EROR", activity + "." + method + "(): " + message);
     }
 }

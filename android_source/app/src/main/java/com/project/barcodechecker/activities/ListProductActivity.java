@@ -55,19 +55,19 @@ public class ListProductActivity extends BaseActivity {
                     });
                     gvProducts.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
+                }else{
+                    logError(ListProductActivity.class.getSimpleName(), "onCreate", "ELSE API");
                 }
                 hideLoading();
             }
 
             @Override
             public void onFailure(Call<List<Product>> call, Throwable t) {
-                Log.e("ERROR", "ListProductActivity: Error Load API== " + t.getMessage() );
-
+                logError("ListProductActivity", "OnCreate", "Failure api" + t.getMessage());
                 hideLoading();
             }
         });
         list= new ArrayList<>();
-
     }
 
     public void initView(){

@@ -15,8 +15,10 @@ import java.text.SimpleDateFormat;
 
 public class Comment implements Serializable, Comparable<Comment>{
 
-    @SerializedName("User")
-    private User user;
+    @SerializedName("Name")
+    private String name;
+    @SerializedName("UserAvatar")
+    private String userAvatar;
     @SerializedName("ID")
     private int id;
     @SerializedName("UserID")
@@ -27,14 +29,6 @@ public class Comment implements Serializable, Comparable<Comment>{
     private String comment;
     @SerializedName("DateCreated")
     private String dateCreated;
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     public int getId() {
         return id;
@@ -79,5 +73,21 @@ public class Comment implements Serializable, Comparable<Comment>{
     @Override
     public int compareTo(@NonNull Comment o) {
         return o.dateCreated.compareTo(dateCreated);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getUserAvatar() {
+        return userAvatar;
+    }
+
+    public void setUserAvatar(String userAvatar) {
+        this.userAvatar = userAvatar;
     }
 }

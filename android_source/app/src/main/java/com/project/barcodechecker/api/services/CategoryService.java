@@ -13,6 +13,6 @@ import retrofit2.http.Path;
  */
 
 public interface CategoryService {
-    @GET("/api/category/{id}/products/")
+    @GET("/api/categories/{id}/products/")
     Call<List<Product>> getProductByCategoryId(@Path("id") Integer id);
 }

@@ -22,7 +22,6 @@ public class RegisterActivity extends BaseActivity {
         edtEmail = (EditText) findViewById(R.id.edt_email_reg_atv);
         edtPassword = (EditText) findViewById(R.id.edt_password_reg_atv);
         edtRepassword = (EditText) findViewById(R.id.edt_re_pwd_reg_atv);
-
         txtErrUsn  = (TextView) findViewById(R.id.txt_error_username_reg_atv);
         txtErrEmail  = (TextView) findViewById(R.id.txt_error_email_reg_atv);
         txtErrPwd= (TextView) findViewById(R.id.txt_error_password_reg_atv);

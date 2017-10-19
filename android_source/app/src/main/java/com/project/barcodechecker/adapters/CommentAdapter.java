@@ -44,13 +44,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     @Override
     public void onBindViewHolder(CommentViewHolder holder, int position) {
         Comment c = getItem(position);
-        if(c.getUser() != null) {
-            Picasso.with(context).load(c.getUser().getAvatar()).error(R.drawable.ic_insert_emoticon_black_24dp).into(holder.imgAvatar);
-        }else{
-            Picasso.with(context).load(R.drawable.ic_insert_emoticon_black_24dp).into(holder.imgAvatar);
-        }
+//        if(c.getName()) != null) {
+            Picasso.with(context).load(c.getUserAvatar()).error(R.drawable.ic_insert_emoticon_black_24dp).into(holder.imgAvatar);
+//        }else{
+//            Picasso.with(context).load(R.drawable.ic_insert_emoticon_black_24dp).into(holder.imgAvatar);
+//        }
         holder.txtContent.setText(c.getComment());
-        holder.txtName.setText(c.getUser().getName());
+        holder.txtName.setText(c.getName());
 //        SimpleDateFormat sdf = new SimpleDateFormat(AppConst.DATE_AND_TIME, Locale.US);
 //        Date d = null;
 //        try {

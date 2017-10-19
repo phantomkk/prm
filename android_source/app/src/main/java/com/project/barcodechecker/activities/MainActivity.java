@@ -6,6 +6,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 
 import com.project.barcodechecker.R;
 import com.project.barcodechecker.api.APIServiceManager;
+import com.project.barcodechecker.api.services.FileService;
 import com.project.barcodechecker.fragments.BaseScannerActivity;
 import com.project.barcodechecker.fragments.FragmentFactory;
 import com.project.barcodechecker.fragments.HistoryFragment;
@@ -33,6 +35,12 @@ import com.project.barcodechecker.models.Product;
 import com.project.barcodechecker.api.services.ProductService;
 import com.project.barcodechecker.utils.CoreManager;
 
+import java.io.File;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -81,6 +89,9 @@ public class MainActivity extends AppCompatActivity {
             progressDialog.dismiss();
         }
     }
+
+
+
     private void setView() {
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation_main_actv);
         mainFrame = (FrameLayout) findViewById(R.id.main_frame_main_actv);
