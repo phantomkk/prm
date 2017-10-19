@@ -1,21 +1,29 @@
 package com.project.barcodechecker.fragments;
 
-import android.app.DialogFragment;
-import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.icu.util.Calendar;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
+import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
@@ -23,7 +31,7 @@ import com.project.barcodechecker.R;
 import com.project.barcodechecker.activities.DetailActivity;
 import com.project.barcodechecker.api.APIServiceManager;
 import com.project.barcodechecker.api.services.ProductService;
-import com.project.barcodechecker.databaseHelper.HistoryDatabaseHelper;
+import com.project.barcodechecker.databaseHelper.ProductDatabaseHelper;
 import com.project.barcodechecker.models.History;
 import com.project.barcodechecker.models.Product;
 import com.project.barcodechecker.utils.AppConst;
@@ -31,6 +39,8 @@ import com.project.barcodechecker.utils.AppConst;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.dm7.barcodescanner.core.IViewFinder;
+import me.dm7.barcodescanner.core.ViewFinderView;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -58,10 +68,12 @@ public class ScanFragment extends LoadingFragment implements MessageDialogFragme
     private ArrayList<Integer> mSelectedIndices;
     private int mCameraId = -1;
     private ProductService pService;
-
+    private ImageButton mBtnFlash;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
-        mScannerView = new ZXingScannerView(getActivity());
+        View v = inflater.inflate(R.layout.fragment_scan, container, false);
+        mBtnFlash =(ImageButton) v.findViewById(R.id.btn_torch);
+        mScannerView =(ZXingScannerView) v.findViewById(R.id.scanner_view);
         if(state != null) {
             mFlash = state.getBoolean(FLASH_STATE, false);
             mAutoFocus = state.getBoolean(AUTO_FOCUS_STATE, true);
@@ -73,8 +85,21 @@ public class ScanFragment extends LoadingFragment implements MessageDialogFragme
             mSelectedIndices = null;
             mCameraId = -1;
         }
+        mBtnFlash.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mFlash){
+                    mBtnFlash.setBackground(getResources().getDrawable(R.drawable.ic_flash_off));
+                    mFlash=false;
+                }else{
+                    mBtnFlash.setBackground(getResources().getDrawable(R.drawable.ic_flash_on));
+                    mFlash=true;
+                }
+                mScannerView.setFlash(mFlash);
+            }
+        });
         setupFormats();
-        return mScannerView;
+        return v;
     }
 
     @Override
@@ -87,14 +112,6 @@ public class ScanFragment extends LoadingFragment implements MessageDialogFragme
     public void onCreateOptionsMenu (Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         MenuItem menuItem;
-
-        if(mFlash) {
-            menuItem = menu.add(Menu.NONE, R.id.menu_flash, 0, R.string.flash_on);
-        } else {
-            menuItem = menu.add(Menu.NONE, R.id.menu_flash, 0, R.string.flash_off);
-        }
-        MenuItemCompat.setShowAsAction(menuItem, MenuItem.SHOW_AS_ACTION_NEVER);
-
         if(mAutoFocus) {
             menuItem = menu.add(Menu.NONE, R.id.menu_auto_focus, 0, R.string.auto_focus_on);
         } else {
@@ -113,15 +130,6 @@ public class ScanFragment extends LoadingFragment implements MessageDialogFragme
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
-            case R.id.menu_flash:
-                mFlash = !mFlash;
-                if(mFlash) {
-                    item.setTitle(R.string.flash_on);
-                } else {
-                    item.setTitle(R.string.flash_off);
-                }
-                mScannerView.setFlash(mFlash);
-                return true;
             case R.id.menu_auto_focus:
                 mAutoFocus = !mAutoFocus;
                 if(mAutoFocus) {
@@ -132,12 +140,12 @@ public class ScanFragment extends LoadingFragment implements MessageDialogFragme
                 mScannerView.setAutoFocus(mAutoFocus);
                 return true;
             case R.id.menu_formats:
-                DialogFragment fragment = FormatSelectorDialogFragment.newInstance(this, mSelectedIndices);
+                FormatSelectorDialogFragment fragment = FormatSelectorDialogFragment.newInstance(this, mSelectedIndices);
                 fragment.show(getFragmentManager(), "format_selector");
                 return true;
             case R.id.menu_camera_selector:
                 mScannerView.stopCamera();
-                DialogFragment cFragment = CameraSelectorDialogFragment.newInstance(this, mCameraId);
+                CameraSelectorDialogFragment cFragment = CameraSelectorDialogFragment.newInstance(this, mCameraId);
                 cFragment.show(getFragmentManager(), "camera_selector");
                 return true;
             default:
@@ -165,33 +173,33 @@ public class ScanFragment extends LoadingFragment implements MessageDialogFragme
     }
 
     @Override
-    public void handleResult(Result rawResult) {
+    public void handleResult(final Result rawResult) {
         try {
             Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             Ringtone r = RingtoneManager.getRingtone(getActivity().getApplicationContext(), notification);
             r.play();
         } catch (Exception e) {}
         showLoading();
+        final String code = rawResult.getText();
         pService = APIServiceManager.getPService();
-        pService.getProductByCode("9597394955974").enqueue(new Callback<Product>() {
+        pService.getProductByCode("7718481467591").enqueue(new Callback<Product>() {
             @Override
             public void onResponse(Call<Product> call, Response<Product> response) {
                 closeLoading();
                 if (response.isSuccessful()) {
                     Product product = response.body();
-                    History history = new History();
-                    history.setProductName(product.getName());
-                    history.setProductCode(product.getCode());
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        history.setDatetime(Calendar.getInstance().getTime().toString());
-                    }
-                    HistoryDatabaseHelper historyDatabaseHelper = new HistoryDatabaseHelper(getContext());
-                    historyDatabaseHelper.addHistory(history);
+                    ProductDatabaseHelper historyDatabaseHelper = new ProductDatabaseHelper(getContext());
+                    historyDatabaseHelper.addProduct(product);
                     Intent intent = new Intent(getActivity(), DetailActivity.class);
                     intent.putExtra(AppConst.PRODUCT_PARAM, product);
                     startActivity(intent);
                 } else {
                     showMessageDialog("Successful but else");
+                    Product product = new Product();
+                    product.setCode(code);
+                    product.setName(getString(R.string.string_not_fount));
+                    ProductDatabaseHelper historyDatabaseHelper = new ProductDatabaseHelper(getContext());
+                    historyDatabaseHelper.addProduct(product);
                 }
             }
 
@@ -204,7 +212,7 @@ public class ScanFragment extends LoadingFragment implements MessageDialogFragme
     }
 
     public void showMessageDialog(String message) {
-        DialogFragment fragment = MessageDialogFragment.newInstance("Scan Results", message, this);
+        DialogFragment fragment = MessageDialogFragment.newInstance(message, this);
         fragment.show(getFragmentManager(), "scan_results");
     }
 
@@ -268,4 +276,5 @@ public class ScanFragment extends LoadingFragment implements MessageDialogFragme
         closeMessageDialog();
         closeFormatsDialog();
     }
+
 }

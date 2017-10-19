@@ -66,6 +66,7 @@ public class Product implements Serializable {
                 "description: " + description + "\n";
     }
 
+
     public Integer getId() {
         return id;
     }

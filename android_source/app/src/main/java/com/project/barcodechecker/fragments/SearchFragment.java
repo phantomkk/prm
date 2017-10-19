@@ -1,6 +1,7 @@
 package com.project.barcodechecker.fragments;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,11 +18,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.project.barcodechecker.R;
+import com.project.barcodechecker.activities.DetailActivity;
 import com.project.barcodechecker.adapters.SearchAdapter;
 import com.project.barcodechecker.api.APIServiceManager;
 import com.project.barcodechecker.api.services.ProductService;
 import com.project.barcodechecker.models.Comment;
 import com.project.barcodechecker.models.Product;
+import com.project.barcodechecker.utils.AppConst;
+import com.project.barcodechecker.utils.ItemClickSupport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +34,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SearchFragment extends Fragment {
+public class SearchFragment extends LoadingFragment {
     private EditText edtSearch;
     private ProductService productService;
     private ProgressDialog progressDialog;
@@ -56,6 +60,14 @@ public class SearchFragment extends Fragment {
         rcvSearch.setLayoutManager(new LinearLayoutManager(getContext()));
         rcvSearch.setAdapter(adapter);
         productService = APIServiceManager.getPService();
+        ItemClickSupport.addTo(rcvSearch).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+            @Override
+            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                Intent intent = new Intent(getActivity(), DetailActivity.class);
+                intent.putExtra(AppConst.PRODUCT_PARAM, list.get(position));
+                startActivity(intent);
+            }
+        });
         edtSearch.setOnEditorActionListener(
                 new EditText.OnEditorActionListener() {
                     @Override
@@ -74,22 +86,47 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                searchProcess();
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                searchProcess();
+//                if(call != null && call.isExecuted()) {
+//                    call.cancel();
+//                }
+//                if(callList != null && callList.isExecuted()) {
+//                    callList.cancel();
+//                }
             }
         });
         return v;
     }
 
+    Call<Product> call;
+    Call<List<Product>> callList;
+    Callback<Product> callback = new Callback<Product>() {
+        @Override
+        public void onResponse(Call<Product> call, Response<Product> response) {
+            list.clear();
+            list.add(response.body());
+            adapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void onFailure(Call<Product> call, Throwable t) {
+
+        }
+    };
+
     public void searchProcess() {
         String searchValue = edtSearch.getText().toString().trim();
-        showLoading();
+        //showLoading();
         if (searchValue.matches("\\d+")) {
-            productService.getProductByCode(searchValue).enqueue(new Callback<Product>() {
+//            if (call != null && call.isExecuted()) {
+//                call.cancel();
+//            }
+            call = productService.getProductByCode(searchValue);
+            call.enqueue(new Callback<Product>() {
                 @Override
                 public void onResponse(Call<Product> call, Response<Product> response) {
                     if (response.isSuccessful()) {
@@ -99,54 +136,41 @@ public class SearchFragment extends Fragment {
                     } else {
                         Log.e("ERROR", "ELSE SEARCH FRAGMENT: searchProcess search code product");
                     }
-                    hideLoading();
+                    // closeLoading();
                 }
 
                 @Override
                 public void onFailure(Call<Product> call, Throwable t) {
-                    hideLoading();
+                    //closeLoading();
                     Log.e("ERROR", "FAILURE SEARCH FRAGMENT: searchProcess Search code");
                 }
             });
         } else {
-            productService.searchProduct(searchValue).enqueue(new Callback<List<Product>>() {
+//            if (callList != null && callList.isExecuted()) {
+//                callList.cancel();
+//            }
+            callList = productService.searchProduct(searchValue);
+            callList.enqueue(new Callback<List<Product>>() {
                 @Override
                 public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                     if (response.isSuccessful()) {
-
                         list.clear();
                         list.addAll(response.body());
                         adapter.notifyDataSetChanged();
                     } else {
                         Log.e("ERROR", "ELSE SEARCH FRAGMENT: searchProcess search list product");
                     }
-                    hideLoading();
+//                    closeLoading();
                 }
 
                 @Override
                 public void onFailure(Call<List<Product>> call, Throwable t) {
-                    hideLoading();
+                    //   closeLoading();
                     Log.e("ERROR", "FAILURE SEARCH FRAGMENT: searchProcess search list product");
 
                 }
             });
 
-        }
-    }
-
-
-    public void showLoading() {
-        if (progressDialog == null) {
-            progressDialog = new ProgressDialog(getContext());
-            progressDialog.setMessage("Loading...");
-            progressDialog.setCanceledOnTouchOutside(false);
-            progressDialog.show();
-        }
-    }
-
-    public void hideLoading() {
-        if (progressDialog != null) {
-            progressDialog.dismiss();
         }
     }
 

@@ -1,9 +1,10 @@
 package com.project.barcodechecker.fragments;
 
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 
 /**
@@ -14,7 +15,8 @@ public class MessageDialogFragment  extends DialogFragment {
     public interface MessageDialogListener {
         public void onDialogPositiveClick(DialogFragment dialog);
     }
-    private String mTitle;
+
+
     private String mMessage;
     private MessageDialogListener mListener;
 
@@ -23,9 +25,8 @@ public class MessageDialogFragment  extends DialogFragment {
         setRetainInstance(true);
     }
 
-    public static MessageDialogFragment newInstance(String title, String message, MessageDialogListener listener) {
+    public static MessageDialogFragment newInstance(String message, MessageDialogListener listener) {
         MessageDialogFragment fragment = new MessageDialogFragment();
-        fragment.mTitle = title;
         fragment.mMessage = message;
         fragment.mListener = listener;
         return fragment;
@@ -34,8 +35,7 @@ public class MessageDialogFragment  extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(mMessage)
-                .setTitle(mTitle);
+        builder.setMessage(mMessage);
 
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -47,6 +47,4 @@ public class MessageDialogFragment  extends DialogFragment {
 
         return builder.create();
     }
-
-
 }

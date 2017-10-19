@@ -12,23 +12,20 @@ public class FragmentFactory {
     private static ScanFragment scanFragment = new ScanFragment();
     private static SearchFragment searchFragment = new SearchFragment();
     private static SettingFragment settingFragment = new SettingFragment();
-    private static ErrorFragment errorFragment = new ErrorFragment();
-
-    public static Fragment getFragment(Class c) {
-        if (c == HistoryFragment.class) {
-            return historyFragment;
-        } else if (c == CategoryFragment.class) {
-            return categoryFragment;
-        } else if (c == ScanFragment.class) {
-            return scanFragment;
-        } else if (c == SearchFragment.class) {
-            return searchFragment;
-        } else if (c == SettingFragment.class) {
-            return settingFragment;
-        } else if (c == ErrorFragment.class) {
-            return errorFragment;
-        } else {
-            return null;
-        }
-    }
+//
+//    public static Fragment getFragment(Class c) {
+//        if (c == HistoryFragment.class) {
+//         //   return historyFragment;
+//        } else if (c == CategoryFragment.class) {
+//           // return categoryFragment;
+//        } else if (c == ScanFragment.class) {
+//          //  return scanFragment;
+//        } else if (c == SearchFragment.class) {
+//         //   return searchFragment;
+//        } else if (c == SettingFragment.class) {
+//            return settingFragment;
+//        } else {
+//            return null;
+//        }
+//    }
 }
