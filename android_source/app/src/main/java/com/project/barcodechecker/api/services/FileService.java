@@ -1,9 +1,8 @@
 package com.project.barcodechecker.api.services;
 
-import com.project.barcodechecker.models.Img;
+import com.project.barcodechecker.models.ImgResponse;
 
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Multipart;
@@ -17,5 +16,6 @@ import retrofit2.http.Part;
 public interface FileService {
     @Multipart
     @POST("api/upload/image/user/")
-    Call<Img> upload(@Part MultipartBody.Part image);
+//    Call<ResponseBody> upload(@Part MultipartBody.Part image, @Part("FirstName") RequestBody username);
+    Call<ImgResponse> upload(@Part MultipartBody.Part image , @Part MultipartBody.Part username);
 }

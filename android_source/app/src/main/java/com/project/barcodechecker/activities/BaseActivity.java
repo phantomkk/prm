@@ -112,6 +112,6 @@ public abstract class BaseActivity extends Activity {
     }
 
     public void logError(String activity, String method, String message) {
-        Log.e("LOG_EROR", activity + "." + method + "(): " + message);
+        Log.e("LOG_ERROR", activity + "." + method + "(): " + message);
     }
 }
