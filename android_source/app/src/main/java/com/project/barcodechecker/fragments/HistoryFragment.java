@@ -1,29 +1,20 @@
 package com.project.barcodechecker.fragments;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AlertDialog;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.baoyz.swipemenulistview.SwipeMenu;
-import com.baoyz.swipemenulistview.SwipeMenuCreator;
-import com.baoyz.swipemenulistview.SwipeMenuItem;
-import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.project.barcodechecker.R;
 import com.project.barcodechecker.activities.DetailActivity;
 import com.project.barcodechecker.adapters.HistoryAdapter;
-import com.project.barcodechecker.api.APIServiceManager;
 import com.project.barcodechecker.api.services.ProductService;
 import com.project.barcodechecker.databaseHelper.ProductDatabaseHelper;
-import com.project.barcodechecker.models.History;
 import com.project.barcodechecker.models.Product;
 import com.project.barcodechecker.utils.AppConst;
 

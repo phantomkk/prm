@@ -3,5 +3,5 @@
     <item
         android:id="@+id/action_setting"
         android:icon="@drawable/ic_settings_black_24dp"
-        android:title="@string/item_setting"/>
+        android:title="@string/item_user"/>
 </menu>

@@ -122,9 +122,9 @@ public class SearchFragment extends LoadingFragment {
         String searchValue = edtSearch.getText().toString().trim();
         //showLoading();
         if (searchValue.matches("\\d+")) {
-//            if (call != null && call.isExecuted()) {
-//                call.cancel();
-//            }
+            if (call != null && call.isExecuted()) {
+                call.cancel();
+            }
             call = productService.getProductByCode(searchValue);
             call.enqueue(new Callback<Product>() {
                 @Override
@@ -146,9 +146,9 @@ public class SearchFragment extends LoadingFragment {
                 }
             });
         } else {
-//            if (callList != null && callList.isExecuted()) {
-//                callList.cancel();
-//            }
+            if (callList != null && callList.isExecuted()) {
+                callList.cancel();
+            }
             callList = productService.searchProduct(searchValue);
             callList.enqueue(new Callback<List<Product>>() {
                 @Override

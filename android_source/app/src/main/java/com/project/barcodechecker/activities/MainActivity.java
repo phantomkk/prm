@@ -1,15 +1,17 @@
 package com.project.barcodechecker.activities;
 
 import android.Manifest;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.ListFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -17,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -35,6 +38,7 @@ import com.project.barcodechecker.fragments.ScanBlankFragment;
 import com.project.barcodechecker.fragments.ScanFragment;
 import com.project.barcodechecker.fragments.SearchFragment;
 import com.project.barcodechecker.fragments.SettingFragment;
+import com.project.barcodechecker.fragments.UserFragment;
 import com.project.barcodechecker.models.Product;
 import com.project.barcodechecker.api.services.ProductService;
 import com.project.barcodechecker.utils.CoreManager;
@@ -51,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private FrameLayout mainFrame;
     private ActionBar actionbar;
     private Class<?> mClss;
+    private android.support.v4.app.Fragment selectedFragment;
     Toolbar toolbar;
     ViewPager viewPager;
     private ProgressDialog progressDialog;
@@ -65,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
     ImageButton mBack;
     TextView mTitle;
     CircleImageView mAvatar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
         setView();
-
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this,
@@ -94,20 +99,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void showLoading() {
-        if (progressDialog == null) {
-            progressDialog = new ProgressDialog(this);
-            progressDialog.setMessage("Loading...");
-            progressDialog.setCanceledOnTouchOutside(false);
-            progressDialog.show();
-        }
-    }
 
-    public void hideLoading() {
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-        }
-    }
 
     private void setView() {
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation_main_actv);
@@ -118,53 +110,46 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.action_history:
 //                        selectedFragment = FragmentFactory.getFragment(HistoryFragment.class);
-//                        getSupportActionBar().setTitle("History");
-//                        Log.v("LOG", "history");
                         mTitle.setText("History");
                         mAvatar.setVisibility(View.VISIBLE);
+                        toolbar.setVisibility(View.VISIBLE);
                         viewPager.setCurrentItem(0);
                         break;
                     case R.id.action_search:
-                        //selectedFragment = FragmentFactory.getFragment(SearchFragment.class);
-                        //setToolbarTitle("Search");
+                        selectedFragment = FragmentFactory.getFragment(SearchFragment.class);
                         mTitle.setText("Search");
                         mAvatar.setVisibility(View.VISIBLE);
+                        toolbar.setVisibility(View.VISIBLE);
                         viewPager.setCurrentItem(1);
                         break;
                     case R.id.action_scan:
-//                        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA)
-//                                != PackageManager.PERMISSION_GRANTED) {
-//                            ActivityCompat.requestPermissions(MainActivity.this,
-//                                    new String[]{Manifest.permission.CAMERA}, ZXING_CAMERA_PERMISSION);
-//                        } else {
-//                            // setToolbarTitle("Scan");
-//                            viewPagerAdapter.replaceFragment(2,scanFragment);
-//                            viewPagerAdapter.notifyDataSetChanged();
-//                        }
                         mTitle.setText("Scan Camera");
                         viewPager.setCurrentItem(2);
+                        toolbar.setVisibility(View.VISIBLE);
                         mAvatar.setVisibility(View.GONE);
+//                        selectedFragment = FragmentFactory.getFragment(ScanFragment.class);
+
                         break;
                     case R.id.action_list:
-                        // selectedFragment = FragmentFactory.getFragment(CategoryFragment.class);
-                        // setToolbarTitle("List category");
+//                         selectedFragment = FragmentFactory.getFragment(CategoryFragment.class);
                         mTitle.setText("List category");
                         mAvatar.setVisibility(View.VISIBLE);
+                        toolbar.setVisibility(View.VISIBLE);
                         viewPager.setCurrentItem(3);
                         break;
                     case R.id.action_setting:
 //                        selectedFragment = FragmentFactory.getFragment(SettingFragment.class);
-                        //setToolbarTitle("Setting");
-                        mTitle.setText("Setting");
+                        mTitle.setText("Accout");
                         viewPager.setCurrentItem(4);
+                        toolbar.setVisibility(View.GONE);
                         mAvatar.setVisibility(View.VISIBLE);
                         break;
 
                 }
-                // FragmentManager fm = getFragmentManager();
-                //FragmentTransaction transaction = fm.beginTransaction();
-                //transaction.replace(R.id.main_frame_main_actv, selectedFragment);
-                //transaction.commit();
+//                FragmentManager fm = getSupportFragmentManager();
+//                FragmentTransaction transaction = fm.beginTransaction();
+//                transaction.replace(R.id.main_frame_main_actv, selectedFragment);
+//                transaction.commit();
                 return false;
             }
         });
@@ -180,17 +165,21 @@ public class MainActivity extends AppCompatActivity {
                     case 1:
                         mTitle.setText("Search");
                         mAvatar.setVisibility(View.VISIBLE);
+                        toolbar.setVisibility(View.VISIBLE);
                         break;
                     case 2:
                         mTitle.setText("Scan Camera");
                         mAvatar.setVisibility(View.GONE);
+                        toolbar.setVisibility(View.VISIBLE);
                         break;
                     case 3:
                         mTitle.setText("List category");
+                        toolbar.setVisibility(View.VISIBLE);
                         mAvatar.setVisibility(View.VISIBLE);
                         break;
                     case 4:
-                        mTitle.setText("Setting");
+                        mTitle.setText("Accout");
+                        toolbar.setVisibility(View.GONE);
                         mAvatar.setVisibility(View.VISIBLE);
                         break;
                 }
@@ -221,14 +210,13 @@ public class MainActivity extends AppCompatActivity {
         historyFragment = HistoryFragment.newInstance();
         searchFragment = new SearchFragment();
         scanFragment = new ScanFragment();
-       // scanBlankFragment = new ScanBlankFragment();
         categoryFragment = new CategoryFragment();
         settingFragment = new SettingFragment();
         viewPagerAdapter.addFragment(historyFragment);
         viewPagerAdapter.addFragment(searchFragment);
         viewPagerAdapter.addFragment(scanFragment);
         viewPagerAdapter.addFragment(categoryFragment);
-        viewPagerAdapter.addFragment(settingFragment);
+        viewPagerAdapter.addFragment(new UserFragment());
         viewPager.setAdapter(viewPagerAdapter);
     }
 
