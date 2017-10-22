@@ -2,6 +2,9 @@ package com.project.barcodechecker.activities;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,6 +18,7 @@ import android.support.v4.app.ListFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -30,6 +34,7 @@ import android.widget.Toast;
 import com.project.barcodechecker.R;
 import com.project.barcodechecker.adapters.ViewPagerAdapter;
 import com.project.barcodechecker.api.APIServiceManager;
+import com.project.barcodechecker.api.services.CommentService;
 import com.project.barcodechecker.fragments.BaseScannerActivity;
 import com.project.barcodechecker.fragments.FragmentFactory;
 import com.project.barcodechecker.fragments.HistoryFragment;
@@ -39,9 +44,17 @@ import com.project.barcodechecker.fragments.ScanFragment;
 import com.project.barcodechecker.fragments.SearchFragment;
 import com.project.barcodechecker.fragments.SettingFragment;
 import com.project.barcodechecker.fragments.UserFragment;
+import com.project.barcodechecker.models.Comment;
 import com.project.barcodechecker.models.Product;
 import com.project.barcodechecker.api.services.ProductService;
+import com.project.barcodechecker.models.User;
+import com.project.barcodechecker.utils.AppConst;
 import com.project.barcodechecker.utils.CoreManager;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -70,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
     ImageButton mBack;
     TextView mTitle;
     CircleImageView mAvatar;
-
+    User u;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,21 +100,19 @@ public class MainActivity extends AppCompatActivity {
         mAvatar.setVisibility(View.GONE);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
-        setView();
+        setView(this);
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this,
                     new String[]{Manifest.permission.CAMERA}, ZXING_CAMERA_PERMISSION);
         }
         viewPager.setCurrentItem(2);
-        CoreManager.getUser(this);
+        u=CoreManager.getUser(this);
 
     }
 
 
-
-
-    private void setView() {
+    private void setView(final Context context) {
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation_main_actv);
         bottomNavigationView.setSelectedItemId(R.id.action_scan);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -139,10 +150,25 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.action_setting:
 //                        selectedFragment = FragmentFactory.getFragment(SettingFragment.class);
-                        mTitle.setText("Accout");
-                        viewPager.setCurrentItem(4);
-                        toolbar.setVisibility(View.GONE);
-                        mAvatar.setVisibility(View.VISIBLE);
+                        User u = CoreManager.getUser(context);
+                        u=new User();
+                        if (u==null) {
+                            AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+                            dialog.setMessage("Bạn cần phải đăng nhập để xem chỉnh sửa")
+                                    .setPositiveButton("Đăng nhập", positiveListener)
+                                    .setNegativeButton("Thôi kệ lười đăng nhập lắm", null)
+                                    .show();
+                        }else {
+                            if(!isLoginFirst) {
+                                mTitle.setText("Accout");
+                                viewPagerAdapter.addFragment(new UserFragment());
+                                viewPagerAdapter.notifyDataSetChanged();
+                                viewPager.setCurrentItem(4);
+                                toolbar.setVisibility(View.GONE);
+                                mAvatar.setVisibility(View.VISIBLE);
+                            }
+                        }
+
                         break;
 
                 }
@@ -153,6 +179,7 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -203,7 +230,30 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    private static final int USE_VIEW_REQUEST = 100;
+    final DialogInterface.OnClickListener positiveListener = new DialogInterface.OnClickListener() {
 
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            startActivityForResult(new Intent(MainActivity.this, TestActivity.class),USE_VIEW_REQUEST);
+        }
+    };
+    private boolean isLoginFirst = false;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK){
+            if(requestCode == USE_VIEW_REQUEST){
+                isLoginFirst = true;
+                mTitle.setText("Accout");
+                viewPagerAdapter.addFragment(new UserFragment());
+                viewPagerAdapter.notifyDataSetChanged();
+                viewPager.setCurrentItem(4);
+                toolbar.setVisibility(View.GONE);
+                mAvatar.setVisibility(View.VISIBLE);
+            }
+        }
+    }
 
     private void setupViewPager(ViewPager viewPager) {
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -216,7 +266,7 @@ public class MainActivity extends AppCompatActivity {
         viewPagerAdapter.addFragment(searchFragment);
         viewPagerAdapter.addFragment(scanFragment);
         viewPagerAdapter.addFragment(categoryFragment);
-        viewPagerAdapter.addFragment(new UserFragment());
+//        viewPagerAdapter.addFragment(new UserFragment());
         viewPager.setAdapter(viewPagerAdapter);
     }
 

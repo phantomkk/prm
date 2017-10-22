@@ -82,6 +82,7 @@ public class LoginActivity extends BaseActivity {
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
                     CoreManager.setUser(LoginActivity.this, response.body());
+                    setResult(RESULT_OK);
                     finish();
                 } else {
                     logError(LoginActivity.class.getSimpleName(), "loginProcess","API ELSE");

@@ -30,7 +30,7 @@ public class UserFragment extends Fragment {
     }
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    MenuItem prevMenuItem;
+    private ViewPagerAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,7 +50,6 @@ public class UserFragment extends Fragment {
     public static UserFragment getInstance() {
         return instance;
     }
-    ViewPagerAdapter adapter;
     private void setupViewPager(ViewPager viewPager) {
         adapter = new ViewPagerAdapter(getChildFragmentManager());
         adapter.addFragment(new AccoutFragment());

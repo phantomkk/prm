@@ -36,17 +36,18 @@ public class TestActivity extends Activity {
         ((Button) findViewById(R.id.btn_choose_img)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("image/jpeg");
-
-                try {
-                    startActivityForResult(intent, INTENT_REQUEST_CODE);
-
-                } catch (ActivityNotFoundException e) {
-
-                    e.printStackTrace();
-                }
-
+//                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//                intent.setType("image/jpeg");
+//
+//                try {
+//                    startActivityForResult(intent, INTENT_REQUEST_CODE);
+//
+//                } catch (ActivityNotFoundException e) {
+//
+//                    e.printStackTrace();
+//                }
+                setResult(RESULT_OK);
+                finish();
             }
         });
     }

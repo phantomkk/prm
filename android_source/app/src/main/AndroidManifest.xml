@@ -22,6 +22,8 @@
         </activity>
         <activity android:name=".activities.LoginActivity" />
         <activity android:name=".activities.RegisterActivity" />
+        <activity android:name=".activities.TestActivity" />
+
         <activity
             android:name=".activities.DetailActivity"
             android:windowSoftInputMode="stateHidden" />
