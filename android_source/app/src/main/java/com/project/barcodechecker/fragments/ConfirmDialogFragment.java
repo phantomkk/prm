@@ -51,6 +51,5 @@ public class ConfirmDialogFragment extends DialogFragment{
                 });
         // Create the AlertDialog object and return it
         return builder.create();
-
     }
 }

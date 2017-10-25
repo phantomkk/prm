@@ -3,6 +3,7 @@ package com.project.barcodechecker.activities;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +14,8 @@ import com.project.barcodechecker.R;
 import com.project.barcodechecker.api.APIServiceManager;
 import com.project.barcodechecker.api.services.FileService;
 import com.project.barcodechecker.models.ImgResponse;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -46,8 +49,12 @@ public class TestActivity extends Activity {
 //
 //                    e.printStackTrace();
 //                }
-                setResult(RESULT_OK);
-                finish();
+////                setResult(RESULT_OK);
+////                finish();
+
+                CropImage.activity()
+                        .setGuidelines(CropImageView.Guidelines.ON).setAspectRatio(1,1)
+                        .start(TestActivity.this);
             }
         });
     }
@@ -57,19 +64,28 @@ public class TestActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == INTENT_REQUEST_CODE) {
+//        if (requestCode == INTENT_REQUEST_CODE) {
+//
+//            if (resultCode == RESULT_OK) {
+//
+//                try {
+//
+//                    InputStream is = getContentResolver().openInputStream(data.getData());
+//
+//                    uploadImage(getBytes(is));
+//
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
 
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
-
-                try {
-
-                    InputStream is = getContentResolver().openInputStream(data.getData());
-
-                    uploadImage(getBytes(is));
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                Uri resultUri = result.getUri();
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
             }
         }
     }

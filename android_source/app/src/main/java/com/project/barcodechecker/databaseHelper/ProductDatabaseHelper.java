@@ -36,6 +36,7 @@ public class ProductDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_PRODUCT_ID = "id";
     private static final String COLUMN_PRODUCT_CATEGORY_ID = "category_id";
     private static final String COLUMN_PRODUCT_NAME = "name";
+    private static final String COLUMN_PRODUCT_PRICE = "price";
     private static final String COLUMN_PRODUCT_COUNTRY = "country";
     private static final String COLUMN_PRODUCT_ADDRESS = "address";
     private static final String COLUMN_PRODUCT_PHONE = "phone";
@@ -50,6 +51,7 @@ public class ProductDatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_PRODUCT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT ,"
                 + COLUMN_PRODUCT_CATEGORY_ID + " INTEGER,"
                 + COLUMN_PRODUCT_NAME + " TEXT,"
+                + COLUMN_PRODUCT_PRICE + " DOUBLE,"
                 + COLUMN_PRODUCT_COUNTRY + " TEXT,"
                 + COLUMN_PRODUCT_ADDRESS + " TEXT,"
                 + COLUMN_PRODUCT_PHONE + " TEXT,"
@@ -92,12 +94,13 @@ public class ProductDatabaseHelper extends SQLiteOpenHelper {
                 product.setId(cursor.getInt(0));
                 product.setCategoryID(cursor.getInt(1));
                 product.setName(cursor.getString(2));
-                product.setCountry(cursor.getString(3));
-                product.setAddress(cursor.getString(4));
-                product.setPhone(cursor.getString(5));
-                product.setEmail(cursor.getString(6));
-                product.setCode(cursor.getString(7));
-                product.setDescription(cursor.getString(8));
+                product.setPrice(cursor.getDouble(3));
+                product.setCountry(cursor.getString(4));
+                product.setAddress(cursor.getString(5));
+                product.setPhone(cursor.getString(6));
+                product.setEmail(cursor.getString(7));
+                product.setCode(cursor.getString(8));
+                product.setDescription(cursor.getString(9));
                 // Thêm vào danh sách.
                 products.add(product);
             } while (cursor.moveToNext());
@@ -113,6 +116,7 @@ public class ProductDatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(COLUMN_PRODUCT_CATEGORY_ID , product.getCategoryID());
         values.put(COLUMN_PRODUCT_NAME, product.getName());
+        values.put(COLUMN_PRODUCT_PRICE, product.getPrice());
         values.put(COLUMN_PRODUCT_COUNTRY, product.getCountry());
         values.put(COLUMN_PRODUCT_ADDRESS, product.getAddress());
         values.put(COLUMN_PRODUCT_PHONE, product.getPhone());

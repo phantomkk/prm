@@ -1,6 +1,7 @@
 package com.project.barcodechecker.activities;
 
 import android.content.Intent;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -24,7 +25,7 @@ public class LoginActivity extends BaseActivity {
     private Button btnLogin;
     private TextView txtRegister, txtErrUsr, txtErrPwd;
     private EditText edtUsername, edtPassword;
-
+    private TextInputLayout usernameWrapper, passwordWrapper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +48,11 @@ public class LoginActivity extends BaseActivity {
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
             }
         });
+        usernameWrapper = (TextInputLayout) findViewById(R.id.userWrapper);
+        passwordWrapper = (TextInputLayout) findViewById(R.id.passwordWrapper);
+        usernameWrapper.setHint("Tài khoản");
+        passwordWrapper.setHint("Mật Khẩu");
+
     }
 
     public void loginProcess() {

@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.icu.util.Calendar;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -72,6 +73,7 @@ public class ScanFragment extends LoadingFragment implements MessageDialogFragme
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
         View v = inflater.inflate(R.layout.fragment_scan, container, false);
+
         mBtnFlash =(ImageButton) v.findViewById(R.id.btn_torch);
         mScannerView =(ZXingScannerView) v.findViewById(R.id.scanner_view);
         if(state != null) {

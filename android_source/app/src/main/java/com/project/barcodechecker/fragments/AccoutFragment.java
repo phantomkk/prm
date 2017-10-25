@@ -1,16 +1,30 @@
 package com.project.barcodechecker.fragments;
 
+import android.Manifest;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.project.barcodechecker.R;
 import com.project.barcodechecker.activities.MainActivity;
@@ -18,10 +32,18 @@ import com.project.barcodechecker.activities.TestActivity;
 import com.project.barcodechecker.api.APIServiceManager;
 import com.project.barcodechecker.api.services.FileService;
 import com.project.barcodechecker.models.ImgResponse;
+import com.project.barcodechecker.models.User;
+import com.project.barcodechecker.utils.CoreManager;
+import com.squareup.picasso.Picasso;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -38,8 +60,13 @@ public class AccoutFragment extends Fragment implements View.OnClickListener {
         // Required empty public constructor
     }
 
-    ImageButton btnChangeAvarta;
-
+    private ImageButton btnChangeAvarta,btnChangePassWord;
+    private TextView tvName,tvEmail, tvPhone;
+    private EditText edtName, edtAddress, edtEmail, edtPhone, edtIntroduct, edtWeb;
+    private TextView tvNameError, tvAddressError, tvEmailError, tvPhoneError;
+    private Button btnConfirm;
+    private ImageView imvAvatar;
+    public static final int REQUEST_PERMISSION = 102;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,72 +77,117 @@ public class AccoutFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_accout, container, false);
+        User u = CoreManager.getUser(getContext());
+        imvAvatar = (ImageView) view.findViewById(R.id.img_avatar_user);
+//        if(u!=null){
+        imvAvatar.setBackground(null);
+            Picasso.with(getContext()).load("https://lh3.googleusercontent.com/dB3Dvgf3VIglusoGJAfpNUAANhTXW8K9mvIsiIPkhJUAbAKGKJcEMPTf0mkSexzLM5o=w300").error(R.drawable.avatar).into(imvAvatar);
+//        }
         btnChangeAvarta = (ImageButton) view.findViewById(R.id.btn_change_avatar);
         btnChangeAvarta.setOnClickListener(this);
+        btnChangePassWord = (ImageButton) view.findViewById(R.id.btn_edit_password);
+        btnChangePassWord.setOnClickListener(this);
+        tvName = (TextView) view.findViewById(R.id.txt_name);
+        tvEmail = (TextView) view.findViewById(R.id.txt_email);
+        tvPhone = (TextView) view.findViewById(R.id.txt_phone);
+        edtName = (EditText) view.findViewById(R.id.edt_name);
+        edtAddress = (EditText) view.findViewById(R.id.edt_address);
+        edtEmail = (EditText) view.findViewById(R.id.edt_email);
+        edtPhone = (EditText) view.findViewById(R.id.edt_phone);
+        edtIntroduct = (EditText) view.findViewById(R.id.edt_introduct);
+        edtWeb = (EditText) view.findViewById(R.id.edt_website);
+        setUserInfor(u);
+        tvNameError =(TextView) view.findViewById(R.id.txt_name_error);
+        tvAddressError =(TextView) view.findViewById(R.id.txt_address_error);
+        tvEmailError =(TextView) view.findViewById(R.id.txt_email_error);
+        tvPhoneError =(TextView) view.findViewById(R.id.txt_phone_error);
+        btnConfirm = (Button) view.findViewById(R.id.btn_confirm);
+        btnConfirm.setOnClickListener(this);
+
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_PERMISSION);
+        }
         return view;
     }
+
+    public void setUserInfor(User user){
+        if(user!=null){
+            tvName.setText(user.getName());
+            tvEmail.setText(user.getEmail());
+            tvPhone.setText(user.getPhone());
+            edtName.setText(user.getName());
+            edtAddress.setText(user.getAddress());
+            edtEmail.setText(user.getEmail());
+            edtPhone.setText(user.getPhone());
+            edtIntroduct.setText(user.getIntroduce());
+            edtWeb.setText(user.getWebsite());
+        }
+    }
+
+
+    public boolean isValid(){
+        boolean flag = true;
+        if(edtName.getText().toString().trim().isEmpty()){
+            flag=false;
+            tvNameError.setVisibility(View.VISIBLE);
+        }else{
+            flag = true;
+            tvNameError.setVisibility(View.GONE);
+        }
+
+        if(edtAddress.getText().toString().trim().isEmpty()){
+            flag=false;
+            tvAddressError.setVisibility(View.VISIBLE);
+        }else{
+            flag = true;
+            tvAddressError.setVisibility(View.GONE);
+        }
+
+
+
+        return flag;
+    }
+
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_change_avatar:
-                showDiaglogEditAvatar();
+                CropImage.activity()
+                        .setGuidelines(CropImageView.Guidelines.ON).setAspectRatio(1,1)
+                        .start(getContext(), this);
+                break;
+            case R.id.btn_edit_password:
+                break;
+            case R.id.btn_confirm:
                 break;
         }
     }
-
-    public void showDiaglogEditAvatar() {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
-        dialog.setMessage("Bạn muốn cập nhật ảnh đại diện bằng?")
-                .setPositiveButton("Camera", positiveListener)
-                .setNegativeButton("Album Ảnh", negativeListener)
-                .show();
-    }
-
-    public static final int EDIT_AVATAR_BY_CAMERA = 102;
-    public static final int EDIT_AVATAR_BY_ALBUM = 103;
-    public static final int INTENT_REQUEST_CODE = 101;
-    final DialogInterface.OnClickListener positiveListener = new DialogInterface.OnClickListener() {
-
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-            startActivityForResult(new Intent(getActivity(), TestActivity.class), EDIT_AVATAR_BY_CAMERA);
-        }
-    };
-
-    final DialogInterface.OnClickListener negativeListener = new DialogInterface.OnClickListener() {
-
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.setType("image/jpeg");
-
-            try {
-                startActivityForResult(intent, EDIT_AVATAR_BY_ALBUM);
-
-            } catch (ActivityNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-    };
 
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == getActivity().RESULT_OK) {
-            if (requestCode == INTENT_REQUEST_CODE) {
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == getActivity().RESULT_OK) {
+                Uri resultUri = result.getUri();
                 try {
-
-                    InputStream is = getActivity().getContentResolver().openInputStream(data.getData());
+                    InputStream is = getActivity().getContentResolver().openInputStream(resultUri);
                     uploadImage(getBytes(is));
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                imvAvatar.setImageURI(resultUri);
+
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+                Toast.makeText(getActivity(), error.getMessage(),
+                        Toast.LENGTH_LONG).show();
             }
         }
-
     }
 
 

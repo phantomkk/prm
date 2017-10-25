@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -33,6 +34,8 @@ import android.widget.Toast;
 
 import com.project.barcodechecker.R;
 import com.project.barcodechecker.adapters.ViewPagerAdapter;
+import com.project.barcodechecker.animation.DepthPageTransformer;
+import com.project.barcodechecker.animation.ZoomOutPageTransformer;
 import com.project.barcodechecker.api.APIServiceManager;
 import com.project.barcodechecker.api.services.CommentService;
 import com.project.barcodechecker.fragments.BaseScannerActivity;
@@ -50,6 +53,7 @@ import com.project.barcodechecker.api.services.ProductService;
 import com.project.barcodechecker.models.User;
 import com.project.barcodechecker.utils.AppConst;
 import com.project.barcodechecker.utils.CoreManager;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -95,10 +99,12 @@ public class MainActivity extends AppCompatActivity {
         mBack = (ImageButton) findViewById(R.id.btn_back_toolbar);
         mBack.setVisibility(View.GONE);
         mTitle = (TextView) findViewById(R.id.txt_toolbar_title);
-        mTitle.setText("Scan Camera");
+        mTitle.setText("");
         mAvatar = (CircleImageView) findViewById(R.id.profile_image);
         mAvatar.setVisibility(View.GONE);
+        Picasso.with(this).load("https://www.smashingmagazine.com/wp-content/uploads/2015/06/10-dithering-opt.jpg").error(R.drawable.button_back).into(mAvatar);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
         setupViewPager(viewPager);
         setView(this);
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA)
@@ -134,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
                         viewPager.setCurrentItem(1);
                         break;
                     case R.id.action_scan:
-                        mTitle.setText("Scan Camera");
+                        mTitle.setText("");
                         viewPager.setCurrentItem(2);
                         toolbar.setVisibility(View.VISIBLE);
                         mAvatar.setVisibility(View.GONE);
@@ -195,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
                         toolbar.setVisibility(View.VISIBLE);
                         break;
                     case 2:
-                        mTitle.setText("Scan Camera");
+                        mTitle.setText("");
                         mAvatar.setVisibility(View.GONE);
                         toolbar.setVisibility(View.VISIBLE);
                         break;

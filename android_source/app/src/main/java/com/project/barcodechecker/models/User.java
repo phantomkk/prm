@@ -30,6 +30,61 @@ public class User implements Serializable {
     @SerializedName("Password")
     private String password;
 
+    @SerializedName("Phone")
+    private String phone;
+
+    @SerializedName("Introduce")
+    private String introduce;
+
+    @SerializedName("Token")
+    private String token;
+
+    @SerializedName("Role")
+    private String role;
+    @SerializedName("Website")
+    private String website;
+
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getIntroduce() {
+        return introduce;
+    }
+
+    public void setIntroduce(String introduce) {
+        this.introduce = introduce;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
+    }
+
     public int getId() {
         return id;
     }

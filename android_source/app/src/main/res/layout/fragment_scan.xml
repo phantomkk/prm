@@ -18,9 +18,10 @@
             android:id="@+id/btn_torch"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_marginTop="70dp"
+            android:layout_marginLeft="10dp"
             android:layout_gravity="top|start"
-            android:background="@drawable/ic_flash_off"
-            android:layout_margin="20dp" />
+            android:background="@drawable/ic_flash_off" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -33,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_weight="8"
+                android:layout_weight="7.5"
                 android:gravity="bottom"
                 android:text="Place barcode in rectangle to scan it"
                 android:textColor="@color/color_white"
