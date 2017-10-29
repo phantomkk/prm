@@ -14,14 +14,41 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <ImageButton
-            android:id="@+id/btn_torch"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="70dp"
-            android:layout_marginLeft="10dp"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="top|start"
-            android:background="@drawable/ic_flash_off" />
+            android:layout_marginTop="70dp"
+            android:gravity="center">
+
+            <ImageButton
+                android:id="@+id/btn_torch"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="35dp"
+                android:background="@drawable/ic_flash_off" />
+
+            <ImageButton
+                android:id="@+id/btn_camera"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="35dp"
+
+                android:background="@drawable/ic_camera_back" />
+
+            <ImageButton
+                android:id="@+id/btn_focus"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="35dp"
+                android:background="@drawable/ic_focus_on" />
+
+            <ImageButton
+                android:id="@+id/btn_format"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_format" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

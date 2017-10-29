@@ -38,6 +38,7 @@ import com.project.barcodechecker.animation.DepthPageTransformer;
 import com.project.barcodechecker.animation.ZoomOutPageTransformer;
 import com.project.barcodechecker.api.APIServiceManager;
 import com.project.barcodechecker.api.services.CommentService;
+import com.project.barcodechecker.fragments.AccoutFragment;
 import com.project.barcodechecker.fragments.BaseScannerActivity;
 import com.project.barcodechecker.fragments.FragmentFactory;
 import com.project.barcodechecker.fragments.HistoryFragment;
@@ -66,7 +67,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AccoutFragment.OnLoginListener{
     private ProductService pService;
     private BottomNavigationView bottomNavigationView;
     private FrameLayout mainFrame;
@@ -102,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
         mTitle.setText("");
         mAvatar = (CircleImageView) findViewById(R.id.profile_image);
         mAvatar.setVisibility(View.GONE);
-        Picasso.with(this).load("https://www.smashingmagazine.com/wp-content/uploads/2015/06/10-dithering-opt.jpg").error(R.drawable.button_back).into(mAvatar);
+
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
         setupViewPager(viewPager);
@@ -114,6 +115,11 @@ public class MainActivity extends AppCompatActivity {
         }
         viewPager.setCurrentItem(2);
         u=CoreManager.getUser(this);
+        if(u!=null) {
+            Picasso.with(this).load("https://www.smashingmagazine.com/wp-content/uploads/2015/06/10-dithering-opt.jpg").error(R.drawable.button_back).into(mAvatar);
+        }else{
+            mAvatar.setImageResource(R.drawable.avatar);
+        }
 
     }
 
@@ -287,5 +293,10 @@ public class MainActivity extends AppCompatActivity {
                 }
                 return;
         }
+    }
+
+    @Override
+    public void destoyFragmentUser() {
+        viewPager.setCurrentItem(2);
     }
 }

@@ -1,6 +1,7 @@
 package com.project.barcodechecker.fragments;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -43,6 +44,22 @@ public class UserFragment extends Fragment {
         tabLayout= (TabLayout) view.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
        // tabLayout.getTabAt(0).select();
         return view;
     }
@@ -71,9 +88,11 @@ public class UserFragment extends Fragment {
         tabLayout.getTabAt(1).setCustomView(tabTwo);
 
         TextView tabThree = (TextView) LayoutInflater.from(getActivity()).inflate(R.layout.custom_tab, null);
-        tabThree.setText("Notification");
-        tabThree.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_notifi_white, 0, 0);
+        tabThree.setText("Message");
+        tabThree.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_action_message, 0, 0);
         tabLayout.getTabAt(2).setCustomView(tabThree);
     }
+
+
 
 }

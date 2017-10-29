@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ListView;
 
 import com.project.barcodechecker.R;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryFragment extends LoadingFragment {
-    private ListView lvCategory;
+    private GridView lvCategory;
     private List<MenuItem> list;
     private static CategoryFragment instance;
 
@@ -36,16 +37,17 @@ public class CategoryFragment extends LoadingFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_list, container, false);
-        lvCategory = (ListView) v.findViewById(R.id.lv_menu_category);
+        lvCategory = (GridView) v.findViewById(R.id.lv_menu_category);
 
         list = new ArrayList<>();
-        list.add(new MenuItem(R.drawable.ic_phone_iphone_black_24dp, "Điện thoại"));
-        list.add(new MenuItem(R.drawable.ic_print_black_24dp, "Đồ điện tử"));
-        list.add(new MenuItem(R.drawable.ic_local_bar_black_24dp, "Nước giải khát"));
-        list.add(new MenuItem(R.drawable.ic_home_black_24dp, "Đồ gia dụng"));
-        list.add(new MenuItem(R.drawable.ic_event_note_black_24dp, "Dụng cụ học tập"));
-        list.add(new MenuItem(R.drawable.ic_motorcycle_black_24dp, "Thể thao"));
-        list.add(new MenuItem(R.drawable.ic_shopping_cart_black_24dp, "Trang sức"));
+        list.add(new MenuItem(R.drawable.phone, "Điện thoại"));
+        list.add(new MenuItem(R.drawable.tivi, "Đồ điện tử"));
+        list.add(new MenuItem(R.drawable.drink, "Nước giải khát"));
+        list.add(new MenuItem(R.drawable.house, "Đồ gia dụng"));
+        list.add(new MenuItem(R.drawable.pencil, "Dụng cụ học tập"));
+        list.add(new MenuItem(R.drawable.bike, "Thể thao"));
+        list.add(new MenuItem(R.drawable.jewelry, "Trang sức"));
+        list.add(new MenuItem(R.drawable.other, "Khác"));
         CategoryAdapter adapter = new CategoryAdapter(getContext(), R.layout.item_category, list, new CategoryAdapter.OnCategoryClickListener() {
             @Override
             public void onCategoryClick(View v, int position) {
@@ -55,7 +57,7 @@ public class CategoryFragment extends LoadingFragment {
             }
         });
         lvCategory.setAdapter(adapter);
-        lvCategory.setDivider(null);
+//        lvCategory.setDivider(null);
         return v;
     }
 

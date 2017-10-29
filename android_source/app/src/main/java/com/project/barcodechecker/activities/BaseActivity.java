@@ -70,6 +70,15 @@ public abstract class BaseActivity extends Activity {
                 }
         );
     }
+    public void hideAvatar(boolean hide){
+        if(imgAvatar != null){
+            if(hide){
+                imgAvatar.setVisibility(View.INVISIBLE);
+            }else{
+                imgAvatar.setVisibility(View.VISIBLE);
+            }
+        }
+    }
 
     public void hideButtonBack(boolean hide) {
         if (btnBack != null) {

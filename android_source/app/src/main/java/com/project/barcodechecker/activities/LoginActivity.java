@@ -30,16 +30,17 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setToolbarTitle(getString(R.string.button_login));
+        hideAvatar(true);
         btnLogin = (Button) findViewById(R.id.btn_login_lgn_atv);
         txtRegister = (TextView) findViewById(R.id.txt_register_atv);
-        txtErrPwd = (TextView) findViewById(R.id.txt_error_password);
-        txtErrUsr = (TextView) findViewById(R.id.txt_error_username);
         edtUsername = (EditText) findViewById(R.id.edt_username_login_atv);
         edtPassword = (EditText) findViewById(R.id.edt_password_login_atv);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loginProcess();
+                if(isValid()){
+                    loginProcess();
+                }
             }
         });
         txtRegister.setOnClickListener(new View.OnClickListener() {
@@ -58,25 +59,25 @@ public class LoginActivity extends BaseActivity {
     public void loginProcess() {
         String username = edtUsername.getText().toString().trim();
         String password = edtPassword.getText().toString().trim();
-        String userError = checkValid(username, "Username");
-        String passwordError = checkValid(password, "Password");
-        if (userError.length() != 0) {
-            txtErrUsr.setText(userError);
-            txtErrUsr.setVisibility(View.VISIBLE);
-            return;
-        } else {
-
-            txtErrUsr.setVisibility(View.INVISIBLE);
-        }
-
-        if (passwordError.length() != 0) {
-            txtErrPwd.setVisibility(View.VISIBLE);
-            txtErrPwd.setText(passwordError);
-            return;
-        } else {
-            txtErrPwd.setVisibility(View.INVISIBLE);
-
-        }
+//        String userError = checkValid(username, "Username");
+//        String passwordError = checkValid(password, "Password");
+//        if (userError.length() != 0) {
+//            txtErrUsr.setText(userError);
+//            txtErrUsr.setVisibility(View.VISIBLE);
+//            return;
+//        } else {
+//
+//            txtErrUsr.setVisibility(View.INVISIBLE);
+//        }
+//
+//        if (passwordError.length() != 0) {
+//            txtErrPwd.setVisibility(View.VISIBLE);
+//            txtErrPwd.setText(passwordError);
+//            return;
+//        } else {
+//            txtErrPwd.setVisibility(View.INVISIBLE);
+//
+//        }
         User user = new User();
         user.setUsername(username);
         user.setPassword(password);
@@ -103,6 +104,32 @@ public class LoginActivity extends BaseActivity {
             }
         });
 
+    }
+
+    public boolean isValid(){
+        boolean flag = true;
+        String username = edtUsername.getText().toString().trim();
+        String password = edtPassword.getText().toString().trim();
+        if(username.length()<8 || username.length()>25 ){
+            flag=false;
+            edtUsername.setText("");
+            usernameWrapper.setError("Độ dài tài khoản không hợp lệ.");
+        } else{
+            flag=true;
+            usernameWrapper.setError("");
+            usernameWrapper.setErrorEnabled(false);
+        }
+
+        if(password.length()<8 || password.length()>25 ){
+            flag=false;
+            edtPassword.setText("");
+            passwordWrapper.setError("Độ dài mật khẩu không hợp lệ.");
+        }else{
+            flag=true;
+            usernameWrapper.setError("");
+            passwordWrapper.setErrorEnabled(false);
+        }
+        return flag;
     }
 
     public String checkValid(String value, String type) {

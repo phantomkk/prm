@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/color_grey_100"
     tools:context="com.project.barcodechecker.activities.LoginActivity">
 
     <RelativeLayout
@@ -17,9 +18,32 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/camera"
+                android:backgroundTint="@color/colorPrimary" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="BarCode Checker"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="30dp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -28,77 +52,94 @@
             android:layout_centerHorizontal="true"
             android:layout_centerInParent="true"
             android:layout_marginBottom="15dp"
+            android:layout_marginTop="50dp"
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:paddingLeft="35dp"
             android:paddingRight="35dp">
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/userWrapper"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp">
+                android:gravity="center">
 
-                <EditText
-                    android:id="@+id/edt_username_login_atv"
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/userWrapper"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:hint="@string/hint_username"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:padding="10dp"
-                    android:textColorHint="@color/color_grey_400" />
-            </android.support.design.widget.TextInputLayout>
+                    android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/txt_error_username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:text="Username password not valid"
-                android:textColor="@color/color_white"
-                android:visibility="invisible"
+                    <EditText
+                        android:id="@+id/edt_username_login_atv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:drawableLeft="@drawable/ic_user"
+                        android:hint="@string/hint_username"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textColorHint="@color/color_grey_400"
+                        android:textSize="25dp" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
 
-                />
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/passwordWrapper"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp">
+                android:gravity="center">
 
-                <EditText
-                    android:id="@+id/edt_password_login_atv"
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/passwordWrapper"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/edt_password_login_atv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_password"
+                        android:hint="@string/hint_password"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:textColorHint="@color/color_grey_400"
+                        android:textSize="25dp" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nhớ tài khoản"
+                    android:textColor="@color/color_grey_600"
+                    android:textSize="20dp" />
+
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint_password"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:padding="10dp"
-                    android:textColorHint="@color/color_grey_400"
-                    />
-            </android.support.design.widget.TextInputLayout>
-
-            <TextView
-                android:id="@+id/txt_error_password"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginBottom="20dp"
-                android:text="Username password not valid"
-                android:textColor="@color/color_white"
-                android:visibility="invisible"
-
-                />
+                    android:text="Quên mật khẩu"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
             <Button
                 android:id="@+id/btn_login_lgn_atv"
                 style="@style/button_primary"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:text="@string/button_login"
-                android:textColor="@color/color_white" />
+                android:textColor="@color/color_white"
+                android:textSize="25dp" />
         </LinearLayout>
 
         <TextView
@@ -113,7 +154,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:gravity="center_horizontal"
             android:text="@string/link_register" />
-    </RelativeLayout>
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"

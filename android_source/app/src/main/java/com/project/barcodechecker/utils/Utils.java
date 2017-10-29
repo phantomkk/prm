@@ -2,9 +2,14 @@ package com.project.barcodechecker.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.os.Build;
+import android.util.Patterns;
+import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.google.gson.Gson;
+import com.project.barcodechecker.R;
 import com.project.barcodechecker.models.User;
 
 /**
@@ -37,6 +42,41 @@ public class Utils {
         Gson gson = new Gson();
         User u = gson.fromJson(jsonUser, User.class);
         return u;
+    }
+
+    public static void checkPassword(Context context,EditText editText, ProgressBar progressBar) {
+        String s = editText.getText().toString().trim();
+        if (s.length() == 0)
+            progressBar.setProgress(0);
+        else if (s.length() < 3) {
+            progressBar.setProgress(25);
+            progressBar.setProgressTintList(ColorStateList.valueOf(context.getColor(R.color.color_red_500)));
+        } else if (s.length() < 8) {
+            progressBar.setProgress(50);
+            progressBar.setProgressTintList(ColorStateList.valueOf(context.getColor(R.color.color_orange_500)));
+        } else if (s.length() < 10) {
+            progressBar.setProgress(75);
+            progressBar.setProgressTintList(ColorStateList.valueOf(context.getColor(R.color.color_yellow_500)));
+        } else {
+            progressBar.setProgress(100);
+            progressBar.setProgressTintList(ColorStateList.valueOf(context.getColor(R.color.color_green_500)));
+        }
+    }
+
+    public static boolean checkEmail(String email){
+        if (email == null) {
+            return false;
+        } else {
+            return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+        }
+    }
+
+    public static boolean checkPhone(String phone){
+        if (phone == null) {
+            return false;
+        } else {
+            return Patterns.PHONE.matcher(phone).matches();
+        }
     }
 
 }

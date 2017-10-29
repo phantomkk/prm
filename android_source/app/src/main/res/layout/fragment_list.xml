@@ -6,13 +6,19 @@
     tools:context="com.project.barcodechecker.fragments.CategoryFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <ListView
+    <!--<ListView-->
+        <!--android:layout_marginTop="50dp"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/lv_menu_category"-->
+        <!--&gt;-->
+
+    <!--</ListView>-->
+    <GridView
         android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/lv_menu_category"
-        >
-
-    </ListView>
-
+        android:numColumns="2"
+        />
 </FrameLayout>
