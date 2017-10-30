@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.project.barcodechecker.R;
@@ -41,6 +42,7 @@ public class SearchFragment extends LoadingFragment {
     private List<Product> list;
     private SearchAdapter adapter;
     private RecyclerView rcvSearch;
+    ProgressBar progressBar;
     private static SearchFragment instance = new SearchFragment();
 
     public static SearchFragment newInstance() {
@@ -55,6 +57,7 @@ public class SearchFragment extends LoadingFragment {
         View v = inflater.inflate(R.layout.fragment_search, container, false);
         edtSearch = ((EditText) v.findViewById(R.id.edt_search_frag_search));
         rcvSearch = (RecyclerView) v.findViewById(R.id.rcv_search_fragment);
+        progressBar = (ProgressBar) v.findViewById(R.id.process_loading);
         list = new ArrayList<>();
         adapter = new SearchAdapter(getContext(), list);
         rcvSearch.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -121,6 +124,7 @@ public class SearchFragment extends LoadingFragment {
     public void searchProcess() {
         String searchValue = edtSearch.getText().toString().trim();
         //showLoading();
+        progressBar.setVisibility(View.VISIBLE);
         if (searchValue.matches("\\d+")) {
             if (call != null && call.isExecuted()) {
                 call.cancel();
@@ -137,12 +141,15 @@ public class SearchFragment extends LoadingFragment {
                         Log.e("ERROR", "ELSE SEARCH FRAGMENT: searchProcess search code product");
                     }
                     // closeLoading();
+                    progressBar.setVisibility(View.GONE);
                 }
 
                 @Override
                 public void onFailure(Call<Product> call, Throwable t) {
                     //closeLoading();
                     Log.e("ERROR", "FAILURE SEARCH FRAGMENT: searchProcess Search code");
+                    progressBar.setVisibility(View.GONE);
+
                 }
             });
         } else {
@@ -161,12 +168,14 @@ public class SearchFragment extends LoadingFragment {
                         Log.e("ERROR", "ELSE SEARCH FRAGMENT: searchProcess search list product");
                     }
 //                    closeLoading();
+                    progressBar.setVisibility(View.GONE);
                 }
 
                 @Override
                 public void onFailure(Call<List<Product>> call, Throwable t) {
                     //   closeLoading();
                     Log.e("ERROR", "FAILURE SEARCH FRAGMENT: searchProcess search list product");
+                    progressBar.setVisibility(View.GONE);
 
                 }
             });

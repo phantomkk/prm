@@ -79,16 +79,17 @@ public class UserFragment extends Fragment {
     private void setupTabIcons() {
 
         TextView tabOne = (TextView) LayoutInflater.from(getActivity()).inflate(R.layout.custom_tab, null);
-        tabOne.setText("Accout");
+        tabOne.setText(getString(R.string.tab_accout));
         tabOne.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_accout_white, 0, 0);
         tabLayout.getTabAt(0).setCustomView(tabOne);
         TextView tabTwo = (TextView) LayoutInflater.from(getActivity()).inflate(R.layout.custom_tab, null);
-        tabTwo.setText("List Product");
+        tabTwo.setText(getString(R.string.tab_my_product));
         tabTwo.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_product_white, 0, 0);
         tabLayout.getTabAt(1).setCustomView(tabTwo);
 
         TextView tabThree = (TextView) LayoutInflater.from(getActivity()).inflate(R.layout.custom_tab, null);
-        tabThree.setText("Message");
+        tabThree.setText(getString(R.string.tab_message));
+        tabThree.setText(getString(R.string.tab_message));
         tabThree.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_action_message, 0, 0);
         tabLayout.getTabAt(2).setCustomView(tabThree);
     }

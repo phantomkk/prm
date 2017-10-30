@@ -44,7 +44,7 @@ public class ConfirmDialogFragment extends DialogFragment{
                         mListener.onDialogPositiveClick(ConfirmDialogFragment.this);
                     }
                 })
-                .setNegativeButton("H", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         mListener.onDialogNegativeClick(ConfirmDialogFragment.this);
                     }

@@ -11,23 +11,30 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.project.barcodechecker.R;
+import com.project.barcodechecker.adapters.ProductAdapter;
 import com.project.barcodechecker.api.APIServiceManager;
+import com.project.barcodechecker.api.services.CategoryService;
 import com.project.barcodechecker.api.services.CommentService;
 import com.project.barcodechecker.api.services.ProductService;
 import com.project.barcodechecker.fragments.CommentFragment;
+import com.project.barcodechecker.fragments.SaleFragment;
+import com.project.barcodechecker.fragments.SuggestFragment;
 import com.project.barcodechecker.models.Comment;
 import com.project.barcodechecker.models.Product;
+import com.project.barcodechecker.models.Sale;
 import com.project.barcodechecker.models.User;
 import com.project.barcodechecker.utils.AppConst;
 import com.project.barcodechecker.utils.CoreManager;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -42,9 +49,14 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
     private RatingBar rbStar;
     private ImageView imgProduct;
     private Product product;
-    private FrameLayout frameComments;
+    private FrameLayout frameComments, frameSales, frameSuggests;
     private List<Comment> list;
+    private List<Sale> listSale;
+    private List<Product> listProducts;
     private CommentFragment commentFragment;
+    private SaleFragment saleFragment;
+    private SuggestFragment suggestFragment;
+    private ProgressBar pbSale, pbComment, pbSuggest;
 
     @Override
     protected int getLayoutResourceId() {
@@ -57,6 +69,8 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
         bindingView();
 //        initToolbar();
         setFragmentComment();
+        setFragmentSale();
+        setFragmentSuggest();
         setToolbarTitle("Xem chi tiết sản phẩm");
         //get item
         Intent previousPage = getIntent();
@@ -66,6 +80,8 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
             setValues(product);
         }
         loadComments(product);
+//        loadSale(product);
+        loadSuggests(product);
     }
 
     private void bindingView() {
@@ -78,6 +94,20 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
         imgProduct = (ImageView) findViewById(R.id.img_product_detail_atv);
         rbStar = (RatingBar) findViewById(R.id.rbar_star);
         frameComments = (FrameLayout) findViewById(R.id.frm_comment_detail_atv);
+        frameSales = (FrameLayout) findViewById(R.id.frm_sale_product);
+        frameSuggests = (FrameLayout) findViewById(R.id.frm_suggest);
+        pbSale = (ProgressBar) findViewById(R.id.process_sale);
+        pbComment = (ProgressBar) findViewById(R.id.process_comment);
+        pbSuggest = (ProgressBar) findViewById(R.id.process_suggest);
+    }
+
+
+    private void showLoad(ProgressBar progressBar, boolean isShow) {
+        if (isShow) {
+            progressBar.setVisibility(View.VISIBLE);
+        } else {
+            progressBar.setVisibility(View.GONE);
+        }
     }
 
     private void setFragmentComment() {
@@ -87,6 +117,23 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
         transaction.replace(R.id.frm_comment_detail_atv, commentFragment);
         transaction.commit();
     }
+
+    private void setFragmentSale() {
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        saleFragment = new SaleFragment(1);
+        transaction.replace(R.id.frm_sale_product, saleFragment);
+        transaction.commit();
+    }
+
+    private void setFragmentSuggest() {
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        suggestFragment = new SuggestFragment();
+        transaction.replace(R.id.frm_suggest, suggestFragment);
+        transaction.commit();
+    }
+
 
     private void setValues(Product p) {
         if (p == null) {
@@ -108,8 +155,8 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
     private void loadComments(Product product) {
         if (product != null) {
             commentFragment.setProduct(product);
+            showLoad(pbComment, true);
             ProductService productService = APIServiceManager.getPService();
-            showLoading();
             productService.getProductComments(product.getId()).enqueue(new Callback<List<Comment>>() {
                 @Override
                 public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
@@ -119,12 +166,12 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
                     } else {
                         logError(DetailActivity.class.getSimpleName(), "loadComments", "ELSE ");
                     }
-                    hideLoading();
+                    showLoad(pbComment, false);
                 }
 
                 @Override
                 public void onFailure(Call<List<Comment>> call, Throwable t) {
-                    hideLoading();
+                    showLoad(pbComment, false);
                     logError(DetailActivity.class.getSimpleName(), "loadComments", "Failure API " + t.getMessage());
                 }
             });
@@ -132,6 +179,69 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
             logError(DetailActivity.class.getSimpleName(), "loadComments", "PRODUCT null");
         }
     }
+
+    private void loadSale(Product product) {
+        if (product != null) {
+            showLoad(pbSale, true);
+            ProductService productService = APIServiceManager.getPService();
+            productService.getProductSales(product.getId()).enqueue(new Callback<List<Sale>>() {
+                @Override
+                public void onResponse(Call<List<Sale>> call, Response<List<Sale>> response) {
+                    if (response.isSuccessful()) {
+                        listSale = response.body();
+                        saleFragment.setData(listSale);
+                    } else {
+                        logError(DetailActivity.class.getSimpleName(), "loadSale", "ELSE ");
+                    }
+                    showLoad(pbSale, false);
+                }
+
+                @Override
+                public void onFailure(Call<List<Sale>> call, Throwable t) {
+                    showLoad(pbSale, false);
+                    logError(DetailActivity.class.getSimpleName(), "loadSale", "Failure API " + t.getMessage());
+                }
+            });
+        } else {
+            logError(DetailActivity.class.getSimpleName(), "loadSale", "PRODUCT null");
+        }
+    }
+
+    private void loadSuggests(final Product product) {
+        if (product != null) {
+            showLoad(pbSuggest, true);
+            CategoryService categoryService = APIServiceManager.getCategoryService();
+            categoryService.getProductByCategoryId(product.getCategoryID()).enqueue(new Callback<List<Product>>() {
+                @Override
+                public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                    if (response.isSuccessful()) {
+                        listProducts = response.body();
+                        List<Product> productList = new ArrayList<Product>();
+                        if (listProducts.size() > 10) {
+                            for (int i = 0; i < 10; i++) {
+                                productList.add(listProducts.get(i));
+                            }
+                            suggestFragment.setData(productList);
+                        } else {
+                            suggestFragment.setData(listProducts);
+                        }
+                    } else {
+                        logError(DetailActivity.class.getSimpleName(), "loadSuggests", "ELSE ");
+                    }
+                    showLoad(pbSuggest, false);
+                }
+
+                @Override
+                public void onFailure(Call<List<Product>> call, Throwable t) {
+                    showLoad(pbSuggest, false);
+                    logError(DetailActivity.class.getSimpleName(), "loadSuggests", "Failure API " + t.getMessage());
+                }
+            });
+        } else {
+            logError(DetailActivity.class.getSimpleName(), "loadComments", "PRODUCT null");
+        }
+    }
+
 
     @Override
     public void postCmtClickListener(String content, final EditText edtCmt, TextView txtError) {
@@ -146,7 +256,7 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
             AlertDialog.Builder dialog = new AlertDialog.Builder(this);
             dialog.setMessage("Bạn cần phải đăng nhập để bình luận!")
                     .setPositiveButton("Đăng nhập", positiveListener)
-                    .setNegativeButton("Thôi kệ lười đăng nhập lắm", null)
+                    .setNegativeButton("Hủy", null)
                     .show();
         } else {
             Date date = Calendar.getInstance().getTime();

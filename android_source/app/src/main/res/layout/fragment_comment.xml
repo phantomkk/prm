@@ -14,11 +14,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/img_avatar_frag_cmt"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@drawable/ic_shopping_cart_black_24dp" />
+                android:layout_marginRight="10dp"
+                android:src="@drawable/avatar" />
 
             <EditText
                 android:id="@+id/edt_content_frag_cmt"

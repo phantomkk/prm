@@ -15,6 +15,7 @@ public class AppConst {
 
     public final static String PRODUCT_PARAM = "PRODUCT_PARAM";
     public final static String CATEGORY_PARAM = "CATEGORY_PARAM";
+    public final static String USER_PARAM = "USER_PARAM";
     public final static int CATEGORY_MOBILE = 1;
     public final static int CATEGORY_ELECTRIC = 2;
     public final static int CATEGORY_BEVERAGE = 3;

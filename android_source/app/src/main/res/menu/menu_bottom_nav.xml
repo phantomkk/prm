@@ -3,21 +3,21 @@
     <item
         android:id="@+id/action_history"
         android:icon="@drawable/ic_history_black_24dp"
-        android:title="@string/item_history"/>
+        android:title="@string/tab_history"/>
     <item
         android:id="@+id/action_search"
         android:icon="@drawable/ic_search_black_24dp"
-        android:title="@string/item_search"/>
+        android:title="@string/tab_search"/>
     <item
         android:id="@+id/action_scan"
         android:icon="@drawable/ic_photo_camera_black_24dp"
-        android:title="@string/item_camera"/>
+        android:title="@string/tab_scan"/>
     <item
         android:id="@+id/action_list"
         android:icon="@drawable/ic_format_list_bulleted_black_24dp"
-        android:title="@string/item_list"/>
+        android:title="@string/tab_category"/>
     <item
         android:id="@+id/action_setting"
         android:icon="@drawable/ic_action_accout"
-        android:title="@string/item_user"/>
+        android:title="@string/tab_user"/>
 </menu>

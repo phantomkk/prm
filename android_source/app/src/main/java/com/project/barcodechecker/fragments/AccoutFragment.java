@@ -66,7 +66,7 @@ public class AccoutFragment extends Fragment implements View.OnClickListener {
     }
 
     private ImageButton btnChangeAvarta, btnChangePassWord;
-    private TextView tvName, tvEmail, tvPhone;
+    private TextView tvName;
     private EditText edtName, edtAddress, edtEmail, edtPhone, edtIntroduct, edtWeb;
     private TextView tvNameError, tvAddressError, tvEmailError, tvPhoneError;
     private Button btnConfirm, btnLogOut;
@@ -138,8 +138,8 @@ public class AccoutFragment extends Fragment implements View.OnClickListener {
     public void setUserInfor(User user) {
         if (user != null) {
             tvName.setText(user.getName());
-            tvEmail.setText(user.getEmail());
-            tvPhone.setText(user.getPhone());
+//            tvEmail.setText(user.getEmail());
+//            tvPhone.setText(user.getPhone());
             edtName.setText(user.getName());
             edtAddress.setText(user.getAddress());
             edtEmail.setText(user.getEmail());

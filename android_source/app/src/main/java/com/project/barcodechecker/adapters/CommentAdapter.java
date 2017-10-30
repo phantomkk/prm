@@ -21,6 +21,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * Created by lucky on 12-Oct-17.
  */
@@ -72,12 +74,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     }
 
     public class CommentViewHolder extends RecyclerView.ViewHolder {
-        private ImageView imgAvatar;
+        private CircleImageView imgAvatar;
         private TextView txtName, txtContent, txtDate;
 
         private CommentViewHolder(View itemView) {
             super(itemView);
-            imgAvatar = (ImageView) itemView.findViewById(R.id.img_avatar_item_cmt);
+            imgAvatar = (CircleImageView) itemView.findViewById(R.id.img_avatar_item_cmt);
             txtName = (TextView) itemView.findViewById(R.id.txt_name_item_cmt);
             txtContent = (TextView) itemView.findViewById(R.id.txt_content_item_cmt);
             txtDate = (TextView) itemView.findViewById(R.id.txt_date_item_cmt);

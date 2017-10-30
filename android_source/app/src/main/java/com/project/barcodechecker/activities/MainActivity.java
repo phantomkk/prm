@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements AccoutFragment.On
         viewPager.setCurrentItem(2);
         u=CoreManager.getUser(this);
         if(u!=null) {
-            Picasso.with(this).load("https://www.smashingmagazine.com/wp-content/uploads/2015/06/10-dithering-opt.jpg").error(R.drawable.button_back).into(mAvatar);
+            Picasso.with(this).load(u.getAvatar()).error(R.drawable.avatar).into(mAvatar);
         }else{
             mAvatar.setImageResource(R.drawable.avatar);
         }
@@ -133,14 +133,14 @@ public class MainActivity extends AppCompatActivity implements AccoutFragment.On
                 switch (item.getItemId()) {
                     case R.id.action_history:
 //                        selectedFragment = FragmentFactory.getFragment(HistoryFragment.class);
-                        mTitle.setText("History");
+                        mTitle.setText(R.string.tab_history);
                         mAvatar.setVisibility(View.VISIBLE);
                         toolbar.setVisibility(View.VISIBLE);
                         viewPager.setCurrentItem(0);
                         break;
                     case R.id.action_search:
                         selectedFragment = FragmentFactory.getFragment(SearchFragment.class);
-                        mTitle.setText("Search");
+                        mTitle.setText(R.string.tab_search);
                         mAvatar.setVisibility(View.VISIBLE);
                         toolbar.setVisibility(View.VISIBLE);
                         viewPager.setCurrentItem(1);
@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements AccoutFragment.On
                         break;
                     case R.id.action_list:
 //                         selectedFragment = FragmentFactory.getFragment(CategoryFragment.class);
-                        mTitle.setText("List category");
+                        mTitle.setText(R.string.tab_category);
                         mAvatar.setVisibility(View.VISIBLE);
                         toolbar.setVisibility(View.VISIBLE);
                         viewPager.setCurrentItem(3);
@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity implements AccoutFragment.On
                                     .show();
                         }else {
                             if(!isLoginFirst) {
-                                mTitle.setText("Accout");
+                                mTitle.setText(R.string.tab_user);
                                 viewPagerAdapter.addFragment(new UserFragment());
                                 viewPagerAdapter.notifyDataSetChanged();
                                 viewPager.setCurrentItem(4);
@@ -184,10 +184,7 @@ public class MainActivity extends AppCompatActivity implements AccoutFragment.On
                         break;
 
                 }
-//                FragmentManager fm = getSupportFragmentManager();
-//                FragmentTransaction transaction = fm.beginTransaction();
-//                transaction.replace(R.id.main_frame_main_actv, selectedFragment);
-//                transaction.commit();
+
                 return false;
             }
         });
@@ -198,11 +195,11 @@ public class MainActivity extends AppCompatActivity implements AccoutFragment.On
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 switch (position) {
                     case 0:
-                        mTitle.setText("History");
+                        mTitle.setText(R.string.tab_history);
                         mAvatar.setVisibility(View.VISIBLE);
                         break;
                     case 1:
-                        mTitle.setText("Search");
+                        mTitle.setText(R.string.tab_search);
                         mAvatar.setVisibility(View.VISIBLE);
                         toolbar.setVisibility(View.VISIBLE);
                         break;
@@ -212,12 +209,12 @@ public class MainActivity extends AppCompatActivity implements AccoutFragment.On
                         toolbar.setVisibility(View.VISIBLE);
                         break;
                     case 3:
-                        mTitle.setText("List category");
+                        mTitle.setText(R.string.tab_category);
                         toolbar.setVisibility(View.VISIBLE);
                         mAvatar.setVisibility(View.VISIBLE);
                         break;
                     case 4:
-                        mTitle.setText("Accout");
+                        mTitle.setText(R.string.tab_user);
                         toolbar.setVisibility(View.GONE);
                         mAvatar.setVisibility(View.VISIBLE);
                         break;
@@ -257,7 +254,7 @@ public class MainActivity extends AppCompatActivity implements AccoutFragment.On
         if(resultCode == RESULT_OK){
             if(requestCode == USE_VIEW_REQUEST){
                 isLoginFirst = true;
-                mTitle.setText("Accout");
+                mTitle.setText(R.string.tab_user);
                 viewPagerAdapter.addFragment(new UserFragment());
                 viewPagerAdapter.notifyDataSetChanged();
                 viewPager.setCurrentItem(4);

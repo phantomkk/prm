@@ -54,7 +54,7 @@
     <string name="button_login">Đăng nhập</string>
     <string name="link_register">Bạn chưa có tài khoản? Đăng kí ngay.</string>
     <string name="link_login">Bạn đã có tài khoản? Đăng nhập.</string>
-    <string name="button_register">Đăng kí</string>
+    <string name="button_register">Đăng ký</string>
 
 
     <!--History-->
@@ -167,6 +167,17 @@
     <string name="password_not_right">Mật khẩu không đúng</string>
     <string name="password_not_match">Mật khẩu không trùng khớp</string>
 
+
+    <!--Tab Name-->
+    <string name="tab_history">Lịch sử</string>
+    <string name="tab_search">Tìm Kiếm</string>
+    <string name="tab_scan">Camera</string>
+    <string name="tab_category">Danh Sách Sản Phẩm</string>
+    <string name="tab_category_list">Danh Sách</string>
+    <string name="tab_user">Tài Khoản</string>
+    <string name="tab_accout">Chỉnh Sửa Tài Khoản</string>
+    <string name="tab_my_product">Sản Phẩm Của Tôi</string>
+    <string name="tab_message">Tin Nhắn</string>
 
 
 </resources>

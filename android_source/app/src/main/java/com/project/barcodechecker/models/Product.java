@@ -12,6 +12,14 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 public class Product implements Serializable {
+    public Product(String name, Double price, String imgDefault) {
+        this.name = name;
+        this.price = price;
+        this.imgDefault = imgDefault;
+    }
+
+    public Product() {
+    }
 
     @SerializedName("ID")
     @Expose

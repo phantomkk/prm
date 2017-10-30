@@ -5,7 +5,11 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.os.Build;
 import android.util.Patterns;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.google.gson.Gson;
@@ -18,9 +22,10 @@ import com.project.barcodechecker.models.User;
 
 public class Utils {
 
-    private static final String PREF_NAME ="ACCOUNT";
-    private static final String USER_KEY ="USER_KEY";
-    public static boolean isEmulator(){
+    private static final String PREF_NAME = "ACCOUNT";
+    private static final String USER_KEY = "USER_KEY";
+
+    public static boolean isEmulator() {
         return Build.FINGERPRINT.startsWith("generic")
                 || Build.FINGERPRINT.startsWith("unknown")
                 || Build.MODEL.contains("google_sdk")
@@ -28,7 +33,7 @@ public class Utils {
                 || Build.MODEL.contains("Android SDK built for x86");
     }
 
-    public static void saveUserInSharePref(Context context, User user){
+    public static void saveUserInSharePref(Context context, User user) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
@@ -36,7 +41,7 @@ public class Utils {
         editor.apply();
     }
 
-    public static User getUserInSharePref(Context context){
+    public static User getUserInSharePref(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         String jsonUser = sharedPreferences.getString(USER_KEY, null);
         Gson gson = new Gson();
@@ -44,7 +49,7 @@ public class Utils {
         return u;
     }
 
-    public static void checkPassword(Context context,EditText editText, ProgressBar progressBar) {
+    public static void checkPassword(Context context, EditText editText, ProgressBar progressBar) {
         String s = editText.getText().toString().trim();
         if (s.length() == 0)
             progressBar.setProgress(0);
@@ -63,7 +68,7 @@ public class Utils {
         }
     }
 
-    public static boolean checkEmail(String email){
+    public static boolean checkEmail(String email) {
         if (email == null) {
             return false;
         } else {
@@ -71,11 +76,43 @@ public class Utils {
         }
     }
 
-    public static boolean checkPhone(String phone){
+    public static boolean checkPhone(String phone) {
         if (phone == null) {
             return false;
         } else {
             return Patterns.PHONE.matcher(phone).matches();
+        }
+    }
+
+    public static boolean setListViewHeightBasedOnItems(ListView listView) {
+
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter != null) {
+
+            int numberOfItems = listAdapter.getCount();
+
+            // Get total height of all items.
+            int totalItemsHeight = 0;
+            for (int itemPos = 0; itemPos < numberOfItems; itemPos++) {
+                View item = listAdapter.getView(itemPos, null, listView);
+                item.measure(0, 0);
+                totalItemsHeight += item.getMeasuredHeight();
+            }
+
+            // Get total height of all item dividers.
+            int totalDividersHeight = listView.getDividerHeight() *
+                    (numberOfItems - 1);
+
+            // Set list height.
+            ViewGroup.LayoutParams params = listView.getLayoutParams();
+            params.height = totalItemsHeight + totalDividersHeight;
+            listView.setLayoutParams(params);
+            listView.requestLayout();
+
+            return true;
+
+        } else {
+            return false;
         }
     }
 

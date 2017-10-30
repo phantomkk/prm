@@ -232,18 +232,102 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:layout_weight="@integer/left_side_detail_atv"
+                            android:text="Nơi bán:"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/color_blue_grey_300" />
+
+                    <ProgressBar
+                        android:id="@+id/process_sale"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxHeight="20dp"
+                        android:minHeight="20dp"
+                        android:visibility="gone" />
+
+                    <FrameLayout
+                        android:id="@+id/frm_sale_product"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
+                        android:weightSum="100">
+
+                        <TextView
+                            style="@style/lbl_style"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="@integer/left_side_detail_atv"
                             android:text="Bình luận:"
                             android:textStyle="bold" />
 
-                      </LinearLayout>
+                    </LinearLayout>
+
                     <View
-                        android:layout_marginTop="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
+                        android:layout_marginTop="5dp"
                         android:background="@color/color_blue_grey_300" />
+
+                    <ProgressBar
+                        android:id="@+id/process_comment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxHeight="20dp"
+
+                        android:minHeight="20dp"
+                        android:visibility="gone" />
 
                     <FrameLayout
                         android:id="@+id/frm_comment_detail_atv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
+                        android:weightSum="100">
+
+                        <TextView
+                            style="@style/lbl_style"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="@integer/left_side_detail_atv"
+                            android:text="Gợi ý:"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/color_blue_grey_300" />
+
+                    <ProgressBar
+                        android:id="@+id/process_suggest"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxHeight="20dp"
+                        android:minHeight="20dp"
+                        android:visibility="gone" />
+
+                    <FrameLayout
+                        android:id="@+id/frm_suggest"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </LinearLayout>

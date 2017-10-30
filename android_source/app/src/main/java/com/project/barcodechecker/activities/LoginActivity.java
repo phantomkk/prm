@@ -35,6 +35,7 @@ public class LoginActivity extends BaseActivity {
         txtRegister = (TextView) findViewById(R.id.txt_register_atv);
         edtUsername = (EditText) findViewById(R.id.edt_username_login_atv);
         edtPassword = (EditText) findViewById(R.id.edt_password_login_atv);
+        btnLogin.setVisibility(View.VISIBLE);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

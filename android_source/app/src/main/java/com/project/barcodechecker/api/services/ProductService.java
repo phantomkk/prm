@@ -9,6 +9,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import com.project.barcodechecker.models.Product;
+import com.project.barcodechecker.models.Sale;
 
 /**
  * Created by lucky on 13-Sep-17.
@@ -25,5 +26,6 @@ public interface ProductService {
     Call<List<Comment>> getProductComments(@Path("id") Integer id);
     @GET("/api/products/name/{name}")
     Call<List<Product>> searchProduct(@Path("name") String name);
-
+    @GET("/api/products/{id}/sales")
+    Call<List<Sale>> getProductSales(@Path("id") Integer id);
 }
