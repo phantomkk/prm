@@ -3,6 +3,7 @@ package com.project.barcodechecker.activities;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,11 +14,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.project.barcodechecker.R;
+import com.project.barcodechecker.api.APIServiceManager;
+import com.project.barcodechecker.api.services.UserService;
 import com.project.barcodechecker.models.User;
+import com.project.barcodechecker.utils.AppConst;
 import com.project.barcodechecker.utils.CoreManager;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by lucky on 13-Sep-17.
@@ -37,17 +44,44 @@ public abstract class BaseActivity extends Activity {
         initToolbar();
         txtTitle = (TextView) findViewById(R.id.txt_toolbar_title);
         imgAvatar = (CircleImageView) findViewById(R.id.profile_image);
-        imgAvatar.setOnClickListener(imgClickListener);
         User u = CoreManager.getUser(this);
         if (u != null && u.getAvatar() != null) {
-            Picasso.with(this).load(u.getAvatar()).error(R.drawable.ic_shopping_cart_black_24dp).into(imgAvatar);
+            Picasso.with(this).load(u.getAvatar()).error(R.drawable.avatar).into(imgAvatar);
         }
-    }
+//        if(u!=null){
+        imgAvatar.setOnClickListener(imgClickListener);
 
+//        }
+    }
+    private User user;
+
+    public void searchUserAndTranferToUserDetail(int id) {
+        UserService userService = APIServiceManager.getUserService();
+        userService.getByID(id).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful()) {
+                    user = response.body();
+                    Intent intent = new Intent(BaseActivity.this, UserDetailActivity.class);
+                    intent.putExtra(AppConst.USER_PARAM, user);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Loading fail",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Loading fail",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+    }
     private View.OnClickListener imgClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //todoư
+            searchUserAndTranferToUserDetail(1);
         }
     };
 

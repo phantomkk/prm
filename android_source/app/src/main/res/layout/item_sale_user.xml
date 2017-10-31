@@ -5,16 +5,18 @@
     android:layout_centerVertical="true"
     android:orientation="horizontal">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/profile_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="5dp"
-            android:src="@drawable/avatar"/>
+            android:src="@drawable/avatar"
+            app:civ_border_color="@color/color_blue_grey_100"
+            app:civ_border_width="1dp" />
 
         <TextView
             android:id="@+id/saler_name"
@@ -22,17 +24,19 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:text="Name"
+            android:layout_toRightOf="@id/profile_image"
+            android:layout_centerVertical="true"
+            android:text=""
             android:textSize="20dp" />
 
         <TextView
             android:id="@+id/sale_product_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
             android:layout_weight="1"
-            android:text="Price"
-            android:textAlignment="center"
+            android:text=""
             android:textColor="@color/colorAccent" />
-    </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>

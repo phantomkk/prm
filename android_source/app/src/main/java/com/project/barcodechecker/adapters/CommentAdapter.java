@@ -1,6 +1,7 @@
 package com.project.barcodechecker.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,9 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.project.barcodechecker.R;
+import com.project.barcodechecker.activities.UserDetailActivity;
+import com.project.barcodechecker.api.APIServiceManager;
+import com.project.barcodechecker.api.services.UserService;
 import com.project.barcodechecker.models.Comment;
+import com.project.barcodechecker.models.User;
 import com.project.barcodechecker.utils.AppConst;
 import com.project.barcodechecker.utils.Utils;
 import com.squareup.picasso.Picasso;
@@ -22,6 +28,9 @@ import java.util.List;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by lucky on 12-Oct-17.
@@ -51,8 +60,16 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 //        }else{
 //            Picasso.with(context).load(R.drawable.ic_insert_emoticon_black_24dp).into(holder.imgAvatar);
 //        }
+
         holder.txtContent.setText(c.getComment());
         holder.txtName.setText(c.getName());
+        final int userId =c.getUserID();
+        holder.imgAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchUserAndTranferToUserDetail(userId);
+            }
+        });
 //        SimpleDateFormat sdf = new SimpleDateFormat(AppConst.DATE_AND_TIME, Locale.US);
 //        Date d = null;
 //        try {
@@ -84,5 +101,29 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             txtContent = (TextView) itemView.findViewById(R.id.txt_content_item_cmt);
             txtDate = (TextView) itemView.findViewById(R.id.txt_date_item_cmt);
         }
+    }
+    private User user;
+    public void searchUserAndTranferToUserDetail(int id) {
+        UserService userService = APIServiceManager.getUserService();
+        userService.getByID(id).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful()) {
+                    user = response.body();
+                    Intent intent = new Intent(context, UserDetailActivity.class);
+                    intent.putExtra(AppConst.USER_PARAM, user);
+                    context.startActivity(intent);
+                } else {
+                    Toast.makeText(context, "Loading fail",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Toast.makeText(context, "Loading fail",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

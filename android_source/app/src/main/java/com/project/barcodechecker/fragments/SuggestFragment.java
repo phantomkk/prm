@@ -10,18 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.project.barcodechecker.R;
 import com.project.barcodechecker.activities.DetailActivity;
-import com.project.barcodechecker.adapters.SaleAdapter;
 import com.project.barcodechecker.adapters.SuggestAdapter;
 import com.project.barcodechecker.models.Product;
-import com.project.barcodechecker.models.Sale;
 import com.project.barcodechecker.utils.AppConst;
 import com.project.barcodechecker.utils.ItemClickSupport;
-import com.project.barcodechecker.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -3,26 +3,22 @@ package com.project.barcodechecker.activities;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.project.barcodechecker.R;
 import com.project.barcodechecker.api.APIServiceManager;
-import com.project.barcodechecker.api.services.CategoryService;
 import com.project.barcodechecker.api.services.ProductService;
-import com.project.barcodechecker.fragments.SaleFragment;
-import com.project.barcodechecker.fragments.SuggestFragment;
-import com.project.barcodechecker.models.Product;
+import com.project.barcodechecker.api.services.SaleService;
+import com.project.barcodechecker.fragments.SaleProductFragment;
+import com.project.barcodechecker.fragments.SaleUserFragment;
 import com.project.barcodechecker.models.Sale;
 import com.project.barcodechecker.models.User;
 import com.project.barcodechecker.utils.AppConst;
+import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -30,18 +26,18 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UserDetailActivity extends AppCompatActivity {
+public class UserDetailActivity extends BaseActivity {
     private CircleImageView imvAvatar;
     private TextView edtName, edtAddress, edtEmail, edtPhone, edtIntroduct, edtWeb;
     private User user;
-    private SaleFragment saleFragment;
+    private SaleProductFragment saleUserFragment;
     private ProgressBar pbSale;
     private List<Sale> listProducts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_detail);
+        setToolbarTitle("Chi Tiết Người Dùng");
         imvAvatar = (CircleImageView) findViewById(R.id.img_avatar_user);
         edtName = (TextView) findViewById(R.id.txt_name);
         edtAddress = (TextView) findViewById(R.id.edt_address);
@@ -60,6 +56,11 @@ public class UserDetailActivity extends AppCompatActivity {
         loadSale(user);
     }
 
+    @Override
+    protected int getLayoutResourceId() {
+        return R.layout.activity_user_detail;
+    }
+
     private void showLoad(ProgressBar progressBar, boolean isShow) {
         if (isShow) {
             progressBar.setVisibility(View.VISIBLE);
@@ -76,27 +77,28 @@ public class UserDetailActivity extends AppCompatActivity {
             edtPhone.setText(user.getPhone());
             edtIntroduct.setText(user.getIntroduce());
             edtWeb.setText(user.getWebsite());
+            Picasso.with(this).load(user.getAvatar()).error(R.drawable.avatar).into(imvAvatar);
         }
     }
 
     private void setFragmentSale() {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
-        saleFragment = new SaleFragment(2);
-        transaction.replace(R.id.frm_sale_product, saleFragment);
+        saleUserFragment = new SaleProductFragment();
+        transaction.replace(R.id.frm_sale_product, saleUserFragment);
         transaction.commit();
     }
 
     private void loadSale(User user) {
         if (user != null) {
             showLoad(pbSale, true);
-            ProductService productService = APIServiceManager.getPService();
-            productService.getProductSales(user.getId()).enqueue(new Callback<List<Sale>>() {
+            SaleService saleService = APIServiceManager.getSaleService();
+            saleService.getSaleByUserID(user.getId()).enqueue(new Callback<List<Sale>>() {
                 @Override
                 public void onResponse(Call<List<Sale>> call, Response<List<Sale>> response) {
                     if (response.isSuccessful()) {
                         listProducts = response.body();
-                        saleFragment.setData(listProducts,2);
+                        saleUserFragment.setData(listProducts);
                     } else {
                     }
                     showLoad(pbSale, false);

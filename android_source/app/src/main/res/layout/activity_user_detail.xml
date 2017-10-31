@@ -298,7 +298,7 @@
             <FrameLayout
                 android:id="@+id/frm_sale_product"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

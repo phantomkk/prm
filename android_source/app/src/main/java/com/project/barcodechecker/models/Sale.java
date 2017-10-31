@@ -19,13 +19,13 @@ public class Sale implements Serializable {
     @SerializedName("Price")
     private float price;
     @SerializedName("DateCreate")
-    private Date dateCreate;
+    private String dateCreate;
     @SerializedName("IsDelete")
     private boolean isDelete;
     @SerializedName("ImagePath")
     private String imagePath;
 
-    public Sale(String name, float price, Date dateCreate, boolean isDelete, String imagePath) {
+    public Sale(String name, float price, String dateCreate, boolean isDelete, String imagePath) {
         this.name = name;
         this.price = price;
         this.dateCreate = dateCreate;
@@ -39,7 +39,7 @@ public class Sale implements Serializable {
         this.imagePath = imagePath;
     }
 
-    public Sale(int userId, String name, float price, Date dateCreate, boolean isDelete, String imagePath) {
+    public Sale(int userId, String name, float price, String dateCreate, boolean isDelete, String imagePath) {
         this.userId = userId;
         this.name = name;
         this.price = price;
@@ -80,14 +80,6 @@ public class Sale implements Serializable {
         this.price = price;
     }
 
-    public Date getDateCreate() {
-        return dateCreate;
-    }
-
-    public void setDateCreate(Date dateCreate) {
-        this.dateCreate = dateCreate;
-    }
-
     public boolean isDelete() {
         return isDelete;
     }
@@ -102,5 +94,9 @@ public class Sale implements Serializable {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public void setDateCreate(String dateCreate) {
+        this.dateCreate = dateCreate;
     }
 }

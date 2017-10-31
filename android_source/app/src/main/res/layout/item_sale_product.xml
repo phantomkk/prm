@@ -1,40 +1,64 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--android:layout_centerVertical="true"--><!--android:orientation="horizontal">-->
+
+
+<!--<RelativeLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content">-->
+
+<!--<ImageView xmlns:app="http://schemas.android.com/apk/res-auto"--><!--android:id="@+id/profile_image"--><!--android:layout_width="50dp"--><!--android:layout_height="50dp"--><!--android:layout_margin="5dp"--><!--android:src="@color/color_white"/>--><!--<TextView--><!--android:id="@+id/saler_name"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_gravity="center"--><!--android:layout_weight="1"--><!--android:layout_toRightOf="@id/profile_image"--><!--android:layout_centerVertical="true"--><!--android:text=""--><!--android:textSize="20dp" />-->
+
+<!--<TextView--><!--android:id="@+id/sale_product_price"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_centerVertical="true"--><!--android:layout_alignParentRight="true"--><!--android:layout_weight="1"--><!--android:text=""--><!--android:textColor="@color/colorAccent" />--><!--</RelativeLayout>--><!--</LinearLayout>-->
+
+<!--<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"--><!--xmlns:card_view="http://schemas.android.com/apk/res-auto"--><!--android:id="@+id/card_view"--><!--android:layout_width="100dp"--><!--android:layout_height="wrap_content"--><!--android:layout_margin="5dp"--><!--card_view:cardCornerRadius="5dp">-->
+
+<!--<LinearLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--android:gravity="center"--><!--android:orientation="vertical">-->
+
+<!--<ImageView--><!--android:id="@+id/profile_image"--><!--android:layout_width="50dp"--><!--android:layout_height="50dp"--><!--android:src="@color/color_white" />-->
+
+<!--<View--><!--android:layout_width="match_parent"--><!--android:layout_height="1dp"--><!--android:layout_marginTop="5dp"--><!--android:background="@color/color_grey_300" />-->
+
+<!--<TextView--><!--android:id="@+id/saler_name"--><!--style="@style/value_style"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:text="name" />-->
+
+<!--<TextView--><!--android:id="@+id/sale_product_price"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:text="price" />--><!--</LinearLayout>-->
+
+<!--</android.support.v7.widget.CardView>-->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@drawable/border_grid_product"
+android:gravity="center_horizontal"
+android:orientation="vertical">
+
+<ImageView
+    android:id="@+id/profile_image"
+    android:layout_width="50dp"
+    android:layout_height="50dp"
+    android:src="@color/color_white" />
+
+<View
+    android:layout_width="110dp"
+    android:layout_height="1dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+    android:background="@color/color_grey_300" />
+
+<LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_centerVertical="true"
-    android:orientation="horizontal">
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/saler_name"
+        style="@style/value_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name" />
 
-        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/profile_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_margin="5dp"
-            android:src="@drawable/avatar"
-            app:civ_border_color="@color/color_blue_grey_100"
-            app:civ_border_width="1dp" />
+    <TextView
+        android:id="@+id/sale_product_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="price" />
 
-        <TextView
-            android:id="@+id/saler_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:text="Name"
-            android:textSize="20dp" />
-
-        <TextView
-            android:id="@+id/sale_product_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:text="Price"
-            android:textAlignment="center"
-            android:textColor="@color/colorAccent" />
-    </LinearLayout>
+</LinearLayout>
 </LinearLayout>

@@ -14,37 +14,34 @@ import android.widget.TextView;
 import com.project.barcodechecker.R;
 import com.project.barcodechecker.api.APIServiceManager;
 import com.project.barcodechecker.api.services.ProductService;
-import com.project.barcodechecker.api.services.UserService;
 import com.project.barcodechecker.models.Product;
 import com.project.barcodechecker.models.Sale;
-import com.project.barcodechecker.models.User;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Created by Lenovo on 30/10/2017.
+ * Created by Lenovo on 31/10/2017.
  */
 
-public class SaleAdapter extends ArrayAdapter<Sale> {
+public class SaleProductAdapter extends ArrayAdapter<Sale> {
     private int resourceID;
     private int lastPosition = -1;
     private Context context;
-    private User user;
+    private Product product;
 
-    public SaleAdapter(@NonNull Context context, @LayoutRes int resourceID, @NonNull List<Sale> list) {
+    public SaleProductAdapter(@NonNull Context context, @LayoutRes int resourceID, @NonNull List<Sale> list) {
         super(context, resourceID, list);
         this.resourceID = resourceID;
         this.context = context;
     }
 
     private static class ViewHolder {
-        CircleImageView imgAvatar;
+        ImageView imgAvatar;
         TextView tvName;
         TextView tvPrcie;
     }
@@ -53,22 +50,22 @@ public class SaleAdapter extends ArrayAdapter<Sale> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         Sale sale = getItem(position);
-        SaleAdapter.ViewHolder viewHolder;
+        SaleProductAdapter.ViewHolder viewHolder;
         final View result;
         if (convertView == null) {
-            viewHolder = new SaleAdapter.ViewHolder();
+            viewHolder = new SaleProductAdapter.ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(resourceID, parent, false);
-            viewHolder.imgAvatar = (CircleImageView) convertView.findViewById(R.id.profile_image);
+            viewHolder.imgAvatar = (ImageView) convertView.findViewById(R.id.profile_image);
             viewHolder.tvName = (TextView) convertView.findViewById(R.id.saler_name);
             viewHolder.tvPrcie = (TextView) convertView.findViewById(R.id.sale_product_price);
             result = convertView;
             convertView.setTag(viewHolder);
         } else {
-            viewHolder = (SaleAdapter.ViewHolder) convertView.getTag();
+            viewHolder = (SaleProductAdapter.ViewHolder) convertView.getTag();
             result = convertView;
         }
-        searchUser(sale.getUserId(), viewHolder.imgAvatar, viewHolder.tvName);
+        searchProduct(sale.getProductId(),viewHolder.imgAvatar, viewHolder.tvName);
 //        if (sale.getName() != null) {
 //            viewHolder.tvName.setText(sale.getName());
 //        }
@@ -77,25 +74,25 @@ public class SaleAdapter extends ArrayAdapter<Sale> {
         return convertView;
     }
 
-    public void searchUser(int id, final ImageView imageView, final TextView textView) {
-        UserService userService = APIServiceManager.getUserService();
-        userService.getByID(id).enqueue(new Callback<User>() {
+
+    public void searchProduct(int id, final ImageView imageView, final TextView textView) {
+        ProductService productService = APIServiceManager.getPService();
+        productService.getProductById(id).enqueue(new Callback<Product>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(Call<Product> call, Response<Product> response) {
                 if (response.isSuccessful()) {
-                    user = response.body();
-                    Picasso.with(context).load(user.getAvatar()).into(imageView);
-                    textView.setText(user.getName());
+                    product = response.body();
+                    Picasso.with(context).load(product.getImgDefault()).into(imageView);
+                    textView.setText(product.getName());
                 } else {
                     imageView.setBackground(null);
                 }
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(Call<Product> call, Throwable t) {
                 imageView.setBackground(null);
             }
         });
     }
-
 }

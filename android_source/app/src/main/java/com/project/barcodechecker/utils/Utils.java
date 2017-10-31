@@ -8,6 +8,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -116,4 +117,35 @@ public class Utils {
         }
     }
 
+    public static boolean setGridViewHeightBasedOnItems(GridView gridView) {
+
+        ListAdapter listAdapter = gridView.getAdapter();
+        if (listAdapter != null) {
+
+            int numberOfItems = listAdapter.getCount();
+
+            // Get total height of all items.
+            int totalItemsHeight = 0;
+            for (int itemPos = 0; itemPos < numberOfItems; itemPos++) {
+                View item = listAdapter.getView(itemPos, null, gridView);
+                item.measure(0, 0);
+                totalItemsHeight += item.getMeasuredHeight();
+            }
+
+            // Get total height of all item dividers.
+            int totalDividersHeight = gridView.getHeight() *
+                    (numberOfItems - 1);
+
+            // Set list height.
+            ViewGroup.LayoutParams params = gridView.getLayoutParams();
+            params.height = totalItemsHeight + totalDividersHeight;
+            gridView.setLayoutParams(params);
+            gridView.requestLayout();
+
+            return true;
+
+        } else {
+            return false;
+        }
+    }
 }

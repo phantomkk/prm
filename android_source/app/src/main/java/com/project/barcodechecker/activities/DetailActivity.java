@@ -17,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.project.barcodechecker.R;
-import com.project.barcodechecker.adapters.ProductAdapter;
 import com.project.barcodechecker.api.APIServiceManager;
 import com.project.barcodechecker.api.services.CategoryService;
 import com.project.barcodechecker.api.services.CommentService;
@@ -25,7 +24,7 @@ import com.project.barcodechecker.api.services.ProductService;
 import com.project.barcodechecker.api.services.RatingService;
 import com.project.barcodechecker.api.services.SaleService;
 import com.project.barcodechecker.fragments.CommentFragment;
-import com.project.barcodechecker.fragments.SaleFragment;
+import com.project.barcodechecker.fragments.SaleUserFragment;
 import com.project.barcodechecker.fragments.SuggestFragment;
 import com.project.barcodechecker.models.Comment;
 import com.project.barcodechecker.models.Product;
@@ -57,7 +56,7 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
     private List<Sale> listSale;
     private List<Product> listProducts;
     private CommentFragment commentFragment;
-    private SaleFragment saleFragment;
+    private SaleUserFragment saleUserFragment;
     private SuggestFragment suggestFragment;
     private ProgressBar pbSale, pbComment, pbSuggest;
 
@@ -124,8 +123,8 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
     private void setFragmentSale() {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
-        saleFragment = new SaleFragment(1);
-        transaction.replace(R.id.frm_sale_product, saleFragment);
+        saleUserFragment = new SaleUserFragment();
+        transaction.replace(R.id.frm_sale_product, saleUserFragment);
         transaction.commit();
     }
 
@@ -268,7 +267,7 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
                 public void onResponse(Call<List<Sale>> call, Response<List<Sale>> response) {
                     if (response.isSuccessful()) {
                         listSale = response.body();
-                        saleFragment.setData(listSale ,1);
+                        saleUserFragment.setData(listSale);
                     } else {
                         logError(DetailActivity.class.getSimpleName(), "loadSale", "ELSE ");
                     }
@@ -372,6 +371,7 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
             });
         }
     }
+
 
     final DialogInterface.OnClickListener positiveListener = new DialogInterface.OnClickListener() {
 
