@@ -4,6 +4,7 @@ import com.project.barcodechecker.api.services.CategoryService;
 import com.project.barcodechecker.api.services.CommentService;
 import com.project.barcodechecker.api.services.FileService;
 import com.project.barcodechecker.api.services.ProductService;
+import com.project.barcodechecker.api.services.RatingService;
 import com.project.barcodechecker.api.services.SaleService;
 import com.project.barcodechecker.api.services.UserService;
 import com.project.barcodechecker.models.Category;
@@ -39,5 +40,7 @@ public class APIServiceManager {
     }
     public static SaleService getSaleService(){
         return RetrofitClient.getClient(getURL()).create(SaleService.class);
-    }
+    }public static RatingService getRatingService(){
+        return RetrofitClient.getClient(getURL()).create(RatingService.class);
+}
 }

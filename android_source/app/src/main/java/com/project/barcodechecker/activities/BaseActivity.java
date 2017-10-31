@@ -117,6 +117,7 @@ public abstract class BaseActivity extends Activity {
     public void hideLoading() {
         if (progressDialog != null) {
             progressDialog.dismiss();
+            progressDialog = null;
         }
     }
 

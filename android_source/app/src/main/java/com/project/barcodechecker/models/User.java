@@ -3,6 +3,7 @@ package com.project.barcodechecker.models;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by lucky on 15-Oct-17.
@@ -43,6 +44,8 @@ public class User implements Serializable {
     private String role;
     @SerializedName("Website")
     private String website;
+    @SerializedName("Ratings")
+    private List<Rating> ratingList;
 
 
     public String getPhone() {
@@ -139,5 +142,13 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Rating> getRatingList() {
+        return ratingList;
+    }
+
+    public void setRatingList(List<Rating> ratingList) {
+        this.ratingList = ratingList;
     }
 }
