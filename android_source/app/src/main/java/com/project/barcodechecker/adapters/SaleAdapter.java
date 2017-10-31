@@ -79,7 +79,7 @@ public class SaleAdapter extends ArrayAdapter<Sale> {
 
     public void searchUser(int id, final ImageView imageView, final TextView textView) {
         UserService userService = APIServiceManager.getUserService();
-        userService.getUserById(id).enqueue(new Callback<User>() {
+        userService.getByID(id).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {

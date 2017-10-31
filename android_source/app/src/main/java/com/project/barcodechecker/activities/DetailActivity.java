@@ -22,6 +22,7 @@ import com.project.barcodechecker.api.APIServiceManager;
 import com.project.barcodechecker.api.services.CategoryService;
 import com.project.barcodechecker.api.services.CommentService;
 import com.project.barcodechecker.api.services.ProductService;
+import com.project.barcodechecker.api.services.SaleService;
 import com.project.barcodechecker.fragments.CommentFragment;
 import com.project.barcodechecker.fragments.SaleFragment;
 import com.project.barcodechecker.fragments.SuggestFragment;
@@ -80,7 +81,7 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
             setValues(product);
         }
         loadComments(product);
-//        loadSale(product);
+        loadSale(product);
         loadSuggests(product);
     }
 
@@ -183,13 +184,13 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
     private void loadSale(Product product) {
         if (product != null) {
             showLoad(pbSale, true);
-            ProductService productService = APIServiceManager.getPService();
-            productService.getProductSales(product.getId()).enqueue(new Callback<List<Sale>>() {
+            SaleService saleService = APIServiceManager.getSaleService();
+            saleService.getSaleByProductID(product.getId()).enqueue(new Callback<List<Sale>>() {
                 @Override
                 public void onResponse(Call<List<Sale>> call, Response<List<Sale>> response) {
                     if (response.isSuccessful()) {
                         listSale = response.body();
-                        saleFragment.setData(listSale);
+                        saleFragment.setData(listSale ,1);
                     } else {
                         logError(DetailActivity.class.getSimpleName(), "loadSale", "ELSE ");
                     }

@@ -96,7 +96,7 @@ public class UserDetailActivity extends AppCompatActivity {
                 public void onResponse(Call<List<Sale>> call, Response<List<Sale>> response) {
                     if (response.isSuccessful()) {
                         listProducts = response.body();
-                        saleFragment.setData(listProducts);
+                        saleFragment.setData(listProducts,2);
                     } else {
                     }
                     showLoad(pbSale, false);
