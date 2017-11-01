@@ -66,7 +66,11 @@ public class SaleUserAdapter extends ArrayAdapter<Sale> {
             viewHolder = (SaleUserAdapter.ViewHolder) convertView.getTag();
             result = convertView;
         }
-        searchUser(sale.getUserId(), viewHolder.imgAvatar, viewHolder.tvName);
+        if (sale.getUser() != null) {
+            viewHolder.tvName.setText(sale.getUser().getName());
+            Picasso.with(context).load(sale.getUser().getAvatar()).into(viewHolder.imgAvatar);
+        }
+//        searchUser(sale.getUserId(), viewHolder.imgAvatar, viewHolder.tvName);
         viewHolder.tvPrcie.setText(sale.getPrice() + "đ");
 
         return convertView;

@@ -79,7 +79,14 @@ public class SaleProductFragment extends Fragment {
         rcvComment.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                searchProductAndTranferToProductDetail(list.get(position).getProductId());
+                Product product = list.get(position).getProduct();
+                if (product == null) {
+                    searchProductAndTranferToProductDetail(list.get(position).getProductId());
+                } else {
+                    Intent intent = new Intent(getContext(), DetailActivity.class);
+                    intent.putExtra(AppConst.PRODUCT_PARAM, list.get(position).getProduct());
+                    startActivity(intent);
+                }
             }
         });
         rcvComment.setHapticFeedbackEnabled(true);

@@ -40,9 +40,6 @@ public class SaleUserFragment extends Fragment {
     private ListView rcvComment;
     private ArrayAdapter<Sale> adapter;
     private List<Sale> list;
-    private Button btnComment;
-    private EditText edtComment;
-    private TextView txtErrorCmt;
 
     public SaleUserFragment() {
     }
@@ -75,7 +72,15 @@ public class SaleUserFragment extends Fragment {
         rcvComment.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                searchUserAndTranferToUserDetail(list.get(position).getUserId());
+                User user = list.get(position).getUser();
+                if (user == null) {
+                    searchUserAndTranferToUserDetail(list.get(position).getUserId());
+                } else {
+                    Intent intent = new Intent(getContext(), UserDetailActivity.class);
+                    intent.putExtra(AppConst.USER_PARAM, list.get(position).getUser());
+                    startActivity(intent);
+                }
+//
             }
         });
         Utils.setListViewHeightBasedOnItems(rcvComment);
@@ -83,7 +88,6 @@ public class SaleUserFragment extends Fragment {
     }
 
     private User user;
-    private Product product;
 
     public void searchUserAndTranferToUserDetail(int id) {
         UserService userService = APIServiceManager.getUserService();

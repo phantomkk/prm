@@ -94,12 +94,6 @@ public class SearchFragment extends LoadingFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-//                if(call != null && call.isExecuted()) {
-//                    call.cancel();
-//                }
-//                if(callList != null && callList.isExecuted()) {
-//                    callList.cancel();
-//                }
             }
         });
         return v;

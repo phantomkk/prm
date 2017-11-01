@@ -235,7 +235,7 @@ public class ScanFragment extends LoadingFragment implements MessageDialogFragme
         showLoading();
         final String code = rawResult.getText();
         pService = APIServiceManager.getPService();
-        pService.getProductByCode("7718481467591").enqueue(new Callback<Product>() {
+        pService.getProductByCode(code).enqueue(new Callback<Product>() {
             @Override
             public void onResponse(Call<Product> call, Response<Product> response) {
                 closeLoading();

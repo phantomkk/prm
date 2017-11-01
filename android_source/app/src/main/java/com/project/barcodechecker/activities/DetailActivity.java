@@ -148,10 +148,11 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
         txtCode.setText(p.getCode());
         txtName.setText(p.getName());
         txtPrice.setText(String.format(Locale.US, "%3f", p.getPrice()));
-//        txtCompany.setText();
+        txtCompany.setText(p.getComanyName());
         txtDescription.setText(p.getDescription());
         txtContact.setText(p.getPhone());
-        rbStar.setRating((float) p.getAverageRating());final User u = CoreManager.getUser(DetailActivity.this);
+        rbStar.setRating((float) p.getAverageRating());
+        final User u = CoreManager.getUser(DetailActivity.this);
         if (u != null) {
             if (u.getRatingList() == null) {
             }
@@ -164,7 +165,7 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
         rbStar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                if(fromUser){
+                if (fromUser) {
                     Log.e("ERROR", "UP");
                     if (u == null) {
                         AlertDialog.Builder dialog = new AlertDialog.Builder(DetailActivity.this);
@@ -217,6 +218,7 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
             }
         });
     }
+
     private Rating getRating(User user) {
         List<Rating> list = user.getRatingList();
         if (list == null) {
@@ -230,6 +232,7 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
         return null;
 
     }
+
     private void loadComments(Product product) {
         if (product != null) {
             commentFragment.setProduct(product);
@@ -297,7 +300,9 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
                         List<Product> productList = new ArrayList<Product>();
                         if (listProducts.size() > 10) {
                             for (int i = 0; i < 10; i++) {
-                                productList.add(listProducts.get(i));
+                                if (!product.getId().equals(listProducts.get(i).getId())) {
+                                    productList.add(listProducts.get(i));
+                                }
                             }
                             suggestFragment.setData(productList);
                         } else {

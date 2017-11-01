@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Lenovo on 30/10/2017.
@@ -24,6 +25,30 @@ public class Sale implements Serializable {
     private boolean isDelete;
     @SerializedName("ImagePath")
     private String imagePath;
+    @SerializedName("User")
+    private User user;
+    @SerializedName("Product")
+    private Product product;
+
+    public String getDateCreate() {
+        return dateCreate;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 
     public Sale(String name, float price, String dateCreate, boolean isDelete, String imagePath) {
         this.name = name;

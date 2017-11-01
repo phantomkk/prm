@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -94,6 +95,7 @@ public abstract class BaseActivity extends Activity {
     public void initToolbar() {
         Log.e("TOOLBAR", "INIT");
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setBackground(ContextCompat.getDrawable(this,R.color.colorPrimary));
         btnBack = (ImageButton) findViewById(R.id.btn_back_toolbar);
         btnBack.setOnClickListener(
                 new View.OnClickListener() {
@@ -129,6 +131,7 @@ public abstract class BaseActivity extends Activity {
     public void setToolbarTitle(String title) {
         if (toolbar != null) {
             txtTitle.setText(title);
+            txtTitle.setTextColor(getColor(R.color.color_white));
         } else {
             Log.e("ERROR", "BaseActivity.setToolbarTitle(*): toolbar null");
         }

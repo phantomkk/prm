@@ -65,10 +65,14 @@ public class SaleProductAdapter extends ArrayAdapter<Sale> {
             viewHolder = (SaleProductAdapter.ViewHolder) convertView.getTag();
             result = convertView;
         }
-        searchProduct(sale.getProductId(),viewHolder.imgAvatar, viewHolder.tvName);
+//        searchProduct(sale.getProductId(),viewHolder.imgAvatar, viewHolder.tvName);
 //        if (sale.getName() != null) {
 //            viewHolder.tvName.setText(sale.getName());
 //        }
+        if (sale.getProduct()!=null) {
+            viewHolder.tvName.setText(sale.getProduct().getName());
+            Picasso.with(context).load(sale.getProduct().getImgDefault()).into(viewHolder.imgAvatar);
+        }
         viewHolder.tvPrcie.setText(sale.getPrice() + "đ");
 
         return convertView;
