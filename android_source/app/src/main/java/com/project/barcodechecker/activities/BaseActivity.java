@@ -22,6 +22,8 @@ import com.project.barcodechecker.utils.AppConst;
 import com.project.barcodechecker.utils.CoreManager;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -160,5 +162,16 @@ public abstract class BaseActivity extends Activity {
 
     public void logError(String activity, String method, String message) {
         Log.e("LOG_ERROR", activity + "." + method + "(): " + message);
+    }
+    public void logError(String message) {
+        Log.e("LOG_ERROR", message);
+    }
+
+    public void logErrorBody(Response response) throws IOException {
+        if (response.errorBody() != null) {
+            Log.e("LOG_ERROR", response.errorBody().string());
+        }else{
+            Log.e("LOG_ERROR", "error body is null");
+        }
     }
 }
