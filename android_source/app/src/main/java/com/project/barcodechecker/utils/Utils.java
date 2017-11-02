@@ -25,7 +25,7 @@ public class Utils {
 
     private static final String PREF_NAME = "ACCOUNT";
     private static final String USER_KEY = "USER_KEY";
-
+    public static int USE_VIEW_DETAIL = 100;
     public static boolean isEmulator() {
         return Build.FINGERPRINT.startsWith("generic")
                 || Build.FINGERPRINT.startsWith("unknown")

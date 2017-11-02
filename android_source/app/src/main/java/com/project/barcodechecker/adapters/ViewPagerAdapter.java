@@ -32,10 +32,15 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         mFragmentList.add(fragment);
     }
 
-    public void replaceFragment(int position, Fragment fragment){
+    public void deleteFragment(int posisiont){
+        mFragmentList.remove(posisiont);
+
+    }
+
+    public void replaceFragment(int position){
         List<Fragment> list = mFragmentList;
         list.remove(position);
-        list.add(position,fragment);
+//        list.add(position,fragment);
         mFragmentList.clear();
         mFragmentList.addAll(list);
        // this.notifyDataSetChanged();

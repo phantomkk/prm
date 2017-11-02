@@ -1,5 +1,6 @@
 package com.project.barcodechecker.activities;
 
+import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,9 +11,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.project.barcodechecker.R;
+import com.project.barcodechecker.api.APIServiceManager;
+import com.project.barcodechecker.api.services.UserService;
+import com.project.barcodechecker.models.User;
+import com.project.barcodechecker.utils.CoreManager;
 import com.project.barcodechecker.utils.Utils;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RegisterActivity extends BaseActivity {
     private Button btnRegister;
@@ -91,6 +101,36 @@ public class RegisterActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if(isValid()){
+                    User user = new User();
+                    user.setUsername(edtUsername.getText().toString().trim());
+                    user.setName(edtName.getText().toString().trim());
+                    user.setAddress(edtAddress.getText().toString().trim());
+                    user.setEmail(edtEmail.getText().toString().trim());
+                    user.setPhone(edtPhone.getText().toString().trim());
+                    user.setPassword(edtPassword.getText().toString().trim());
+                    UserService userService = APIServiceManager.getUserService();
+                    showLoading();
+                    userService.register(user).enqueue(new Callback<User>() {
+                        @Override
+                        public void onResponse(Call<User> call, Response<User> response) {
+                            if (response.isSuccessful()) {
+                                CoreManager.setUser(RegisterActivity.this, response.body());
+                                setResult(RESULT_OK);
+                                finish();
+                            } else {
+                                Toast.makeText(RegisterActivity.this, "Can't register right now, please try again!",
+                                        Toast.LENGTH_LONG).show();
+                            }
+                            hideLoading();
+                        }
+
+                        @Override
+                        public void onFailure(Call<User> call, Throwable t) {
+                            Toast.makeText(RegisterActivity.this, "Register fail, please try again!",
+                                    Toast.LENGTH_LONG).show();
+                            hideLoading();
+                        }
+                    });
 
                 }
             }
@@ -117,7 +157,6 @@ public class RegisterActivity extends BaseActivity {
             edtUsername.setText("");
             userWrapper.setError("Độ dài tài khoản không hợp lệ.");
         } else{
-            flag=true;
             userWrapper.setError("");
             userWrapper.setErrorEnabled(false);
         }
@@ -126,7 +165,6 @@ public class RegisterActivity extends BaseActivity {
             edtName.setText("");
             nameWrapper.setError("Độ dài tên không hợp lệ.");
         } else{
-            flag=true;
             nameWrapper.setError("");
             nameWrapper.setErrorEnabled(false);
         }
@@ -136,7 +174,6 @@ public class RegisterActivity extends BaseActivity {
             edtAddress.setText("");
             addressWrapper.setError("Độ dài địa chỉ không hợp lệ.");
         } else{
-            flag=true;
             addressWrapper.setError("");
             addressWrapper.setErrorEnabled(false);
         }
@@ -151,7 +188,6 @@ public class RegisterActivity extends BaseActivity {
             edtEmail.setText("");
             emailWrapper.setError("Email không hợp lệ");
         }else{
-            flag=true;
             emailWrapper.setError("");
             emailWrapper.setErrorEnabled(false);
         }
@@ -165,7 +201,6 @@ public class RegisterActivity extends BaseActivity {
             edtPhone.setText("");
             phoneWrapper.setError("Số điện thoại không hợp lệ");
         }else{
-            flag=true;
             phoneWrapper.setError("");
             phoneWrapper.setErrorEnabled(false);
         }
@@ -177,7 +212,6 @@ public class RegisterActivity extends BaseActivity {
             flag = false;
             passwordWrapper.setError(getString(R.string.password_leng_error));
         } else {
-            flag = true;
             passwordWrapper.setError("");
             passwordWrapper.setErrorEnabled(false);
         }
@@ -192,10 +226,8 @@ public class RegisterActivity extends BaseActivity {
             flag = false;
             confirmWrapper.setError(getString(R.string.password_leng_error));
         } else {
-            flag = true;
             confirmWrapper.setVisibility(View.GONE);
         }
-
 
 
         return flag;

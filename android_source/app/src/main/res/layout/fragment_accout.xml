@@ -30,8 +30,8 @@
                     android:orientation="vertical">
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/img_avatar_user"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
                         android:src="@drawable/avatar"/>
 
                     <ImageButton
@@ -361,7 +361,7 @@
                     android:textColor="@color/color_white" />
 
                 <Button
-                    android:id="@+id/btn_log_out"
+                    android:id="@+id/btn_log_out_accout"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_gravity="left"

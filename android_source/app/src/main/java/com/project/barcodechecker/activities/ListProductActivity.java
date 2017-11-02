@@ -15,6 +15,7 @@ import com.project.barcodechecker.R;
 import com.project.barcodechecker.adapters.ProductAdapter;
 import com.project.barcodechecker.api.services.CategoryService;
 import com.project.barcodechecker.api.services.ProductService;
+import com.project.barcodechecker.customize.MyGridView;
 import com.project.barcodechecker.models.Product;
 import com.project.barcodechecker.api.APIServiceManager;
 import com.project.barcodechecker.utils.AppConst;
@@ -27,7 +28,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ListProductActivity extends BaseActivity {
-    private GridView gvProducts;
+    private MyGridView gvProducts;
     private List<Product> list;
     private ProductAdapter adapter;
     private CategoryService service;
@@ -80,7 +81,7 @@ public class ListProductActivity extends BaseActivity {
     }
 
     public void initView() {
-        gvProducts = (GridView) findViewById(R.id.grd_list_product);
+        gvProducts = (MyGridView) findViewById(R.id.grd_list_product);
     }
 
 

@@ -15,10 +15,13 @@
             android:id="@+id/toolbar"
             layout="@layout/tool_bar" />
     </RelativeLayout>
-
-    <GridView
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <com.project.barcodechecker.customize.MyGridView
         android:id="@+id/grd_list_product"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:numColumns="3" />
+    </ScrollView>
 </LinearLayout>

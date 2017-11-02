@@ -34,6 +34,7 @@ import com.project.barcodechecker.activities.MainActivity;
 import com.project.barcodechecker.activities.TestActivity;
 import com.project.barcodechecker.api.APIServiceManager;
 import com.project.barcodechecker.api.services.FileService;
+import com.project.barcodechecker.api.services.UserService;
 import com.project.barcodechecker.dialog.ChangePasswordDialog;
 import com.project.barcodechecker.models.ImgResponse;
 import com.project.barcodechecker.models.User;
@@ -55,12 +56,13 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Lenovo on 21/10/2017.
  */
 
-public class AccoutFragment extends Fragment implements View.OnClickListener {
+public class AccoutFragment extends LoadingFragment implements View.OnClickListener{
     public AccoutFragment() {
         // Required empty public constructor
     }
@@ -74,6 +76,7 @@ public class AccoutFragment extends Fragment implements View.OnClickListener {
     public static final int REQUEST_PERMISSION = 102;
     private OnLoginListener mCallback;
     private User u;
+
     public interface OnLoginListener {
         public void destoyFragmentUser();
     }
@@ -102,10 +105,6 @@ public class AccoutFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_accout, container, false);
         u = CoreManager.getUser(getContext());
         imvAvatar = (CircleImageView) view.findViewById(R.id.img_avatar_user);
-        if(u!=null && u.getAvatar() !=null){
-        imvAvatar.setImageURI(null);
-        Picasso.with(getContext()).load("https://www.smashingmagazine.com/wp-content/uploads/2015/06/10-dithering-opt.jpg").error(R.drawable.avatar).into(imvAvatar);
-        }
         btnChangeAvarta = (ImageButton) view.findViewById(R.id.btn_change_avatar);
         btnChangeAvarta.setOnClickListener(this);
         btnChangePassWord = (ImageButton) view.findViewById(R.id.btn_edit_password);
@@ -130,16 +129,16 @@ public class AccoutFragment extends Fragment implements View.OnClickListener {
             ActivityCompat.requestPermissions(getActivity(),
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_PERMISSION);
         }
-        btnLogOut = (Button) view.findViewById(R.id.btn_log_out);
+        btnLogOut = (Button) view.findViewById(R.id.btn_log_out_accout);
         btnLogOut.setOnClickListener(this);
         return view;
     }
 
     public void setUserInfor(User user) {
         if (user != null) {
-            tvName.setText(user.getName());
-//            tvEmail.setText(user.getEmail());
-//            tvPhone.setText(user.getPhone());
+            tvName.setText(user.getUsername());
+            imvAvatar.setImageURI(null);
+            Picasso.with(getContext()).load(u.getAvatar()).into(imvAvatar);
             edtName.setText(user.getName());
             edtAddress.setText(user.getAddress());
             edtEmail.setText(user.getEmail());
@@ -156,7 +155,6 @@ public class AccoutFragment extends Fragment implements View.OnClickListener {
             flag = false;
             tvNameError.setVisibility(View.VISIBLE);
         } else {
-            flag = true;
             tvNameError.setVisibility(View.GONE);
         }
 
@@ -164,7 +162,6 @@ public class AccoutFragment extends Fragment implements View.OnClickListener {
             flag = false;
             tvAddressError.setVisibility(View.VISIBLE);
         } else {
-            flag = true;
             tvAddressError.setVisibility(View.GONE);
         }
 
@@ -172,7 +169,6 @@ public class AccoutFragment extends Fragment implements View.OnClickListener {
             flag = false;
             tvEmailError.setVisibility(View.VISIBLE);
         } else {
-            flag = true;
             tvEmailError.setVisibility(View.GONE);
         }
 
@@ -180,7 +176,6 @@ public class AccoutFragment extends Fragment implements View.OnClickListener {
             flag = false;
             tvPhoneError.setVisibility(View.VISIBLE);
         } else {
-            flag = true;
             tvPhoneError.setVisibility(View.GONE);
         }
 
@@ -199,40 +194,94 @@ public class AccoutFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.btn_edit_password:
                 //Todo sửa thành user password
-                ChangePasswordDialog changePasswordDialog = new ChangePasswordDialog(getContext(), "hahaha");
-                changePasswordDialog.setTitle("Change Password");
+                ChangePasswordDialog changePasswordDialog = new ChangePasswordDialog(getContext(), u.getPassword());
+                changePasswordDialog.setTitle("Đổi Mật Khẩu");
                 changePasswordDialog.setCanceledOnTouchOutside(true);
                 changePasswordDialog.show();
                 break;
             case R.id.btn_confirm:
-                if(isValid()){
+                if (isValid()) {
+                    showLoading();
                     //TODO thực hiện add
+                    User user = CoreManager.getUser(getContext());
+                    user.setName(edtName.getText().toString().trim());
+                    user.setAddress(edtAddress.getText().toString().trim());
+                    user.setEmail(edtEmail.getText().toString().trim());
+                    user.setPhone(edtPhone.getText().toString().trim());
+                    user.setIntroduce(edtIntroduct.getText().toString().trim());
+                    user.setWebsite(edtWeb.getText().toString().trim());
+                    UserService userService = APIServiceManager.getUserService();
+                    userService.update(user.getId(),user).enqueue(new Callback<User>() {
+                        @Override
+                        public void onResponse(Call<User> call, Response<User> response) {
+                            if (response.isSuccessful()) {
+                                User userTemplate = CoreManager.getUser(getContext());
+                                userTemplate.setName(edtName.getText().toString().trim());
+                                userTemplate.setAddress(edtAddress.getText().toString().trim());
+                                userTemplate.setEmail(edtEmail.getText().toString().trim());
+                                userTemplate.setPhone(edtPhone.getText().toString().trim());
+                                userTemplate.setIntroduce(edtIntroduct.getText().toString().trim());
+                                userTemplate.setWebsite(edtWeb.getText().toString().trim());
+                                CoreManager.setUser(getContext(),userTemplate);
+                                Toast.makeText(getContext(), "Update User Success",
+                                        Toast.LENGTH_LONG).show();
+                                closeLoading();
+                            } else {
+                                Toast.makeText(getContext(), "Update User Fail, please try again!",
+                                        Toast.LENGTH_LONG).show();
+                                closeLoading();
+                            }
+                        }
 
+                        @Override
+                        public void onFailure(Call<User> call, Throwable t) {
+                            Toast.makeText(getContext(), "Update user error, please try again!",
+                                    Toast.LENGTH_LONG).show();
+                            closeLoading();
+                        }
+                    });
                 }
                 break;
-            case R.id.btn_log_out:
+            case R.id.btn_log_out_accout:
                 showConfirmLogoutDialog();
                 break;
         }
     }
 
     public void showConfirmLogoutDialog() {
-        ConfirmDialogFragment confirmDialogFragment = new ConfirmDialogFragment(getString(R.string.delete_history_dialog_title),
-                getString(R.string.confirm_log_out_message),
-                new ConfirmDialogFragment.ConfirmDialogListener() {
-                    @Override
-                    public void onDialogPositiveClick(DialogFragment dialog) {
-                       // CoreManager.setUser(getContext(), null);
-                        //TODO destroy child fragment
-                        mCallback.destoyFragmentUser();
-                    }
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity());
+        builder.setTitle("Đăng xuất").setMessage(R.string.confirm_log_out_message)
+                .setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
 
                     @Override
-                    public void onDialogNegativeClick(DialogFragment dialog) {
-                        dialog.dismiss();
+                    public void onClick(DialogInterface dialog, int which) {
+                        mCallback.destoyFragmentUser();
+
+                    }
+                })
+                .setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                       dialog.dismiss();
                     }
                 });
-        confirmDialogFragment.show(getFragmentManager(), getString(R.string.delete_history_dialog_tag));
+        builder.show();
+
+//        ConfirmDialogFragment confirmDialogFragment = new ConfirmDialogFragment("Đăng xuất",
+//                getString(R.string.confirm_log_out_message),
+//                new ConfirmDialogFragment.ConfirmDialogListener() {
+//                    @Override
+//                    public void onDialogPositiveClick(DialogFragment dialog) {
+//                        // CoreManager.setUser(getContext(), null);
+//                        //TODO destroy child fragment
+//                        mCallback.destoyFragmentUser();
+//                    }
+//
+//                    @Override
+//                    public void onDialogNegativeClick(DialogFragment dialog) {
+//                        dialog.dismiss();
+//                    }
+//                });
+//        confirmDialogFragment.show(getFragmentManager(), getString(R.string.delete_history_dialog_tag));
     }
 
     @Override
@@ -256,6 +305,8 @@ public class AccoutFragment extends Fragment implements View.OnClickListener {
                         Toast.LENGTH_LONG).show();
             }
         }
+
+
     }
 
 

@@ -54,6 +54,7 @@ import com.project.barcodechecker.api.services.ProductService;
 import com.project.barcodechecker.models.User;
 import com.project.barcodechecker.utils.AppConst;
 import com.project.barcodechecker.utils.CoreManager;
+import com.project.barcodechecker.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -67,7 +68,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class MainActivity extends AppCompatActivity implements AccoutFragment.OnLoginListener{
+public class MainActivity extends AppCompatActivity implements AccoutFragment.OnLoginListener {
     private ProductService pService;
     private BottomNavigationView bottomNavigationView;
     private FrameLayout mainFrame;
@@ -89,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements AccoutFragment.On
     TextView mTitle;
     CircleImageView mAvatar;
     User u;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,10 +116,10 @@ public class MainActivity extends AppCompatActivity implements AccoutFragment.On
                     new String[]{Manifest.permission.CAMERA}, ZXING_CAMERA_PERMISSION);
         }
         viewPager.setCurrentItem(2);
-        u=CoreManager.getUser(this);
-        if(u!=null) {
-            Picasso.with(this).load(u.getAvatar()).error(R.drawable.avatar).into(mAvatar);
-        }else{
+        u = CoreManager.getUser(this);
+        if (u != null) {
+            Picasso.with(this).load(u.getAvatar()).into(mAvatar);
+        } else {
             mAvatar.setImageResource(R.drawable.avatar);
         }
 
@@ -163,22 +165,22 @@ public class MainActivity extends AppCompatActivity implements AccoutFragment.On
                     case R.id.action_setting:
 //                        selectedFragment = FragmentFactory.getFragment(SettingFragment.class);
                         User u = CoreManager.getUser(context);
-                        u=new User();
-                        if (u==null) {
+                        if (u == null) {
                             AlertDialog.Builder dialog = new AlertDialog.Builder(context);
                             dialog.setMessage("Bạn cần phải đăng nhập để xem chỉnh sửa")
                                     .setPositiveButton("Đăng nhập", positiveListener)
-                                    .setNegativeButton("Thôi kệ lười đăng nhập lắm", null)
+                                    .setNegativeButton("Hủy", null)
                                     .show();
-                        }else {
-                            if(!isLoginFirst) {
+                        } else {
+                            if (!isLoginFirst) {
+                                isLoginFirst=true;
                                 mTitle.setText(R.string.tab_user);
                                 viewPagerAdapter.addFragment(new UserFragment());
                                 viewPagerAdapter.notifyDataSetChanged();
-                                viewPager.setCurrentItem(4);
-                                toolbar.setVisibility(View.GONE);
-                                mAvatar.setVisibility(View.VISIBLE);
                             }
+                            viewPager.setCurrentItem(4);
+                            toolbar.setVisibility(View.GONE);
+                            mAvatar.setVisibility(View.VISIBLE);
                         }
 
                         break;
@@ -239,27 +241,30 @@ public class MainActivity extends AppCompatActivity implements AccoutFragment.On
             }
         });
     }
-    private static final int USE_VIEW_REQUEST = 100;
+
     final DialogInterface.OnClickListener positiveListener = new DialogInterface.OnClickListener() {
 
         @Override
         public void onClick(DialogInterface dialog, int which) {
-            startActivityForResult(new Intent(MainActivity.this, TestActivity.class),USE_VIEW_REQUEST);
+            startActivityForResult(new Intent(MainActivity.this, LoginActivity.class), Utils.USE_VIEW_DETAIL);
         }
     };
     private boolean isLoginFirst = false;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK){
-            if(requestCode == USE_VIEW_REQUEST){
-                isLoginFirst = true;
-                mTitle.setText(R.string.tab_user);
-                viewPagerAdapter.addFragment(new UserFragment());
-                viewPagerAdapter.notifyDataSetChanged();
-                viewPager.setCurrentItem(4);
-                toolbar.setVisibility(View.GONE);
-                mAvatar.setVisibility(View.VISIBLE);
+        if (resultCode == RESULT_OK) {
+            if(requestCode == Utils.USE_VIEW_DETAIL){
+            isLoginFirst = true;
+            u=CoreManager.getUser(this);
+            Picasso.with(this).load(u.getAvatar()).into(mAvatar);
+            mTitle.setText(R.string.tab_user);
+            viewPagerAdapter.addFragment(new UserFragment());
+            viewPagerAdapter.notifyDataSetChanged();
+            viewPager.setCurrentItem(4);
+            toolbar.setVisibility(View.GONE);
+            mAvatar.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -294,6 +299,10 @@ public class MainActivity extends AppCompatActivity implements AccoutFragment.On
 
     @Override
     public void destoyFragmentUser() {
+        mAvatar.setImageResource(R.drawable.avatar);
+        viewPagerAdapter.deleteFragment(4);
+        viewPagerAdapter.notifyDataSetChanged();
         viewPager.setCurrentItem(2);
+        CoreManager.setUser(this, null);
     }
 }

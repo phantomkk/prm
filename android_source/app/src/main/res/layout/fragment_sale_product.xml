@@ -5,7 +5,7 @@
     <com.project.barcodechecker.customize.MyGridView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:numColumns="2"
+        android:numColumns="3"
         android:id="@+id/list_sale_product"
         />
 </LinearLayout>

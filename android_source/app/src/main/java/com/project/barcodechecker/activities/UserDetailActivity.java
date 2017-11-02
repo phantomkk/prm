@@ -28,7 +28,7 @@ import retrofit2.Response;
 
 public class UserDetailActivity extends BaseActivity {
     private CircleImageView imvAvatar;
-    private TextView edtName, edtAddress, edtEmail, edtPhone, edtIntroduct, edtWeb;
+    private TextView tvName,edtName, edtAddress, edtEmail, edtPhone, edtIntroduct, edtWeb;
     private User user;
     private SaleProductFragment saleUserFragment;
     private ProgressBar pbSale;
@@ -38,8 +38,9 @@ public class UserDetailActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setToolbarTitle("Chi Tiết Người Dùng");
+        tvName = (TextView) findViewById(R.id.txt_name);
         imvAvatar = (CircleImageView) findViewById(R.id.img_avatar_user);
-        edtName = (TextView) findViewById(R.id.txt_name);
+        edtName = (TextView) findViewById(R.id.edt_name);
         edtAddress = (TextView) findViewById(R.id.edt_address);
         edtEmail = (TextView) findViewById(R.id.edt_email);
         edtPhone = (TextView) findViewById(R.id.edt_phone);
@@ -71,6 +72,7 @@ public class UserDetailActivity extends BaseActivity {
 
     public void setUserInfor(User user) {
         if (user != null) {
+            tvName.setText(user.getUsername());
             edtName.setText(user.getName());
             edtAddress.setText(user.getAddress());
             edtEmail.setText(user.getEmail());

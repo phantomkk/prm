@@ -2,20 +2,26 @@ package com.project.barcodechecker.activities;
 
 import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.project.barcodechecker.R;
 import com.project.barcodechecker.api.APIServiceManager;
 import com.project.barcodechecker.api.services.UserService;
+import com.project.barcodechecker.fragments.MessageDialogFragment;
 import com.project.barcodechecker.models.User;
 import com.project.barcodechecker.utils.CoreManager;
+import com.project.barcodechecker.utils.Utils;
 
 import org.w3c.dom.Text;
+
+import java.io.IOException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,13 +47,15 @@ public class LoginActivity extends BaseActivity {
             public void onClick(View v) {
                 if(isValid()){
                     loginProcess();
+//                    setResult(RESULT_OK);
+//                    finish();
                 }
             }
         });
         txtRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+                startActivityForResult(new Intent(LoginActivity.this, RegisterActivity.class), Utils.USE_VIEW_DETAIL);
             }
         });
         usernameWrapper = (TextInputLayout) findViewById(R.id.userWrapper);
@@ -82,7 +90,6 @@ public class LoginActivity extends BaseActivity {
         User user = new User();
         user.setUsername(username);
         user.setPassword(password);
-
         UserService userService = APIServiceManager.getUserService();
         showLoading();
         userService.login(user).enqueue(new Callback<User>() {
@@ -93,14 +100,21 @@ public class LoginActivity extends BaseActivity {
                     setResult(RESULT_OK);
                     finish();
                 } else {
-                    logError(LoginActivity.class.getSimpleName(), "loginProcess","API ELSE");
+                    try {
+                        Toast.makeText(LoginActivity.this, response.errorBody().string(),
+                                Toast.LENGTH_LONG).show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
                 }
                 hideLoading();
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                logError(LoginActivity.class.getSimpleName(), "loginProcess", "Failure " + t.getMessage());
+                Toast.makeText(LoginActivity.this, "Login fail, please try again!",
+                        Toast.LENGTH_LONG).show();
                 hideLoading();
             }
         });
@@ -116,7 +130,6 @@ public class LoginActivity extends BaseActivity {
             edtUsername.setText("");
             usernameWrapper.setError("Độ dài tài khoản không hợp lệ.");
         } else{
-            flag=true;
             usernameWrapper.setError("");
             usernameWrapper.setErrorEnabled(false);
         }
@@ -126,7 +139,6 @@ public class LoginActivity extends BaseActivity {
             edtPassword.setText("");
             passwordWrapper.setError("Độ dài mật khẩu không hợp lệ.");
         }else{
-            flag=true;
             usernameWrapper.setError("");
             passwordWrapper.setErrorEnabled(false);
         }
@@ -142,6 +154,17 @@ public class LoginActivity extends BaseActivity {
             return type + " chỉ chứa chữ, số và các kí tự -, _, @";
         }
         return "";
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK){
+            if(requestCode==Utils.USE_VIEW_DETAIL){
+                setResult(RESULT_OK);
+                finish();
+            }
+        }
     }
 
     @Override

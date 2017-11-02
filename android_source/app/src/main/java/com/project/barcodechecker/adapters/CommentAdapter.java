@@ -56,7 +56,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     public void onBindViewHolder(CommentViewHolder holder, int position) {
         Comment c = getItem(position);
 //        if(c.getName()) != null) {
-            Picasso.with(context).load(c.getUserAvatar()).error(R.drawable.ic_insert_emoticon_black_24dp).into(holder.imgAvatar);
+            Picasso.with(context).load(c.getUserAvatar()).into(holder.imgAvatar);
 //        }else{
 //            Picasso.with(context).load(R.drawable.ic_insert_emoticon_black_24dp).into(holder.imgAvatar);
 //        }

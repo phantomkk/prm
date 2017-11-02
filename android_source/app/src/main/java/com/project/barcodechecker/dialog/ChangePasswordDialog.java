@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Process;
 import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -14,9 +15,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.project.barcodechecker.R;
+import com.project.barcodechecker.activities.LoginActivity;
+import com.project.barcodechecker.api.APIServiceManager;
+import com.project.barcodechecker.api.services.UserService;
+import com.project.barcodechecker.models.User;
+import com.project.barcodechecker.utils.CoreManager;
 import com.project.barcodechecker.utils.Utils;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Lenovo on 29/10/2017.
@@ -28,11 +39,12 @@ public class ChangePasswordDialog extends Dialog {
     private TextView mNewPasswordError, mCurrentPasswordError, mConfirmPasswordError;
     private ProgressBar mPbNewPassword, mPbCurrentPassword, mPbConfirmPassword;
     private Button button;
-
+    private Context context;
 
     public ChangePasswordDialog(@NonNull Context context, String mPassword) {
         super(context);
         this.mPassword = mPassword;
+        this.context = context;
     }
 
     @Override
@@ -108,7 +120,31 @@ public class ChangePasswordDialog extends Dialog {
             public void onClick(View v) {
                 if (isValid()) {
                     //todo changepassword
-                    dismiss();
+                    User user = CoreManager.getUser(context);
+//                    user.setPassword(mNewPassword.getText().toString());
+                    UserService userService = APIServiceManager.getUserService();
+                    userService.updatePassword(user.getId(),mNewPassword.getText().toString()).enqueue(new Callback<User>() {
+                        @Override
+                        public void onResponse(Call<User> call, Response<User> response) {
+                            if (response.isSuccessful()) {
+                                User userTemplate = CoreManager.getUser(context);
+                                userTemplate.setPassword(mNewPassword.getText().toString());
+                                CoreManager.setUser(context,userTemplate);
+                                Toast.makeText(context, "Change Password success",
+                                        Toast.LENGTH_LONG).show();
+                                dismiss();
+                            } else {
+                                Toast.makeText(context, "Change Password error, please try again!",
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<User> call, Throwable t) {
+                            Toast.makeText(context, "Change Password fail, please try again",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
             }
         });
@@ -136,7 +172,6 @@ public class ChangePasswordDialog extends Dialog {
             mCurrentPasswordError.setVisibility(View.VISIBLE);
             mCurrentPasswordError.setText(R.string.password_leng_error);
         } else {
-            flag = true;
             mCurrentPasswordError.setVisibility(View.GONE);
         }
 
@@ -150,7 +185,6 @@ public class ChangePasswordDialog extends Dialog {
             mNewPasswordError.setVisibility(View.VISIBLE);
             mNewPasswordError.setText(R.string.password_leng_error);
         } else {
-            flag = true;
             mNewPasswordError.setVisibility(View.GONE);
         }
 
@@ -168,7 +202,6 @@ public class ChangePasswordDialog extends Dialog {
             mConfirmPasswordError.setVisibility(View.VISIBLE);
             mConfirmPasswordError.setText(R.string.password_leng_error);
         } else {
-            flag = true;
             mConfirmPasswordError.setVisibility(View.GONE);
         }
 
