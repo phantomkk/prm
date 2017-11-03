@@ -8,7 +8,7 @@ import android.os.Build;
 
 public class AppConst {
     public final static String SERVER_NAME = "http://api61984.azurewebsites.net/";
-
+    public final static String LOG_ERROR = "LOG_ERROR";
     public final static String DATE_NO_TIME = "dd/MM/yyyy";
     public final static String DATE_AND_TIME = "dd/MM/yyyy HH:mm";
     public final static String DATE_AND_TIME_SQL = "yyyy/MM/dd HH:mm";

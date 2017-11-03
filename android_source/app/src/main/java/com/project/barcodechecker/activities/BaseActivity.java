@@ -56,6 +56,7 @@ public abstract class BaseActivity extends Activity {
 
 //        }
     }
+
     private User user;
 
     public void searchUserAndTranferToUserDetail(int id) {
@@ -81,19 +82,22 @@ public abstract class BaseActivity extends Activity {
             }
         });
     }
+
     private View.OnClickListener imgClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             searchUserAndTranferToUserDetail(CoreManager.getUser(BaseActivity.this).getId());
         }
     };
+
     public void logErrorBody(Response response) throws IOException {
         if (response.errorBody() != null) {
             Log.e("LOG_ERROR", response.errorBody().string());
-        }else{
+        } else {
             Log.e("LOG_ERROR", "error body is null");
         }
     }
+
     protected abstract int getLayoutResourceId();
 
     public void showMessage(String message) {
@@ -103,7 +107,7 @@ public abstract class BaseActivity extends Activity {
     public void initToolbar() {
         Log.e("TOOLBAR", "INIT");
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setBackground(ContextCompat.getDrawable(this,R.color.colorPrimary));
+        toolbar.setBackground(ContextCompat.getDrawable(this, R.color.colorPrimary));
         btnBack = (ImageButton) findViewById(R.id.btn_back_toolbar);
         btnBack.setOnClickListener(
                 new View.OnClickListener() {
@@ -114,17 +118,18 @@ public abstract class BaseActivity extends Activity {
                 }
         );
     }
-    public void hideAvatar(boolean hide){
-        if(imgAvatar != null){
-            if(hide){
+
+    public void hideAvatar(boolean hide) {
+        if (imgAvatar != null) {
+            if (hide) {
                 imgAvatar.setVisibility(View.INVISIBLE);
-            }else{
+            } else {
                 imgAvatar.setVisibility(View.VISIBLE);
             }
         }
     }
 
-    public void setUpAvatar(){
+    public void setUpAvatar() {
         Picasso.with(this).load(CoreManager.getUser(this).getAvatar()).into(imgAvatar);
     }
 
@@ -163,6 +168,7 @@ public abstract class BaseActivity extends Activity {
             progressDialog.show();
         }
     }
+
     public void hideLoading() {
         if (progressDialog != null) {
             progressDialog.dismiss();
@@ -173,15 +179,21 @@ public abstract class BaseActivity extends Activity {
     public void logError(String activity, String method, String message) {
         Log.e("LOG_ERROR", activity + "." + method + "(): " + message);
     }
+
     public void logError(String message) {
         Log.e("LOG_ERROR", message);
     }
 
-    public void logErrorBody(Response response) throws IOException {
-        if (response.errorBody() != null) {
-            Log.e("LOG_ERROR", response.errorBody().string());
-        }else{
-            Log.e("LOG_ERROR", "error body is null");
+    public void logError(Response response, String activity) throws IOException {
+        if (response.isSuccessful()) {
+            Log.e(AppConst.LOG_ERROR, "Response success: " + activity + ": ");
+        } else {
+            if (response.errorBody() != null) {
+                Log.e(AppConst.LOG_ERROR, "Response error code " + response.code()+ "Error message: " +
+                response.errorBody().string());
+            } else {
+                Log.e("LOG_ERROR", "Response error body null");
+            }
         }
     }
 }
