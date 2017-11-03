@@ -173,4 +173,15 @@ public abstract class BaseActivity extends Activity {
     public void logError(String activity, String method, String message) {
         Log.e("LOG_ERROR", activity + "." + method + "(): " + message);
     }
+    public void logError(String message) {
+        Log.e("LOG_ERROR", message);
+    }
+
+    public void logErrorBody(Response response) throws IOException {
+        if (response.errorBody() != null) {
+            Log.e("LOG_ERROR", response.errorBody().string());
+        }else{
+            Log.e("LOG_ERROR", "error body is null");
+        }
+    }
 }
