@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.project.barcodechecker.R;
+import com.project.barcodechecker.activities.DetailActivity;
 import com.project.barcodechecker.activities.LoginActivity;
 import com.project.barcodechecker.adapters.CommentAdapter;
 import com.project.barcodechecker.api.APIServiceManager;
@@ -28,6 +29,7 @@ import com.project.barcodechecker.models.Product;
 import com.project.barcodechecker.models.User;
 import com.project.barcodechecker.utils.AppConst;
 import com.project.barcodechecker.utils.CoreManager;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -36,11 +38,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CommentFragment extends Fragment {
+public class CommentFragment extends Fragment{
     private RecyclerView rcvComment;
     private CommentAdapter adapter;
     private List<Comment> list;
@@ -48,13 +51,17 @@ public class CommentFragment extends Fragment {
     private EditText edtComment;
     private TextView txtErrorCmt;
     private Product product;
+    private CircleImageView imgAvatar;
     private ButtonPostCommentClickListener postCommentClickListener;
+
     public CommentFragment() {
         // Required empty public constructor
     }
-    public void setProduct(Product product){
+
+    public void setProduct(Product product) {
         this.product = product;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,32 +90,41 @@ public class CommentFragment extends Fragment {
         btnComment = (Button) v.findViewById(R.id.btn_comment_frag_cmt);
         edtComment = (EditText) v.findViewById(R.id.edt_content_frag_cmt);
         txtErrorCmt = (TextView) v.findViewById(R.id.txt_error_comment_frag_cmt);
-
+        imgAvatar = (CircleImageView) v.findViewById(R.id.img_avatar_frag_cmt);
+        if (CoreManager.getUser(getContext()) != null) {
+            Picasso.with(getContext()).load(CoreManager.getUser(getContext()).getAvatar()).into(imgAvatar);
+        }
         InputMethodManager imr = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imr.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
         return v;
     }
 
-    public void setData(List<Comment> list){
+    public void setData(List<Comment> list) {
         this.list = list;
         Collections.sort(list);
         adapter = new CommentAdapter(getContext(), this.list);
         rcvComment.setAdapter(adapter);
         rcvComment.setLayoutManager(new LinearLayoutManager(getContext().getApplicationContext()));
-        
+
         adapter.notifyDataSetChanged();
     }
 
-    public void updateData(Comment comment){
-        list.add(0,comment);
+    public void updateData(Comment comment) {
+        list.add(0, comment);
         Collections.sort(list);
         adapter.notifyDataSetChanged();
+    }
+
+    public void setUpAvatarInToolBar() {
+        if (CoreManager.getUser(getContext()) != null) {
+            Picasso.with(getContext()).load(CoreManager.getUser(getContext()).getAvatar()).into(imgAvatar);
+        }
     }
 
     ///listener
 
 
-    public interface ButtonPostCommentClickListener{
+    public interface ButtonPostCommentClickListener {
         void postCmtClickListener(String content, EditText edtCmt, TextView txtError);
     }
 }

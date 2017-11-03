@@ -19,7 +19,8 @@ import retrofit2.http.Path;
  */
 public interface UserService {
     @POST("/api/users/login")
-    Call<User> login(@Body User user);
+    @FormUrlEncoded
+    Call<User> login(@Field("username") String username, @Field("password") String password);
     @POST("/api/users/register")
     Call<User> register(@Body User user);
     @GET("/api/users/{id}")

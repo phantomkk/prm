@@ -34,7 +34,6 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     public void deleteFragment(int posisiont){
         mFragmentList.remove(posisiont);
-
     }
 
     public void replaceFragment(int position){

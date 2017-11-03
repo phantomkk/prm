@@ -6,7 +6,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -68,7 +70,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class MainActivity extends AppCompatActivity implements AccoutFragment.OnLoginListener {
+public class MainActivity extends AppCompatActivity implements AccoutFragment.OnLoginListener, DetailActivity.DetailActitivityListenner {
     private ProductService pService;
     private BottomNavigationView bottomNavigationView;
     private FrameLayout mainFrame;
@@ -134,10 +136,10 @@ public class MainActivity extends AppCompatActivity implements AccoutFragment.On
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_history:
-//                        selectedFragment = FragmentFactory.getFragment(HistoryFragment.class);
                         mTitle.setText(R.string.tab_history);
                         mAvatar.setVisibility(View.VISIBLE);
                         toolbar.setVisibility(View.VISIBLE);
+                        toolbar.setBackgroundResource(R.color.colorPrimary);
                         viewPager.setCurrentItem(0);
                         break;
                     case R.id.action_search:
@@ -145,6 +147,7 @@ public class MainActivity extends AppCompatActivity implements AccoutFragment.On
                         mTitle.setText(R.string.tab_search);
                         mAvatar.setVisibility(View.VISIBLE);
                         toolbar.setVisibility(View.VISIBLE);
+                        toolbar.setBackgroundResource(R.color.colorPrimary);
                         viewPager.setCurrentItem(1);
                         break;
                     case R.id.action_scan:
@@ -152,18 +155,16 @@ public class MainActivity extends AppCompatActivity implements AccoutFragment.On
                         viewPager.setCurrentItem(2);
                         toolbar.setVisibility(View.VISIBLE);
                         mAvatar.setVisibility(View.GONE);
-//                        selectedFragment = FragmentFactory.getFragment(ScanFragment.class);
-
+                        toolbar.setBackgroundColor(Color.TRANSPARENT);
                         break;
                     case R.id.action_list:
-//                         selectedFragment = FragmentFactory.getFragment(CategoryFragment.class);
                         mTitle.setText(R.string.tab_category);
                         mAvatar.setVisibility(View.VISIBLE);
                         toolbar.setVisibility(View.VISIBLE);
+                        toolbar.setBackgroundResource(R.color.colorPrimary);
                         viewPager.setCurrentItem(3);
                         break;
                     case R.id.action_setting:
-//                        selectedFragment = FragmentFactory.getFragment(SettingFragment.class);
                         User u = CoreManager.getUser(context);
                         if (u == null) {
                             AlertDialog.Builder dialog = new AlertDialog.Builder(context);
@@ -180,13 +181,11 @@ public class MainActivity extends AppCompatActivity implements AccoutFragment.On
                             }
                             viewPager.setCurrentItem(4);
                             toolbar.setVisibility(View.GONE);
+                            toolbar.setBackgroundResource(R.color.colorPrimary);
                             mAvatar.setVisibility(View.VISIBLE);
                         }
-
                         break;
-
                 }
-
                 return false;
             }
         });
@@ -199,25 +198,31 @@ public class MainActivity extends AppCompatActivity implements AccoutFragment.On
                     case 0:
                         mTitle.setText(R.string.tab_history);
                         mAvatar.setVisibility(View.VISIBLE);
+                        toolbar.setVisibility(View.VISIBLE);
+                        toolbar.setBackgroundResource(R.color.colorPrimary);
                         break;
                     case 1:
                         mTitle.setText(R.string.tab_search);
                         mAvatar.setVisibility(View.VISIBLE);
                         toolbar.setVisibility(View.VISIBLE);
+                        toolbar.setBackgroundResource(R.color.colorPrimary);
                         break;
                     case 2:
                         mTitle.setText("");
                         mAvatar.setVisibility(View.GONE);
+                        toolbar.setBackgroundColor(Color.TRANSPARENT);
                         toolbar.setVisibility(View.VISIBLE);
                         break;
                     case 3:
                         mTitle.setText(R.string.tab_category);
                         toolbar.setVisibility(View.VISIBLE);
+                        toolbar.setBackgroundResource(R.color.colorPrimary);
                         mAvatar.setVisibility(View.VISIBLE);
                         break;
                     case 4:
                         mTitle.setText(R.string.tab_user);
                         toolbar.setVisibility(View.GONE);
+                        toolbar.setBackgroundResource(R.color.colorPrimary);
                         mAvatar.setVisibility(View.VISIBLE);
                         break;
                 }
@@ -304,5 +309,15 @@ public class MainActivity extends AppCompatActivity implements AccoutFragment.On
         viewPagerAdapter.notifyDataSetChanged();
         viewPager.setCurrentItem(2);
         CoreManager.setUser(this, null);
+    }
+
+    @Override
+    public void changeAvatar(Uri uri) {
+        mAvatar.setImageURI(uri);
+    }
+
+    @Override
+    public void setUpAvatarInToolBar() {
+        Picasso.with(this).load(CoreManager.getUser(this).getAvatar()).into(mAvatar);
     }
 }

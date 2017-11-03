@@ -28,11 +28,12 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:orientation="vertical">
+
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/img_avatar_user"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
-                        android:src="@drawable/avatar"/>
+                        android:src="@drawable/avatar" />
 
                     <ImageButton
                         android:id="@+id/btn_change_avatar"
@@ -68,12 +69,12 @@
                 android:orientation="vertical">
 
                 <TextView
+                    style="@style/lbl_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:text="Thông Tin"
-                    style="@style/lbl_style"
                     android:textSize="30dp" />
 
                 <LinearLayout
@@ -131,15 +132,21 @@
                             android:textSize="20dp" />
                     </LinearLayout>
 
-                    <EditText
-                        android:id="@+id/edt_name"
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/nameWrapper"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="7"
-                        android:inputType="text"
-                        android:text="ten"
-                        android:textColor="@color/color_blue_grey_800"
-                        android:textSize="20dp" />
+                        android:layout_weight="7">
+
+                        <EditText
+                            android:id="@+id/edt_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:text=""
+                            android:textColor="@color/color_blue_grey_800"
+                            android:textSize="20dp" />
+                    </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
 
                 <TextView
@@ -147,10 +154,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
-                    android:text="Tên không được để trống"
+                    android:text=""
+                    android:visibility="gone"
                     android:textColor="@android:color/holo_red_light"
-                    android:textSize="20dp"
-                    android:visibility="gone" />
+                    android:textSize="20dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -179,15 +186,21 @@
                             android:textSize="20dp" />
                     </LinearLayout>
 
-                    <EditText
-                        android:id="@+id/edt_address"
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/addressWrapper"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="7"
-                        android:inputType="text"
-                        android:text="Gò vấp "
-                        android:textColor="@color/color_blue_grey_800"
-                        android:textSize="20dp" />
+                        android:layout_weight="7">
+
+                        <EditText
+                            android:id="@+id/edt_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:text=""
+                            android:textColor="@color/color_blue_grey_800"
+                            android:textSize="20dp" />
+                    </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
 
                 <TextView
@@ -227,15 +240,21 @@
                             android:textSize="20dp" />
                     </LinearLayout>
 
-                    <EditText
-                        android:id="@+id/edt_email"
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/emailWrapper"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="7"
-                        android:inputType="textEmailAddress"
-                        android:text="email@gmail.com"
-                        android:textColor="@color/color_blue_grey_800"
-                        android:textSize="20dp" />
+                        android:layout_weight="7">
+
+                        <EditText
+                            android:id="@+id/edt_email"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textEmailAddress"
+                            android:text=""
+                            android:textColor="@color/color_blue_grey_800"
+                            android:textSize="20dp" />
+                    </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
 
                 <TextView
@@ -275,15 +294,21 @@
                             android:textSize="20dp" />
                     </LinearLayout>
 
-                    <EditText
-                        android:id="@+id/edt_phone"
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/phoneWrapper"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="7"
-                        android:inputType="phone"
-                        android:text="0164859374"
-                        android:textColor="@color/color_blue_grey_800"
-                        android:textSize="20dp" />
+                        android:layout_weight="7">
+
+                        <EditText
+                            android:id="@+id/edt_phone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="phone"
+                            android:text=""
+                            android:textColor="@color/color_blue_grey_800"
+                            android:textSize="20dp" />
+                    </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
 
                 <TextView
@@ -316,7 +341,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="7"
                         android:inputType="textMultiLine"
-                        android:text="giới thiệu về bản thân"
+                        android:text=""
                         android:textColor="@color/color_blue_grey_800"
                         android:textSize="20dp" />
                 </LinearLayout>
@@ -340,22 +365,24 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
                         android:inputType="textWebEditText"
-                        android:text="www.hahah.com"
+                        android:text=""
                         android:textColor="@color/color_blue_grey_800"
                         android:textSize="20dp" />
                 </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="10dp"
                     android:background="@color/color_blue_grey_300" />
+
                 <Button
                     android:id="@+id/btn_confirm"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_gravity="left"
-                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
                     android:background="@color/colorAccent"
                     android:text="Thực hiện"
                     android:textColor="@color/color_white" />

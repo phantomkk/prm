@@ -26,6 +26,7 @@ import com.project.barcodechecker.api.services.SaleService;
 import com.project.barcodechecker.fragments.CommentFragment;
 import com.project.barcodechecker.fragments.SaleUserFragment;
 import com.project.barcodechecker.fragments.SuggestFragment;
+import com.project.barcodechecker.fragments.UserFragment;
 import com.project.barcodechecker.models.Comment;
 import com.project.barcodechecker.models.Product;
 import com.project.barcodechecker.models.Rating;
@@ -33,6 +34,7 @@ import com.project.barcodechecker.models.Sale;
 import com.project.barcodechecker.models.User;
 import com.project.barcodechecker.utils.AppConst;
 import com.project.barcodechecker.utils.CoreManager;
+import com.project.barcodechecker.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -382,7 +384,24 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
 
         @Override
         public void onClick(DialogInterface dialog, int which) {
-            startActivity(new Intent(DetailActivity.this, LoginActivity.class));
+            startActivityForResult(new Intent(DetailActivity.this, LoginActivity.class), Utils.USE_VIEW_DETAIL);
         }
     };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if(requestCode == Utils.USE_VIEW_DETAIL){
+                setUpAvatar();
+//                detailActitivityListenner.setUpAvatarInToolBar();
+                commentFragment.setUpAvatarInToolBar();
+            }
+        }
+    }
+    private DetailActitivityListenner detailActitivityListenner;
+    public interface DetailActitivityListenner{
+        public void setUpAvatarInToolBar();
+    }
+
 }

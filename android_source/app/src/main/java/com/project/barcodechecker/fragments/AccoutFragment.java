@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -39,6 +40,7 @@ import com.project.barcodechecker.dialog.ChangePasswordDialog;
 import com.project.barcodechecker.models.ImgResponse;
 import com.project.barcodechecker.models.User;
 import com.project.barcodechecker.utils.CoreManager;
+import com.project.barcodechecker.utils.Utils;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -76,9 +78,10 @@ public class AccoutFragment extends LoadingFragment implements View.OnClickListe
     public static final int REQUEST_PERMISSION = 102;
     private OnLoginListener mCallback;
     private User u;
-
+    private TextInputLayout nameWrapper, addressWrapper, emailWrapper, phoneWrapper;
     public interface OnLoginListener {
         public void destoyFragmentUser();
+        public void changeAvatar(Uri uri);
     }
 
     @Override
@@ -116,11 +119,15 @@ public class AccoutFragment extends LoadingFragment implements View.OnClickListe
         edtPhone = (EditText) view.findViewById(R.id.edt_phone);
         edtIntroduct = (EditText) view.findViewById(R.id.edt_introduct);
         edtWeb = (EditText) view.findViewById(R.id.edt_website);
+        nameWrapper = (TextInputLayout) view.findViewById(R.id.nameWrapper);
+        addressWrapper = (TextInputLayout) view.findViewById(R.id.addressWrapper);
+        emailWrapper = (TextInputLayout) view.findViewById(R.id.emailWrapper);
+        phoneWrapper = (TextInputLayout) view.findViewById(R.id.phoneWrapper);
+//        tvNameError = (TextView) view.findViewById(R.id.txt_name_error);
+//        tvAddressError = (TextView) view.findViewById(R.id.txt_address_error);
+//        tvEmailError = (TextView) view.findViewById(R.id.txt_email_error);
+//        tvPhoneError = (TextView) view.findViewById(R.id.txt_phone_error);
         setUserInfor(u);
-        tvNameError = (TextView) view.findViewById(R.id.txt_name_error);
-        tvAddressError = (TextView) view.findViewById(R.id.txt_address_error);
-        tvEmailError = (TextView) view.findViewById(R.id.txt_email_error);
-        tvPhoneError = (TextView) view.findViewById(R.id.txt_phone_error);
         btnConfirm = (Button) view.findViewById(R.id.btn_confirm);
         btnConfirm.setOnClickListener(this);
 
@@ -133,7 +140,17 @@ public class AccoutFragment extends LoadingFragment implements View.OnClickListe
         btnLogOut.setOnClickListener(this);
         return view;
     }
+    public void clearText() {
 
+            tvName.setText("");
+            edtName.setText("");
+            edtAddress.setText("");
+            edtEmail.setText("");
+            edtPhone.setText("");
+            edtIntroduct.setText("");
+            edtWeb.setText("");
+
+    }
     public void setUserInfor(User user) {
         if (user != null) {
             tvName.setText(user.getUsername());
@@ -151,33 +168,83 @@ public class AccoutFragment extends LoadingFragment implements View.OnClickListe
 
     public boolean isValid() {
         boolean flag = true;
-        if (edtName.getText().toString().trim().isEmpty()) {
-            flag = false;
-            tvNameError.setVisibility(View.VISIBLE);
-        } else {
-            tvNameError.setVisibility(View.GONE);
+        String name =edtName.getText().toString().trim();
+        String address =edtAddress.getText().toString().trim();
+        String email =edtEmail.getText().toString().trim();
+        String phone =edtPhone.getText().toString().trim();
+//        if (edtName.getText().toString().trim().length()<3 || edtName.getText().toString().trim().length()>25) {
+//            flag = false;
+//            tvNameError.setError("hahaha");
+//            tvNameError.setVisibility(View.VISIBLE);
+//        } else {
+//            tvNameError.setVisibility(View.GONE);
+//        }
+        if(name.length()<3 || name.length()>25 ){
+            flag=false;
+            edtName.setText("");
+            nameWrapper.setError("Độ dài tên không hợp lệ.");
+        } else{
+            nameWrapper.setError("");
+            nameWrapper.setErrorEnabled(false);
         }
 
-        if (edtAddress.getText().toString().trim().isEmpty()) {
-            flag = false;
-            tvAddressError.setVisibility(View.VISIBLE);
-        } else {
-            tvAddressError.setVisibility(View.GONE);
+        if(address.length()<8 || address.length()>25 ){
+            flag=false;
+            edtAddress.setText("");
+            addressWrapper.setError("Độ dài địa chỉ không hợp lệ.");
+        } else{
+            addressWrapper.setError("");
+            addressWrapper.setErrorEnabled(false);
         }
 
-        if (edtEmail.getText().toString().trim().isEmpty()) {
-            flag = false;
-            tvEmailError.setVisibility(View.VISIBLE);
-        } else {
-            tvEmailError.setVisibility(View.GONE);
+
+        if(email.length()<8 || email.length()>25 ){
+            flag=false;
+            edtEmail.setText("");
+            emailWrapper.setError("Độ dài email không hợp lệ.");
+        }else if(!Utils.checkEmail(email)) {
+            flag=false;
+            edtEmail.setText("");
+            emailWrapper.setError("Email không hợp lệ");
+        }else{
+            emailWrapper.setError("");
+            emailWrapper.setErrorEnabled(false);
         }
 
-        if (edtPhone.getText().toString().trim().isEmpty()) {
-            flag = false;
-            tvPhoneError.setVisibility(View.VISIBLE);
-        } else {
-            tvPhoneError.setVisibility(View.GONE);
+        if(phone.length()<8 || phone.length()>25 ){
+            flag=false;
+            edtPhone.setText("");
+            phoneWrapper.setError("Độ dài số điện thoại không hợp lệ.");
+        }else if(!Utils.checkPhone(phone)) {
+            flag=false;
+            edtPhone.setText("");
+            phoneWrapper.setError("Số điện thoại không hợp lệ");
+        }else{
+            phoneWrapper.setError("");
+            phoneWrapper.setErrorEnabled(false);
         }
+
+
+//        if (edtAddress.getText().toString().trim().isEmpty()) {
+//            flag = false;
+//            tvAddressError.setVisibility(View.VISIBLE);
+//        } else {
+//            tvAddressError.setVisibility(View.GONE);
+//        }
+//
+//        if (edtEmail.getText().toString().trim().isEmpty()) {
+//            flag = false;
+//            tvEmailError.setVisibility(View.VISIBLE);
+//        } else {
+//            tvEmailError.setVisibility(View.GONE);
+//        }
+//
+//        if (edtPhone.getText().toString().trim().isEmpty()) {
+//            flag = false;
+//            tvPhoneError.setVisibility(View.VISIBLE);
+//        } else {
+//            tvPhoneError.setVisibility(View.GONE);
+//        }
 
 
         return flag;
@@ -225,10 +292,16 @@ public class AccoutFragment extends LoadingFragment implements View.OnClickListe
                                 CoreManager.setUser(getContext(),userTemplate);
                                 Toast.makeText(getContext(), "Update User Success",
                                         Toast.LENGTH_LONG).show();
+
                                 closeLoading();
                             } else {
                                 Toast.makeText(getContext(), "Update User Fail, please try again!",
                                         Toast.LENGTH_LONG).show();
+                                    try {
+                                        Log.e("LOG_ERROR", response.errorBody().string());
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
                                 closeLoading();
                             }
                         }
@@ -238,6 +311,7 @@ public class AccoutFragment extends LoadingFragment implements View.OnClickListe
                             Toast.makeText(getContext(), "Update user error, please try again!",
                                     Toast.LENGTH_LONG).show();
                             closeLoading();
+                            Log.e("LOG_ERROR","fai" +t.getMessage());
                         }
                     });
                 }
@@ -266,22 +340,6 @@ public class AccoutFragment extends LoadingFragment implements View.OnClickListe
                 });
         builder.show();
 
-//        ConfirmDialogFragment confirmDialogFragment = new ConfirmDialogFragment("Đăng xuất",
-//                getString(R.string.confirm_log_out_message),
-//                new ConfirmDialogFragment.ConfirmDialogListener() {
-//                    @Override
-//                    public void onDialogPositiveClick(DialogFragment dialog) {
-//                        // CoreManager.setUser(getContext(), null);
-//                        //TODO destroy child fragment
-//                        mCallback.destoyFragmentUser();
-//                    }
-//
-//                    @Override
-//                    public void onDialogNegativeClick(DialogFragment dialog) {
-//                        dialog.dismiss();
-//                    }
-//                });
-//        confirmDialogFragment.show(getFragmentManager(), getString(R.string.delete_history_dialog_tag));
     }
 
     @Override
@@ -298,7 +356,7 @@ public class AccoutFragment extends LoadingFragment implements View.OnClickListe
                     e.printStackTrace();
                 }
                 imvAvatar.setImageURI(resultUri);
-
+                mCallback.changeAvatar(resultUri);
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
                 Toast.makeText(getActivity(), error.getMessage(),
@@ -329,7 +387,7 @@ public class AccoutFragment extends LoadingFragment implements View.OnClickListe
         FileService fileService = APIServiceManager.getFileService();
         RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), imageBytes);
         MultipartBody.Part body = MultipartBody.Part.createFormData("image", "image.jpg", requestFile);
-        MultipartBody.Part username = MultipartBody.Part.createFormData("username", "luc2");
+        MultipartBody.Part username = MultipartBody.Part.createFormData("username", CoreManager.getUser(getContext()).getUsername());
         //cột username đang bị null hết chỉ có 2 record dc add vào: luc2, luc12345678
         fileService.upload(body, username).enqueue(new Callback<ImgResponse>() {
             @Override
@@ -337,15 +395,21 @@ public class AccoutFragment extends LoadingFragment implements View.OnClickListe
                 if (response.isSuccessful()) {
                     ImgResponse im = response.body();
                     Log.e("TAG", "SUCCESS " + im.toString());
+                    //Todo set link avtar for core
+                    CoreManager.getUser(getContext()).setAvatar(im.getData());
+                    Toast.makeText(getContext(), "Update Avatar success!",
+                            Toast.LENGTH_LONG).show();
                 } else {
                     Log.e("TAG", "ELSE" + response.errorBody().toString() + response.code());
-
+                    Toast.makeText(getContext(), "Update Avatar Fail",
+                            Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ImgResponse> call, Throwable t) {
-
+                Toast.makeText(getContext(), "Update Avatar error, please try again!",
+                        Toast.LENGTH_LONG).show();
                 Log.d("TAG", "onFailure: " + t.getLocalizedMessage());
             }
         });

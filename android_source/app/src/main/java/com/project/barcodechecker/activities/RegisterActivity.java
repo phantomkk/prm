@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +20,8 @@ import com.project.barcodechecker.api.services.UserService;
 import com.project.barcodechecker.models.User;
 import com.project.barcodechecker.utils.CoreManager;
 import com.project.barcodechecker.utils.Utils;
+
+import java.io.IOException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -120,6 +123,11 @@ public class RegisterActivity extends BaseActivity {
                             } else {
                                 Toast.makeText(RegisterActivity.this, "Can't register right now, please try again!",
                                         Toast.LENGTH_LONG).show();
+                                try {
+                                    logErrorBody(response);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
                             }
                             hideLoading();
                         }
@@ -226,7 +234,8 @@ public class RegisterActivity extends BaseActivity {
             flag = false;
             confirmWrapper.setError(getString(R.string.password_leng_error));
         } else {
-            confirmWrapper.setVisibility(View.GONE);
+            confirmWrapper.setError("");
+            confirmWrapper.setErrorEnabled(false);
         }
 
 

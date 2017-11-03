@@ -21,8 +21,6 @@ import com.project.barcodechecker.utils.Utils;
 
 import org.w3c.dom.Text;
 
-import java.io.IOException;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -87,12 +85,12 @@ public class LoginActivity extends BaseActivity {
 //            txtErrPwd.setVisibility(View.INVISIBLE);
 //
 //        }
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(password);
+//        User user = new User();
+//        user.setUsername(username);
+//        user.setPassword(password);
         UserService userService = APIServiceManager.getUserService();
         showLoading();
-        userService.login(user).enqueue(new Callback<User>() {
+        userService.login(username,password).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
@@ -100,13 +98,8 @@ public class LoginActivity extends BaseActivity {
                     setResult(RESULT_OK);
                     finish();
                 } else {
-                    try {
-                        Toast.makeText(LoginActivity.this, response.errorBody().string(),
-                                Toast.LENGTH_LONG).show();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
+                    Toast.makeText(LoginActivity.this, "Wrong username or password",
+                            Toast.LENGTH_LONG).show();
                 }
                 hideLoading();
             }

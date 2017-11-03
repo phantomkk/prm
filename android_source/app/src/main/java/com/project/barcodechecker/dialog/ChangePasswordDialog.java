@@ -25,6 +25,8 @@ import com.project.barcodechecker.models.User;
 import com.project.barcodechecker.utils.CoreManager;
 import com.project.barcodechecker.utils.Utils;
 
+import java.io.IOException;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -134,8 +136,13 @@ public class ChangePasswordDialog extends Dialog {
                                         Toast.LENGTH_LONG).show();
                                 dismiss();
                             } else {
-                                Toast.makeText(context, "Change Password error, please try again!",
-                                        Toast.LENGTH_LONG).show();
+                                try {
+                                    Toast.makeText(context, response.errorBody().string().toString(),
+                                            Toast.LENGTH_LONG).show();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
                             }
                         }
 

@@ -22,6 +22,8 @@ import com.project.barcodechecker.utils.AppConst;
 import com.project.barcodechecker.utils.CoreManager;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -82,10 +84,16 @@ public abstract class BaseActivity extends Activity {
     private View.OnClickListener imgClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            searchUserAndTranferToUserDetail(1);
+            searchUserAndTranferToUserDetail(CoreManager.getUser(BaseActivity.this).getId());
         }
     };
-
+    public void logErrorBody(Response response) throws IOException {
+        if (response.errorBody() != null) {
+            Log.e("LOG_ERROR", response.errorBody().string());
+        }else{
+            Log.e("LOG_ERROR", "error body is null");
+        }
+    }
     protected abstract int getLayoutResourceId();
 
     public void showMessage(String message) {
@@ -114,6 +122,10 @@ public abstract class BaseActivity extends Activity {
                 imgAvatar.setVisibility(View.VISIBLE);
             }
         }
+    }
+
+    public void setUpAvatar(){
+        Picasso.with(this).load(CoreManager.getUser(this).getAvatar()).into(imgAvatar);
     }
 
     public void hideButtonBack(boolean hide) {
