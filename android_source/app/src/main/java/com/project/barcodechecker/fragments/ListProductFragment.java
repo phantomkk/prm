@@ -168,9 +168,9 @@ public class ListProductFragment extends LoadingFragment implements ProductSaleM
     public void delete(Sale sale, final int position) {
         showLoading();
         SaleService saleService = APIServiceManager.getSaleService();
-        saleService.deleteSale(CoreManager.getUser(getContext()).getId(), sale.getProduct().getId()).enqueue(new Callback<Sale>() {
+        saleService.deleteSale(CoreManager.getUser(getContext()).getId(), sale.getProduct().getId()).enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<Sale> call, Response<Sale> response) {
+            public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     list.remove(position);
                     adapter.notifyDataSetChanged();
@@ -184,7 +184,7 @@ public class ListProductFragment extends LoadingFragment implements ProductSaleM
             }
 
             @Override
-            public void onFailure(Call<Sale> call, Throwable t) {
+            public void onFailure(Call<Void> call, Throwable t) {
                 Log.e(DetailActivity.class.getSimpleName(), "DeleteSale Failure API " + t.getMessage());
                 Toast.makeText(getActivity(), "Delete error.Please try again later!", Toast.LENGTH_LONG).show();
                 hideLoading();

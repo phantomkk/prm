@@ -29,6 +29,6 @@ public interface SaleService {
     @PUT("/api/sales/{userID}/{productID}")
     Call<Sale> editSale(@Path("userID") int userID, @Path("productID") int productID, @Body Sale sale);
     @DELETE("/api/sales/{userID}/{productID}")
-    Call<Sale> deleteSale(@Path("userID") int userID, @Path("productID") int productID);
+    Call<Void> deleteSale(@Path("userID") int userID, @Path("productID") int productID);
 
 }
