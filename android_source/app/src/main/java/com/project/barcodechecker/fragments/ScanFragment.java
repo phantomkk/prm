@@ -38,6 +38,7 @@ import com.project.barcodechecker.models.History;
 import com.project.barcodechecker.models.Product;
 import com.project.barcodechecker.utils.AppConst;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -247,12 +248,21 @@ public class ScanFragment extends LoadingFragment implements MessageDialogFragme
                     intent.putExtra(AppConst.PRODUCT_PARAM, product);
                     startActivity(intent);
                 } else {
-                    showMessageDialog("Successful but else");
+                    try {
+                        showMessageDialog(response.errorBody().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     Product product = new Product();
                     product.setCode(code);
                     product.setName(getString(R.string.string_not_fount));
                     ProductDatabaseHelper historyDatabaseHelper = new ProductDatabaseHelper(getContext());
                     historyDatabaseHelper.addProduct(product);
+                }
+                try {
+                    logError(response, "ScanFragment");
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
 
@@ -260,6 +270,7 @@ public class ScanFragment extends LoadingFragment implements MessageDialogFragme
             public void onFailure(Call<Product> call, Throwable t) {
                 hideLoading();
                 showMessageDialog("Fail");
+                logError("ScanFragment","handleResult","Failure " + t.getMessage());
             }
         });
     }

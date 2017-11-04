@@ -16,6 +16,7 @@ import com.project.barcodechecker.models.MenuItem;
 import com.project.barcodechecker.models.Product;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Locale;
 
@@ -27,6 +28,7 @@ public class ProductAdapter extends ArrayAdapter<Product> {
     private List<Product> list;
     private Context context;
     private int resourceID;
+    private DecimalFormat formatter = new DecimalFormat("###,###,###.##VNĐ");
 //    private OnMyProductClickListener onMyProductClickListener;
 
     public ProductAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<Product> objects) {
@@ -61,7 +63,7 @@ private static class ViewHolder{
             viewHolder.txtProductName= (TextView) convertView.findViewById(R.id.txt_name_item_product);
             viewHolder.txtProductPrice= (TextView) convertView.findViewById(R.id.txt_price_item_product);
             viewHolder.txtProductName.setText(product.getName());
-            viewHolder.txtProductPrice.setText(String.format(product.getPrice()+"đ"));
+            viewHolder.txtProductPrice.setText(formatter.format(product.getPrice()));
         }else{
             viewHolder = (ViewHolder) convertView.getTag();
             result = convertView;
