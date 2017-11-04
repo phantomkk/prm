@@ -34,6 +34,7 @@ import com.project.barcodechecker.api.APIServiceManager;
 import com.project.barcodechecker.api.services.ProductService;
 import com.project.barcodechecker.api.services.SaleService;
 import com.project.barcodechecker.databaseHelper.ProductDatabaseHelper;
+import com.project.barcodechecker.dialog.EditProductPriceDialog;
 import com.project.barcodechecker.models.Product;
 import com.project.barcodechecker.models.Sale;
 import com.project.barcodechecker.utils.AppConst;
@@ -51,7 +52,8 @@ import retrofit2.Response;
  * Created by Lenovo on 21/10/2017.
  */
 
-public class ListProductFragment extends LoadingFragment implements ProductSaleManagerAdapter.ProductSaleListenner {
+public class ListProductFragment extends LoadingFragment implements ProductSaleManagerAdapter.ProductSaleListenner,
+        EditProductPriceDialog.EditProductPriceListener {
     private List<Sale> list;
     private ListView listView;
     private ProductSaleManagerAdapter adapter;
@@ -167,6 +169,7 @@ public class ListProductFragment extends LoadingFragment implements ProductSaleM
 
     public void delete(Sale sale, final int position) {
         showLoading();
+        Sale sale1=sale;
         SaleService saleService = APIServiceManager.getSaleService();
         saleService.deleteSale(CoreManager.getUser(getContext()).getId(), sale.getProduct().getId()).enqueue(new Callback<Void>() {
             @Override
@@ -177,7 +180,7 @@ public class ListProductFragment extends LoadingFragment implements ProductSaleM
                     Toast.makeText(getActivity(), "Delete Success",
                             Toast.LENGTH_LONG).show();
                 } else {
-                    Log.e(DetailActivity.class.getSimpleName(), "loadSaleError");
+                    Log.e(DetailActivity.class.getSimpleName(), "DeleteSale");
                     Toast.makeText(getActivity(), "Delete Fail.Please try again!", Toast.LENGTH_LONG).show();
                 }
                 hideLoading();
@@ -198,4 +201,44 @@ public class ListProductFragment extends LoadingFragment implements ProductSaleM
         showConfirmDeleteDialog(sale, position);
     }
 
+    @Override
+    public void editPriceSale(Sale sale, int position) {
+        EditProductPriceDialog dialog = new EditProductPriceDialog(getContext(),sale,position,this);
+        dialog.show();
+    }
+    private Sale newSale;
+    @Override
+    public void editProductPrice(final Sale sale, final int position, float newPrice) {
+        showLoading();
+        newSale = sale;
+        newSale.setPrice(newPrice);
+        SaleService saleService = APIServiceManager.getSaleService();
+        saleService.editSale(CoreManager.getUser(getContext()).getId(), sale.getProduct().getId(), newSale).enqueue(new Callback<Sale>() {
+            @Override
+            public void onResponse(Call<Sale> call, Response<Sale> response) {
+                if (response.isSuccessful()) {
+//                    List<Sale> sales2 = list;
+//                    sales2.remove(position);
+//                    sales2.add(position,newSale);
+////                    list.clear();
+                    list.remove(position);
+                    list.add(position,newSale);
+                    adapter.notifyDataSetChanged();
+                    Toast.makeText(getActivity(), "Update Price Success",
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    Log.e(DetailActivity.class.getSimpleName(), "udateSaleError");
+                    Toast.makeText(getActivity(), "Upate Fail.Please try again!", Toast.LENGTH_LONG).show();
+                }
+                hideLoading();
+            }
+
+            @Override
+            public void onFailure(Call<Sale> call, Throwable t) {
+                Log.e(DetailActivity.class.getSimpleName(), "UpdateSale Failure API " + t.getMessage());
+                Toast.makeText(getActivity(), "Update error.Please try again later!", Toast.LENGTH_LONG).show();
+                hideLoading();
+            }
+        });
+    }
 }

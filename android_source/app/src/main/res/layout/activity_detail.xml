@@ -38,7 +38,6 @@
                     android:layout_height="120dp"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
-                    android:background="@drawable/border_product"
                     android:src="@drawable/ic_shopping_cart_black_24dp" />
 
                 <LinearLayout

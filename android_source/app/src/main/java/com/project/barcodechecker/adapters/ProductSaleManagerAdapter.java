@@ -21,6 +21,7 @@ import com.project.barcodechecker.R;
 import com.project.barcodechecker.activities.DetailActivity;
 import com.project.barcodechecker.api.APIServiceManager;
 import com.project.barcodechecker.api.services.ProductService;
+import com.project.barcodechecker.dialog.EditProductPriceDialog;
 import com.project.barcodechecker.fragments.ConfirmDialogFragment;
 import com.project.barcodechecker.models.Product;
 import com.project.barcodechecker.models.Sale;
@@ -54,8 +55,11 @@ public class ProductSaleManagerAdapter extends ArrayAdapter<Sale>{
         this.productSaleListenner = productSaleListenner;
     }
     private ProductSaleListenner productSaleListenner;
+
+
     public interface ProductSaleListenner{
         public void deleteSale(Sale sale, int position);
+        public void editPriceSale(Sale sale, int position);
     }
 
     private static class ViewHolder {
@@ -97,8 +101,7 @@ public class ProductSaleManagerAdapter extends ArrayAdapter<Sale>{
         viewHolder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Edit " + position,
-                        Toast.LENGTH_LONG).show();
+                productSaleListenner.editPriceSale(getItem(position),position);
             }
         });
         viewHolder.btnDelete.setOnClickListener(new View.OnClickListener() {
