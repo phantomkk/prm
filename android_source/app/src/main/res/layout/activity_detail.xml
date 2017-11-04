@@ -219,7 +219,7 @@
                             android:text="hello" />
                     </LinearLayout>
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -228,13 +228,54 @@
 
                         <TextView
                             style="@style/lbl_style"
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:layout_weight="@integer/left_side_detail_atv"
                             android:text="Nơi bán:"
                             android:textStyle="bold" />
 
+                        <Button
+                            android:id="@+id/btn_add_sale"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:layout_alignParentRight="true"
+                            android:background="@drawable/button_bg"
+                            android:text="Thêm nơi bán"
+                            android:textColor="@color/color_white"
+                            android:textSize="10dp"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linearAdd"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:visibility="gone"
+                        android:orientation="horizontal">
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/priceWrapper"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <EditText
+                                android:id="@+id/edt_price_sale"
+                                android:layout_width="250dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right"
+                                android:drawableLeft="@drawable/ic_price"
+                                android:hint="0đ"
+                                android:inputType="number"
+                                android:maxLines="1"
+                                android:textColorHint="@color/color_grey_500"
+                                android:textSize="15dp" />
+                        </android.support.design.widget.TextInputLayout>
+                        <ImageButton
+                            android:id="@+id/add_price"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:tint="@color/colorAccent"
+                            android:background="@drawable/ic_action_add_sale"/>
                     </LinearLayout>
 
                     <View

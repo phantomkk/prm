@@ -147,9 +147,9 @@ public class SearchFragment extends LoadingFragment {
                 }
             });
         } else {
-            if (callList != null && callList.isExecuted()) {
-                callList.cancel();
-            }
+//            if (callList != null && callList.isExecuted()) {
+//                callList.cancel();
+//            }
             callList = productService.searchProduct(searchValue);
             callList.enqueue(new Callback<List<Product>>() {
                 @Override

@@ -168,7 +168,6 @@ public abstract class BaseActivity extends Activity {
             progressDialog.show();
         }
     }
-
     public void hideLoading() {
         if (progressDialog != null) {
             progressDialog.dismiss();
@@ -179,7 +178,6 @@ public abstract class BaseActivity extends Activity {
     public void logError(String activity, String method, String message) {
         Log.e("LOG_ERROR", activity + "." + method + "(): " + message);
     }
-
     public void logError(String message) {
         Log.e("LOG_ERROR", message);
     }

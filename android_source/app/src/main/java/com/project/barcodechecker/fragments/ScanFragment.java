@@ -238,7 +238,7 @@ public class ScanFragment extends LoadingFragment implements MessageDialogFragme
         pService.getProductByCode(code).enqueue(new Callback<Product>() {
             @Override
             public void onResponse(Call<Product> call, Response<Product> response) {
-                closeLoading();
+                hideLoading();
                 if (response.isSuccessful()) {
                     Product product = response.body();
                     ProductDatabaseHelper historyDatabaseHelper = new ProductDatabaseHelper(getContext());
@@ -258,7 +258,7 @@ public class ScanFragment extends LoadingFragment implements MessageDialogFragme
 
             @Override
             public void onFailure(Call<Product> call, Throwable t) {
-                closeLoading();
+                hideLoading();
                 showMessageDialog("Fail");
             }
         });

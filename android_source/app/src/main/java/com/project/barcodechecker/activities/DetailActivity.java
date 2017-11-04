@@ -5,12 +5,16 @@ import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -37,6 +41,7 @@ import com.project.barcodechecker.utils.CoreManager;
 import com.project.barcodechecker.utils.Utils;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -61,6 +66,11 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
     private SaleUserFragment saleUserFragment;
     private SuggestFragment suggestFragment;
     private ProgressBar pbSale, pbComment, pbSuggest;
+    private Button btnAddSale;
+    private ImageButton btnAddSalePrice;
+    private TextInputLayout priceWrapper;
+    private EditText edtPrice;
+    private LinearLayout linearLayout;
 
     @Override
     protected int getLayoutResourceId() {
@@ -86,9 +96,29 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
         loadComments(product);
         loadSale(product);
         loadSuggests(product);
+        btnAddSale.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addSaleAnimation();
+            }
+        });
+        btnAddSalePrice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isValid()) {
+                    addSaleProcess();
+                }
+            }
+        });
+        priceWrapper.setHint("Giá Sản Phẩm");
     }
 
     private void bindingView() {
+        btnAddSale = (Button) findViewById(R.id.btn_add_sale);
+        btnAddSalePrice = (ImageButton) findViewById(R.id.add_price);
+        priceWrapper = (TextInputLayout) findViewById(R.id.priceWrapper);
+        linearLayout = (LinearLayout) findViewById(R.id.linearAdd);
+        edtPrice = (EditText) findViewById(R.id.edt_price_sale);
         txtCode = (TextView) findViewById(R.id.txt_code_detail_atv);
         txtName = (TextView) findViewById(R.id.txt_name_detail_atv);
         txtPrice = (TextView) findViewById(R.id.txt_price_detail_atv);
@@ -392,15 +422,100 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if(requestCode == Utils.USE_VIEW_DETAIL){
+            if (requestCode == Utils.USE_VIEW_DETAIL) {
                 setUpAvatar();
 //                detailActitivityListenner.setUpAvatarInToolBar();
                 commentFragment.setUpAvatarInToolBar();
             }
         }
     }
+
     private DetailActitivityListenner detailActitivityListenner;
-    public interface DetailActitivityListenner{
+    private boolean addClick = false;
+
+    private boolean isValid() {
+        boolean flag = true;
+        if (edtPrice.getText().toString().trim().isEmpty()) {
+            flag = false;
+            priceWrapper.setError("Giá không được để trống");
+        } else {
+            priceWrapper.setErrorEnabled(false);
+        }
+        return flag;
+    }
+
+    private void addSaleProcess() {
+        showLoading();
+        Date date = Calendar.getInstance().getTime();
+        Sale sale = new Sale();
+        sale.setDateCreate(new SimpleDateFormat(AppConst.DATE_AND_TIME_SQL, Locale.US).format(date));
+        sale.setPrice(Float.parseFloat(edtPrice.getText().toString()));
+        sale.setUserId(CoreManager.getUser(this).getId());
+        sale.setProductId(product.getId());
+        SaleService saleService = APIServiceManager.getSaleService();
+        showLoading();
+        saleService.addSale(sale).enqueue(new Callback<Sale>() {
+            @Override
+            public void onResponse(Call<Sale> call, Response<Sale> response) {
+                if (response.isSuccessful()) {
+                    linearLayout.setVisibility(View.GONE);
+                    btnAddSale.setEnabled(false);
+                    btnAddSale.setText("Thêm sản phẩm");
+                    Toast.makeText(DetailActivity.this, "Đăng sản phẩm thành công.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(DetailActivity.this, "Đăng sản phẩm lỗi. Vui lòng thử lại!", Toast.LENGTH_SHORT).show();
+                    try {
+                        logError(response,"addSale");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                hideLoading();
+            }
+
+            @Override
+            public void onFailure(Call<Sale> call, Throwable t) {
+                Toast.makeText(DetailActivity.this, "Đăng sản lỗi.Vui lòng thử lại sau!", Toast.LENGTH_SHORT).show();
+                logError(DetailActivity.class.getSimpleName(), "addSale", "Failue API " + t.getCause());
+                hideLoading();
+            }
+        });
+    }
+
+    private void addSaleAnimation() {
+        User u = CoreManager.getUser(this);
+        if (u == null) {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setMessage("Bạn cần phải đăng nhập để bình luận!")
+                    .setPositiveButton("Đăng nhập", positiveListener)
+                    .setNegativeButton("Hủy", null)
+                    .show();
+        } else {
+            boolean flag = false;
+            for (Sale sale : listSale) {
+                if (sale.getUserId() == CoreManager.getUser(this).getId()
+                        && sale.getProductId() == product.getId()) {
+                    flag = true;
+                }
+            }
+            if (flag) {
+                Toast.makeText(DetailActivity.this, "Bạn Đã Đăng bán sản phẩm này", Toast.LENGTH_SHORT).show();
+                linearLayout.setVisibility(View.GONE);
+            } else {
+                if (!addClick) {
+                    linearLayout.setVisibility(View.VISIBLE);
+                    addClick = true;
+                    btnAddSale.setText("Đóng");
+                } else {
+                    linearLayout.setVisibility(View.GONE);
+                    addClick = false;
+                    btnAddSale.setText("Thêm Sản Phẩm");
+                }
+            }
+        }
+    }
+
+    public interface DetailActitivityListenner {
         public void setUpAvatarInToolBar();
     }
 

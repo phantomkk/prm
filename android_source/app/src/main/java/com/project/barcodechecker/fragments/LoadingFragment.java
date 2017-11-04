@@ -21,7 +21,7 @@ public class LoadingFragment extends Fragment{
         mProgressDialog.show();
     }
 
-    protected void closeLoading() {
+    protected void hideLoading() {
         mProgressDialog.dismiss();
     }
 }
