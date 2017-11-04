@@ -1,14 +1,10 @@
 package com.project.barcodechecker.fragments;
 
-import android.content.Context;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -80,17 +76,17 @@ public class UserFragment extends Fragment {
 
         TextView tabOne = (TextView) LayoutInflater.from(getActivity()).inflate(R.layout.custom_tab, null);
         tabOne.setText(getString(R.string.tab_accout));
-        tabOne.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_accout_white, 0, 0);
+        tabOne.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_account_box_white_24dp, 0, 0);
         tabLayout.getTabAt(0).setCustomView(tabOne);
         TextView tabTwo = (TextView) LayoutInflater.from(getActivity()).inflate(R.layout.custom_tab, null);
         tabTwo.setText(getString(R.string.tab_my_product));
-        tabTwo.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_product_white, 0, 0);
+        tabTwo.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_content_paste_white_24dp, 0, 0);
         tabLayout.getTabAt(1).setCustomView(tabTwo);
 
         TextView tabThree = (TextView) LayoutInflater.from(getActivity()).inflate(R.layout.custom_tab, null);
         tabThree.setText(getString(R.string.tab_message));
         tabThree.setText(getString(R.string.tab_message));
-        tabThree.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_action_message, 0, 0);
+        tabThree.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_mail_white_24dp, 0, 0);
         tabLayout.getTabAt(2).setCustomView(tabThree);
     }
 
