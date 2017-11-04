@@ -16,6 +16,7 @@ import com.project.barcodechecker.api.APIServiceManager;
 import com.project.barcodechecker.api.services.UserService;
 import com.project.barcodechecker.models.Sale;
 import com.project.barcodechecker.models.User;
+import com.project.barcodechecker.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -71,7 +72,7 @@ public class SaleUserAdapter extends ArrayAdapter<Sale> {
             Picasso.with(context).load(sale.getUser().getAvatar()).into(viewHolder.imgAvatar);
         }
 //        searchUser(sale.getUserId(), viewHolder.imgAvatar, viewHolder.tvName);
-        viewHolder.tvPrcie.setText(sale.getPrice() + "đ");
+        viewHolder.tvPrcie.setText(Utils.formatPrice(sale.getPrice()));
 
         return convertView;
     }

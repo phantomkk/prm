@@ -150,7 +150,7 @@ public abstract class BaseActivity extends Activity {
             txtTitle.setText(title);
             txtTitle.setTextColor(getColor(R.color.color_white));
         } else {
-            Log.e("ERROR", "BaseActivity.setToolbarTitle(*): toolbar null");
+            Log.e("ERROR", "BaseActivity.setToolbaloadrTitle(*): toolbar null");
         }
     }
 
@@ -158,7 +158,7 @@ public abstract class BaseActivity extends Activity {
     public void showLoading() {
         if (progressDialog == null) {
             progressDialog = new ProgressDialog(this);
-            progressDialog.setMessage("Loading...");
+            progressDialog.setMessage("Đang tải...");
             progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                 @Override
                 public void onCancel(DialogInterface dialog) {
@@ -168,6 +168,21 @@ public abstract class BaseActivity extends Activity {
             progressDialog.show();
         }
     }
+
+    public void showLoading(String message) {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage(message);
+            progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    showMessage("Cancel dialog");
+                }
+            });
+            progressDialog.show();
+        }
+    }
+
     public void hideLoading() {
         if (progressDialog != null) {
             progressDialog.dismiss();
@@ -178,19 +193,20 @@ public abstract class BaseActivity extends Activity {
     public void logError(String activity, String method, String message) {
         Log.e("LOG_ERROR", activity + "." + method + "(): " + message);
     }
+
     public void logError(String message) {
         Log.e("LOG_ERROR", message);
     }
 
     public void logError(Response response, String activity) throws IOException {
         if (response.isSuccessful()) {
-            Log.e(AppConst.LOG_ERROR, "Response success: " + activity + ": ");
+            Log.e(AppConst.LOG_ERROR, activity + " Response success: " + activity + ": ");
         } else {
             if (response.errorBody() != null) {
-                Log.e(AppConst.LOG_ERROR, "Response error code " + response.code()+ "Error message: " +
-                response.errorBody().string());
+                Log.e(AppConst.LOG_ERROR, activity + " Response error code " + response.code() + "Error message: " +
+                        response.errorBody().string());
             } else {
-                Log.e("LOG_ERROR", "Response error body null");
+                Log.e("LOG_ERROR", activity + " Response error body null");
             }
         }
     }

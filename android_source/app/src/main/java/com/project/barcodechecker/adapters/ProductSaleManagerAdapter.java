@@ -29,6 +29,7 @@ import com.project.barcodechecker.utils.AppConst;
 import com.project.barcodechecker.utils.Utils;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -45,6 +46,7 @@ public class ProductSaleManagerAdapter extends ArrayAdapter<Sale>{
     private int lastPosition = -1;
     private Context context;
     private Sale sale;
+    private DecimalFormat formatter = new DecimalFormat("###,###,###.##VNĐ");
     public ProductSaleManagerAdapter(@NonNull Context context, @LayoutRes int resourceID, @NonNull List<Sale> list, ProductSaleListenner productSaleListenner) {
         super(context, resourceID, list);
         this.resourceID = resourceID;
@@ -88,7 +90,7 @@ public class ProductSaleManagerAdapter extends ArrayAdapter<Sale>{
             viewHolder.tvName.setText(sale.getProduct().getName());
             Picasso.with(context).load(sale.getProduct().getImgDefault()).into(viewHolder.imgProduct);
         }
-        viewHolder.tvPrcie.setText(sale.getPrice()+" đ");
+        viewHolder.tvPrcie.setText(Utils.formatPrice(sale.getPrice()));
         viewHolder.tvDate.setText("Ngày đăng: "+sale.getDateCreate());
 
         viewHolder.tvCategory.setText("Loại: "+ Utils.getCategoryString(sale.getProduct().getCategoryID()));

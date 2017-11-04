@@ -10,9 +10,9 @@ import android.widget.TextView;
 
 import com.project.barcodechecker.R;
 import com.project.barcodechecker.models.Product;
+import com.project.barcodechecker.utils.Utils;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,7 +41,7 @@ public class SuggestAdapter extends RecyclerView.Adapter<SuggestAdapter.MyViewHo
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Product p = list.get(position);
         holder.name.setText(p.getName());
-        holder.price.setText(p.getPrice().toString());
+        holder.price.setText(Utils.formatPrice(p.getPrice()));
         Picasso.with(context).load(p.getImgDefault()).into(holder.productImage);
 
     }

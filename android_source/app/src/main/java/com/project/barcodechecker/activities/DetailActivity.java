@@ -42,6 +42,7 @@ import com.project.barcodechecker.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -71,7 +72,8 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
     private TextInputLayout priceWrapper;
     private EditText edtPrice;
     private LinearLayout linearLayout;
-
+    User u = null;
+    private DecimalFormat formatter = new DecimalFormat("###,###,###.##VNĐ");
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_detail;
@@ -179,12 +181,13 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
         Picasso.with(this).load(p.getImgDefault()).into(imgProduct);
         txtCode.setText(p.getCode());
         txtName.setText(p.getName());
-        txtPrice.setText(String.format(Locale.US, "%3f", p.getPrice()));
+        txtPrice.setText(Utils.formatPrice(p.getPrice()));
         txtCompany.setText(p.getComanyName());
         txtDescription.setText(p.getDescription());
         txtContact.setText(p.getPhone());
         rbStar.setRating((float) p.getAverageRating());
-        final User u = CoreManager.getUser(DetailActivity.this);
+        u = CoreManager.getUser(DetailActivity.this);
+        logError(u == null ? ("u null") : ("u khong null" + u.getName()));
         if (u != null) {
             if (u.getRatingList() == null) {
             }
@@ -234,6 +237,13 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
                                         showMessage("Đánh giá sản phẩm thành công.");
                                     } else {
                                         logError(DetailActivity.class.getSimpleName(), "setValues", "Post rating onResponse but else" + response.code());
+
+                                        rbStar.setRating((float) product.getAverageRating());
+                                    }
+                                    try {
+                                        logError(response, "DetailActivity");
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
                                     }
                                     hideLoading();
                                 }
@@ -366,7 +376,7 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
         } else {
             txtError.setVisibility(View.INVISIBLE);
         }
-        User u = CoreManager.getUser(this);
+        u = CoreManager.getUser(this);
         if (u == null) {
             AlertDialog.Builder dialog = new AlertDialog.Builder(this);
             dialog.setMessage("Bạn cần phải đăng nhập để bình luận!")
@@ -384,15 +394,21 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
             comment.setProductID(product == null ? 1 : product.getId());
             comment.setDateCreated(new SimpleDateFormat(AppConst.DATE_AND_TIME_SQL, Locale.US).format(date));
             CommentService commentService = APIServiceManager.getCommentService();
-            showLoading();
+            showLoading("Bình luận đang được đăng...");
             commentService.postComment(comment).enqueue(new Callback<Comment>() {
                 @Override
                 public void onResponse(Call<Comment> call, Response<Comment> response) {
                     if (response.isSuccessful()) {
+                        logError(response.body().getUserAvatar());
                         commentFragment.updateData(response.body());
                     } else {
                         edtCmt.setText("EROR");
                         logError(DetailActivity.class.getSimpleName(), "postCmtClickListener", "ELSE API postComment");
+                    }
+                    try {
+                        logErrorBody(response);
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                     edtCmt.setText("");
                     hideLoading();
@@ -425,6 +441,7 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
             if (requestCode == Utils.USE_VIEW_DETAIL) {
                 setUpAvatar();
 //                detailActitivityListenner.setUpAvatarInToolBar();
+                u = CoreManager.getUser(this);
                 commentFragment.setUpAvatarInToolBar();
             }
         }

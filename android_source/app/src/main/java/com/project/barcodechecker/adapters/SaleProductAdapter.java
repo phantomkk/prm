@@ -16,6 +16,7 @@ import com.project.barcodechecker.api.APIServiceManager;
 import com.project.barcodechecker.api.services.ProductService;
 import com.project.barcodechecker.models.Product;
 import com.project.barcodechecker.models.Sale;
+import com.project.barcodechecker.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
@@ -34,7 +35,6 @@ public class SaleProductAdapter extends ArrayAdapter<Sale> {
     private int lastPosition = -1;
     private Context context;
     private Product product;
-    private DecimalFormat formatter = new DecimalFormat("###,###,###.##VNĐ");
 
     public SaleProductAdapter(@NonNull Context context, @LayoutRes int resourceID, @NonNull List<Sale> list) {
         super(context, resourceID, list);
@@ -75,7 +75,7 @@ public class SaleProductAdapter extends ArrayAdapter<Sale> {
             viewHolder.tvName.setText(sale.getProduct().getName());
             Picasso.with(context).load(sale.getProduct().getImgDefault()).into(viewHolder.imgAvatar);
         }
-        viewHolder.tvPrcie.setText(formatter.format(sale.getPrice()));
+        viewHolder.tvPrcie.setText(Utils.formatPrice(sale.getPrice()));
 
         return convertView;
     }

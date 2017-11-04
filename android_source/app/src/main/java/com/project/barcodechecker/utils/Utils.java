@@ -17,6 +17,8 @@ import com.google.gson.Gson;
 import com.project.barcodechecker.R;
 import com.project.barcodechecker.models.User;
 
+import java.text.DecimalFormat;
+
 /**
  * Created by lucky on 14-Sep-17.
  */
@@ -187,5 +189,11 @@ public class Utils {
         return category;
     }
 
-
+    public static String formatPrice(float price){
+        DecimalFormat formatter = new DecimalFormat("###,###,###.##đ");
+        return formatter.format(price);
+    } public static String formatPrice(double price){
+        DecimalFormat formatter = new DecimalFormat("###,###,###.##đ");
+        return formatter.format(price);
+    }
 }

@@ -24,7 +24,7 @@ public class LoadingFragment extends Fragment{
 
         mProgressDialog = new ProgressDialog(getContext());
 
-        mProgressDialog.setMessage("Working ...");
+        mProgressDialog.setMessage("Đang tải...");
         mProgressDialog.show();
     }
 
