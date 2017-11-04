@@ -148,4 +148,44 @@ public class Utils {
             return false;
         }
     }
+
+    public static String getCategoryString(int id){
+        String category="";
+        switch (id){
+            case 1:
+                category="Điện thoại";
+                break;
+            case 2:
+                category="Đồ điện tử";
+                break;
+
+            case 3:
+                category="Nước giải khác";
+                break;
+
+            case 4:
+                category="Đồ gia dụng";
+                break;
+
+            case 5:
+                category="Dụng cụ học tập";
+                break;
+
+            case 6:
+                category="Thể thao";
+                break;
+
+            case 7:
+                category="Trang sức";
+                break;
+
+            case 8:
+                category="Khác";
+                break;
+
+        }
+        return category;
+    }
+
+
 }

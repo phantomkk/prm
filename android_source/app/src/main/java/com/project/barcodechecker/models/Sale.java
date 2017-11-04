@@ -30,6 +30,9 @@ public class Sale implements Serializable {
     @SerializedName("Product")
     private Product product;
 
+    public Sale() {
+    }
+
     public String getDateCreate() {
         return dateCreate;
     }

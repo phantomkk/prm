@@ -293,7 +293,7 @@ public class AccoutFragment extends LoadingFragment implements View.OnClickListe
                                 Toast.makeText(getContext(), "Update User Success",
                                         Toast.LENGTH_LONG).show();
 
-                                closeLoading();
+                                hideLoading();
                             } else {
                                 Toast.makeText(getContext(), "Update User Fail, please try again!",
                                         Toast.LENGTH_LONG).show();
@@ -302,7 +302,7 @@ public class AccoutFragment extends LoadingFragment implements View.OnClickListe
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                     }
-                                closeLoading();
+                                hideLoading();
                             }
                         }
 
@@ -310,7 +310,7 @@ public class AccoutFragment extends LoadingFragment implements View.OnClickListe
                         public void onFailure(Call<User> call, Throwable t) {
                             Toast.makeText(getContext(), "Update user error, please try again!",
                                     Toast.LENGTH_LONG).show();
-                            closeLoading();
+                            hideLoading();
                             Log.e("LOG_ERROR","fai" +t.getMessage());
                         }
                     });
