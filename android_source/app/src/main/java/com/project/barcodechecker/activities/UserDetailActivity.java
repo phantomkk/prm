@@ -17,6 +17,7 @@ import com.project.barcodechecker.fragments.SaleUserFragment;
 import com.project.barcodechecker.models.Sale;
 import com.project.barcodechecker.models.User;
 import com.project.barcodechecker.utils.AppConst;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -79,7 +80,7 @@ public class UserDetailActivity extends BaseActivity {
             edtPhone.setText(user.getPhone());
             edtIntroduct.setText(user.getIntroduce());
             edtWeb.setText(user.getWebsite());
-            Picasso.with(this).load(user.getAvatar()).error(R.drawable.avatar).into(imvAvatar);
+            Picasso.with(this).load(user.getAvatar()).networkPolicy(NetworkPolicy.NO_CACHE).error(R.drawable.avatar).into(imvAvatar);
         }
     }
 

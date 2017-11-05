@@ -30,7 +30,6 @@ import com.project.barcodechecker.api.services.SaleService;
 import com.project.barcodechecker.fragments.CommentFragment;
 import com.project.barcodechecker.fragments.SaleUserFragment;
 import com.project.barcodechecker.fragments.SuggestFragment;
-import com.project.barcodechecker.fragments.UserFragment;
 import com.project.barcodechecker.models.Comment;
 import com.project.barcodechecker.models.Product;
 import com.project.barcodechecker.models.Rating;
@@ -39,6 +38,7 @@ import com.project.barcodechecker.models.User;
 import com.project.barcodechecker.utils.AppConst;
 import com.project.barcodechecker.utils.CoreManager;
 import com.project.barcodechecker.utils.Utils;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -77,6 +77,9 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_detail;
+    }
+
+    public DetailActivity() {
     }
 
     @Override
@@ -178,7 +181,7 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
             Log.e("ERROR", "DetailActivity.setValues(*): Product null");
             logError(DetailActivity.class.getSimpleName(), "setValues", "Product null");
         }
-        Picasso.with(this).load(p.getImgDefault()).into(imgProduct);
+        Picasso.with(this).load(p.getImgDefault()).networkPolicy(NetworkPolicy.NO_CACHE).into(imgProduct);
         txtCode.setText(p.getCode());
         txtName.setText(p.getName());
         txtPrice.setText(Utils.formatPrice(p.getPrice()));
@@ -439,14 +442,12 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
         if (resultCode == RESULT_OK) {
             if (requestCode == Utils.USE_VIEW_DETAIL) {
                 setUpAvatar();
-//                detailActitivityListenner.setUpAvatarInToolBar();
                 u = CoreManager.getUser(this);
                 commentFragment.setUpAvatarInToolBar();
             }
         }
     }
 
-    private DetailActitivityListenner detailActitivityListenner;
     private boolean addClick = false;
 
     private boolean isValid() {
@@ -531,8 +532,6 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
         }
     }
 
-    public interface DetailActitivityListenner {
-        public void setUpAvatarInToolBar();
-    }
+
 
 }

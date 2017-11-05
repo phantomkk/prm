@@ -7,13 +7,13 @@
     card_view:cardCornerRadius="5dp">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:padding="10dp">
 
         <ImageView
             android:id="@+id/img_product_item_product"
-            android:layout_width="80dp"
+            android:layout_width="100dp"
             android:layout_height="80dp"
             android:src="@drawable/ic_shopping_cart_black_24dp" />
 
@@ -21,7 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_marginStart="10dp"
             android:orientation="vertical">
 
             <TextView
@@ -31,44 +30,46 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:text="name"
-                android:textSize="@dimen/label_size"
+                android:textSize="15dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/txt_name_item_product"
+                android:layout_centerVertical="true"
                 android:text="Giá: "
                 android:textColor="@color/colorAccent"
-                android:textSize="@dimen/label_size" />
+                android:textSize="10dp" />
 
             <TextView
                 android:id="@+id/txt_price_item_product"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/tv_price"
+                android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/tv_price"
                 android:text="0"
                 android:textColor="@color/colorAccent"
-                android:textSize="@dimen/label_size" />
+                android:textSize="10dp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_price"
+                android:layout_alignParentBottom="true"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tv_category"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="10dp"
                     android:text="Loại:" />
 
                 <TextView
                     android:id="@+id/txt_date_product"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="10dp"
                     android:text="Ngày đăng: " />
 
             </LinearLayout>

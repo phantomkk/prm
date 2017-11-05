@@ -71,16 +71,6 @@ public class SearchFragment extends LoadingFragment {
                 startActivity(intent);
             }
         });
-        edtSearch.setOnEditorActionListener(
-                new EditText.OnEditorActionListener() {
-                    @Override
-                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                        if (actionId == EditorInfo.IME_ACTION_NEXT) {
-//                            searchProcess();
-                        }
-                        return false; // pass on to other listeners.
-                    }
-                });
         edtSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -147,9 +137,9 @@ public class SearchFragment extends LoadingFragment {
                 }
             });
         } else {
-//            if (callList != null && callList.isExecuted()) {
-//                callList.cancel();
-//            }
+            if (callList != null && callList.isExecuted()) {
+                callList.cancel();
+            }
             callList = productService.searchProduct(searchValue);
             callList.enqueue(new Callback<List<Product>>() {
                 @Override

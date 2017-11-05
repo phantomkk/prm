@@ -89,7 +89,7 @@ public class ListProductFragment extends LoadingFragment implements ProductSaleM
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                refreshItems();
+                refeshValue();
             }
         });
 
@@ -98,14 +98,8 @@ public class ListProductFragment extends LoadingFragment implements ProductSaleM
 //        return inflater.inflate(R.layout.fragment_list_product, container, false);
     }
 
-    public void refreshItems() {
-        setValue();
-    }
 
-    public void setValue() {
-        if (isFirst) {
-            progressBar.setVisibility(View.VISIBLE);
-        }
+    public void setValue(){
         List<Sale> sales = new ArrayList<>();
         SaleService saleService = APIServiceManager.getSaleService();
         saleService.getSaleByUserID(CoreManager.getUser(getContext()).getId()).enqueue(new Callback<List<Sale>>() {
@@ -117,19 +111,17 @@ public class ListProductFragment extends LoadingFragment implements ProductSaleM
                     list.clear();
                     list.addAll(saleList);
                     adapter.notifyDataSetChanged();
-                    if (!isFirst) {
-                        Toast.makeText(getActivity(), "Update Success",
-                                Toast.LENGTH_LONG).show();
-                    } else {
-                        isFirst = false;
+//                    Toast.makeText(getActivity(), "Update Success",
+//                            Toast.LENGTH_LONG).show();
+                    if (list.isEmpty()){
+                        listView.setVisibility(View.GONE);
+                    }else{
+                        listView.setVisibility(View.VISIBLE);
                     }
                 } else {
                     Log.e(DetailActivity.class.getSimpleName(), "loadSaleError");
-                    Toast.makeText(getActivity(), "Update Fail.Please try again!",
-                            Toast.LENGTH_LONG).show();
-                }
-                if (isFirst) {
-                    isFirst = false;
+//                    Toast.makeText(getActivity(), "Update Fail.Please try again!",
+//                            Toast.LENGTH_LONG).show();
                 }
                 swipeRefreshLayout.setRefreshing(false);
                 progressBar.setVisibility(View.GONE);
@@ -137,9 +129,45 @@ public class ListProductFragment extends LoadingFragment implements ProductSaleM
 
             @Override
             public void onFailure(Call<List<Sale>> call, Throwable t) {
-                if (isFirst) {
-                    isFirst = false;
+                Log.e(DetailActivity.class.getSimpleName(), "loadSale Failure API " + t.getMessage());
+//                Toast.makeText(getActivity(), "Update error.Please try again later!",
+//                        Toast.LENGTH_LONG).show();
+                swipeRefreshLayout.setRefreshing(false);
+                progressBar.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    public void refeshValue() {
+        List<Sale> sales = new ArrayList<>();
+        SaleService saleService = APIServiceManager.getSaleService();
+        saleService.getSaleByUserID(CoreManager.getUser(getContext()).getId()).enqueue(new Callback<List<Sale>>() {
+            @Override
+            public void onResponse(Call<List<Sale>> call, Response<List<Sale>> response) {
+                if (response.isSuccessful()) {
+                    List<Sale> saleList = new ArrayList<Sale>();
+                    saleList = response.body();
+                    list.clear();
+                    list.addAll(saleList);
+                    if (list.isEmpty()){
+                        listView.setVisibility(View.GONE);
+                    }else{
+                        listView.setVisibility(View.VISIBLE);
+                    }
+                    adapter.notifyDataSetChanged();
+                        Toast.makeText(getActivity(), "Update Success",
+                                Toast.LENGTH_LONG).show();
+                } else {
+                    Log.e(DetailActivity.class.getSimpleName(), "loadSaleError");
+                    Toast.makeText(getActivity(), "Update Fail.Please try again!",
+                            Toast.LENGTH_LONG).show();
                 }
+                swipeRefreshLayout.setRefreshing(false);
+                progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call<List<Sale>> call, Throwable t) {
                 Log.e(DetailActivity.class.getSimpleName(), "loadSale Failure API " + t.getMessage());
                 Toast.makeText(getActivity(), "Update error.Please try again later!",
                         Toast.LENGTH_LONG).show();

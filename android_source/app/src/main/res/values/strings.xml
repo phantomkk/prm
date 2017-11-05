@@ -58,12 +58,12 @@
 
 
     <!--History-->
-    <string name="string_not_fount">Not Found</string>
-    <string name="not_found_product_dialog_title">Message</string>
-    <string name="not_found_product_dialog_message">Product Not Found</string>
+    <string name="string_not_fount">Không Tìm Thấy</string>
+    <string name="not_found_product_dialog_title">Thông báo</string>
+    <string name="not_found_product_dialog_message">Sản phẩm không tìm thấy</string>
     <string name="not_found_product_dialog_tag">not_foud_dialog</string>
-    <string name="delete_history_dialog_title">Delete</string>
-    <string name="delete_history_dialog_message">Are you sure to delete this history?</string>
+    <string name="delete_history_dialog_title">Xóa</string>
+    <string name="delete_history_dialog_message">Bạn có chắc muốn xóa lịch sử này?</string>
     <string name="delete_history_dialog_tag">confirm_delete</string>
     <string name="title_activity_user">UserActivity</string>
     <string name="large_text">

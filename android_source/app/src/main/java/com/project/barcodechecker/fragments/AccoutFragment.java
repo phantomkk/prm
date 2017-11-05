@@ -125,12 +125,6 @@ public class AccoutFragment extends LoadingFragment implements View.OnClickListe
         addressWrapper = (TextInputLayout) view.findViewById(R.id.addressWrapper);
         emailWrapper = (TextInputLayout) view.findViewById(R.id.emailWrapper);
         phoneWrapper = (TextInputLayout) view.findViewById(R.id.phoneWrapper);
-//        tvNameError = (TextView) view.findViewById(R.id.txt_name_error);
-//        tvAddressError = (TextView) view.findViewById(R.id.txt_address_error);
-//        tvEmailError = (TextView) view.findViewById(R.id.txt_email_error);
-//        tvPhoneError = (TextView) view.findViewById(R.id.txt_phone_error);
-//        setUserInfor(u);
-//        logError("set user ìno" + u.getName());
         btnConfirm = (Button) view.findViewById(R.id.btn_confirm);
         btnConfirm.setOnClickListener(this);
 
@@ -396,7 +390,7 @@ public class AccoutFragment extends LoadingFragment implements View.OnClickListe
     }
 
     private void uploadImage(byte[] imageBytes) {
-
+        showLoading();
         FileService fileService = APIServiceManager.getFileService();
         RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), imageBytes);
         MultipartBody.Part body = MultipartBody.Part.createFormData("image", "image.jpg", requestFile);
@@ -422,6 +416,7 @@ public class AccoutFragment extends LoadingFragment implements View.OnClickListe
                     Toast.makeText(getContext(), "Cập nhật avatar lỗi",
                             Toast.LENGTH_LONG).show();
                 }
+                hideLoading();
             }
 
             @Override
@@ -429,6 +424,7 @@ public class AccoutFragment extends LoadingFragment implements View.OnClickListe
                 Toast.makeText(getContext(), "Cập nhật avatar lỗi, xin hãy thử lại!",
                         Toast.LENGTH_LONG).show();
                 Log.d("TAG", "onFailure: " + t.getLocalizedMessage());
+                hideLoading();
             }
         });
     }

@@ -70,7 +70,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class MainActivity extends AppCompatActivity implements AccoutFragment.OnLoginListener, DetailActivity.DetailActitivityListenner {
+public class MainActivity extends AppCompatActivity implements AccoutFragment.OnLoginListener{
     private ProductService pService;
     private BottomNavigationView bottomNavigationView;
     private FrameLayout mainFrame;
@@ -143,7 +143,6 @@ public class MainActivity extends AppCompatActivity implements AccoutFragment.On
                         viewPager.setCurrentItem(0);
                         break;
                     case R.id.action_search:
-                        selectedFragment = FragmentFactory.getFragment(SearchFragment.class);
                         mTitle.setText(R.string.tab_search);
                         mAvatar.setVisibility(View.VISIBLE);
                         toolbar.setVisibility(View.VISIBLE);
@@ -280,13 +279,14 @@ public class MainActivity extends AppCompatActivity implements AccoutFragment.On
         searchFragment = new SearchFragment();
         scanFragment = new ScanFragment();
         categoryFragment = new CategoryFragment();
-        settingFragment = new SettingFragment();
         viewPagerAdapter.addFragment(historyFragment);
         viewPagerAdapter.addFragment(searchFragment);
         viewPagerAdapter.addFragment(scanFragment);
         viewPagerAdapter.addFragment(categoryFragment);
 //        viewPagerAdapter.addFragment(new UserFragment());
         viewPager.setAdapter(viewPagerAdapter);
+        viewPager.setOffscreenPageLimit(2);
+
     }
 
     @Override
@@ -316,8 +316,5 @@ public class MainActivity extends AppCompatActivity implements AccoutFragment.On
         mAvatar.setImageURI(uri);
     }
 
-    @Override
-    public void setUpAvatarInToolBar() {
-        Picasso.with(this).load(CoreManager.getUser(this).getAvatar()).into(mAvatar);
-    }
+
 }
