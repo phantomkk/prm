@@ -27,7 +27,7 @@
             android:layout_toRightOf="@id/profile_image"
             android:layout_centerVertical="true"
             android:text=""
-            android:textSize="20dp" />
+            android:textSize="@dimen/label_size" />
 
         <TextView
             android:id="@+id/sale_product_price"

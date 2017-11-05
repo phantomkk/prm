@@ -21,7 +21,7 @@ public class DialogErrorConnection extends Dialog {
     public View.OnClickListener btnReloadListener;
 
     public DialogErrorConnection(Activity activity, View.OnClickListener btnReloadListener) {
-        super(activity); 
+        super(activity);
         this.activity = activity;
         this.btnReloadListener = btnReloadListener;
     }

@@ -290,7 +290,7 @@ public class AccoutFragment extends LoadingFragment implements View.OnClickListe
                                 userTemplate.setIntroduce(edtIntroduct.getText().toString().trim());
                                 userTemplate.setWebsite(edtWeb.getText().toString().trim());
                                 CoreManager.setUser(getContext(),userTemplate);
-                                Toast.makeText(getContext(), "Update User Success",
+                                Toast.makeText(getContext(), "Cập nhật thành công",
                                         Toast.LENGTH_LONG).show();
 
                                 hideLoading();
@@ -308,7 +308,7 @@ public class AccoutFragment extends LoadingFragment implements View.OnClickListe
 
                         @Override
                         public void onFailure(Call<User> call, Throwable t) {
-                            Toast.makeText(getContext(), "Update user error, please try again!",
+                            Toast.makeText(getContext(), "Cập nhập lỗi, hãy thử lại!",
                                     Toast.LENGTH_LONG).show();
                             hideLoading();
                             Log.e("LOG_ERROR","fai" +t.getMessage());

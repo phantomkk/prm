@@ -95,7 +95,8 @@ public class ProductSaleManagerAdapter extends ArrayAdapter<Sale>{
             Picasso.with(context).load(sale.getProduct().getImgDefault()).into(viewHolder.imgProduct);
         }
         viewHolder.tvPrcie.setText(Utils.formatPrice(sale.getPrice()));
-        viewHolder.tvDate.setText("Ngày đăng: "+sale.getDateCreate());
+        String d = sale.getDateCreate() == null ? "" : (sale.getDateCreate().replace("T00:00:00",""));
+        viewHolder.tvDate.setText("Ngày đăng: "+d);
 
         viewHolder.tvCategory.setText("Loại: "+ Utils.getCategoryString(sale.getProduct().getCategoryID()));
         viewHolder.btnEdit.setOnClickListener(new View.OnClickListener() {

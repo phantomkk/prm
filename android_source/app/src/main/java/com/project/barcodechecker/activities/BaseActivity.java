@@ -105,7 +105,6 @@ public abstract class BaseActivity extends Activity {
     }
 
     public void initToolbar() {
-        Log.e("TOOLBAR", "INIT");
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setBackground(ContextCompat.getDrawable(this, R.color.colorPrimary));
         btnBack = (ImageButton) findViewById(R.id.btn_back_toolbar);

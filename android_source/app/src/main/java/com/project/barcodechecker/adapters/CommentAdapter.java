@@ -78,7 +78,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 //            Log.e("ERROR", "CommentAdapter onBindViewHolder");
 //            e.printStackTrace();
 //        }
-        holder.txtDate.setText(c.getDateCreated());
+        holder.txtDate.setText(c.getDateCreated() == null? "": c.getDateCreated().replace("T00:00:00",""));
     }
 
     @Override
