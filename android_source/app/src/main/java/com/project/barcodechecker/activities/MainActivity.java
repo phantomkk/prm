@@ -285,7 +285,7 @@ public class MainActivity extends AppCompatActivity implements AccoutFragment.On
         viewPagerAdapter.addFragment(categoryFragment);
 //        viewPagerAdapter.addFragment(new UserFragment());
         viewPager.setAdapter(viewPagerAdapter);
-        viewPager.setOffscreenPageLimit(2);
+//        viewPager.setOffscreenPageLimit(2);
 
     }
 
