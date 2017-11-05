@@ -41,6 +41,7 @@ import com.project.barcodechecker.models.ImgResponse;
 import com.project.barcodechecker.models.User;
 import com.project.barcodechecker.utils.CoreManager;
 import com.project.barcodechecker.utils.Utils;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -407,6 +408,7 @@ public class AccoutFragment extends LoadingFragment implements View.OnClickListe
                     Log.e("TAG", "SUCCESS " + im.toString());
                     //Todo set link avtar for core
                     CoreManager.getUser(getContext()).setAvatar(im.getData());
+                    Picasso.with(getContext()).load(im.getData()).networkPolicy(NetworkPolicy.NO_CACHE).into(imvAvatar);
                     Toast.makeText(getContext(), "Cập nhật avatar thành công!",
                             Toast.LENGTH_LONG).show();
                 } else {
