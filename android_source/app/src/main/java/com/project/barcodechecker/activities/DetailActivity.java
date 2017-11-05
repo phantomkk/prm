@@ -237,7 +237,6 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
                                         showMessage("Đánh giá sản phẩm thành công.");
                                     } else {
                                         logError(DetailActivity.class.getSimpleName(), "setValues", "Post rating onResponse but else" + response.code());
-
                                         rbStar.setRating((float) product.getAverageRating());
                                     }
                                     try {

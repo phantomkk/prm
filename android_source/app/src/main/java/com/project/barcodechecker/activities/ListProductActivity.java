@@ -1,13 +1,17 @@
 package com.project.barcodechecker.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ListView;
 
@@ -16,6 +20,7 @@ import com.project.barcodechecker.adapters.ProductAdapter;
 import com.project.barcodechecker.api.services.CategoryService;
 import com.project.barcodechecker.api.services.ProductService;
 import com.project.barcodechecker.customize.MyGridView;
+import com.project.barcodechecker.dialog.DialogErrorConnection;
 import com.project.barcodechecker.models.Product;
 import com.project.barcodechecker.api.APIServiceManager;
 import com.project.barcodechecker.utils.AppConst;
@@ -32,7 +37,7 @@ public class ListProductActivity extends BaseActivity {
     private List<Product> list;
     private ProductAdapter adapter;
     private CategoryService service;
-
+int position = -1;
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_list_product;
@@ -45,8 +50,12 @@ public class ListProductActivity extends BaseActivity {
         initView();
         Intent intent = getIntent();
         Bundle b = (Bundle) intent.getExtras();
-        int position = (int) b.get(AppConst.CATEGORY_PARAM);
+        position = (int) b.get(AppConst.CATEGORY_PARAM);
         service = APIServiceManager.getCategoryService();
+        loadProduct();
+    }
+
+    public void loadProduct(){
         showLoading();
         service.getProductByCategoryId(position).enqueue(new Callback<List<Product>>() {
             @Override
@@ -75,6 +84,7 @@ public class ListProductActivity extends BaseActivity {
             public void onFailure(Call<List<Product>> call, Throwable t) {
                 logError("ListProductActivity", "OnCreate", "Failure api" + t.getMessage());
                 hideLoading();
+                showDialogConnError();
             }
         });
         list = new ArrayList<>();
@@ -83,6 +93,15 @@ public class ListProductActivity extends BaseActivity {
     public void initView() {
         gvProducts = (MyGridView) findViewById(R.id.grd_list_product);
     }
-
+    AlertDialog dialog =null;
+    public void showDialogConnError(){
+        final DialogErrorConnection dialog = new DialogErrorConnection(this, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadProduct();
+            }
+        });
+        dialog.show();
+    }
 
 }

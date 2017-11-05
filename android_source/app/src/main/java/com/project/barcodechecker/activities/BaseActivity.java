@@ -159,24 +159,25 @@ public abstract class BaseActivity extends Activity {
         if (progressDialog == null) {
             progressDialog = new ProgressDialog(this);
             progressDialog.setMessage("Đang tải...");
+            progressDialog.setCancelable(false);
             progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                 @Override
                 public void onCancel(DialogInterface dialog) {
-                    showMessage("Cancel dialog");
+                    //notworking because .setCancelable above
                 }
             });
             progressDialog.show();
         }
     }
-
     public void showLoading(String message) {
         if (progressDialog == null) {
             progressDialog = new ProgressDialog(this);
             progressDialog.setMessage(message);
+            progressDialog.setCancelable(false);
             progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                 @Override
                 public void onCancel(DialogInterface dialog) {
-                    showMessage("Cancel dialog");
+//                     notworking because .setCancelable above
                 }
             });
             progressDialog.show();
