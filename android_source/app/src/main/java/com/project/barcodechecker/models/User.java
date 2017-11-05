@@ -151,4 +151,12 @@ public class User implements Serializable {
     public void setRatingList(List<Rating> ratingList) {
         this.ratingList = ratingList;
     }
+
+    public String toString(){
+        return "name: " + name + "\n" +
+                "avatar: " + avatar + "\n"+
+                "username: " + username + "\n"+
+                "phone: " + phone + "\n"+
+                "email: " + email;
+    }
 }

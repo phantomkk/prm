@@ -127,7 +127,8 @@ public class AccoutFragment extends LoadingFragment implements View.OnClickListe
 //        tvAddressError = (TextView) view.findViewById(R.id.txt_address_error);
 //        tvEmailError = (TextView) view.findViewById(R.id.txt_email_error);
 //        tvPhoneError = (TextView) view.findViewById(R.id.txt_phone_error);
-        setUserInfor(u);
+//        setUserInfor(u);
+//        logError("set user ìno" + u.getName());
         btnConfirm = (Button) view.findViewById(R.id.btn_confirm);
         btnConfirm.setOnClickListener(this);
 
@@ -140,6 +141,13 @@ public class AccoutFragment extends LoadingFragment implements View.OnClickListe
         btnLogOut.setOnClickListener(this);
         return view;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setUserInfor(u);
+    }
+
     public void clearText() {
 
             tvName.setText("");
@@ -153,6 +161,7 @@ public class AccoutFragment extends LoadingFragment implements View.OnClickListe
     }
     public void setUserInfor(User user) {
         if (user != null) {
+//            logError("set user info function: " + user.toString());
             tvName.setText(user.getUsername());
             imvAvatar.setImageURI(null);
             Picasso.with(getContext()).load(u.getAvatar()).into(imvAvatar);
@@ -295,7 +304,7 @@ public class AccoutFragment extends LoadingFragment implements View.OnClickListe
 
                                 hideLoading();
                             } else {
-                                Toast.makeText(getContext(), "Update User Fail, please try again!",
+                                Toast.makeText(getContext(), "Cập nhật lỗi, xin hãy thử lại!",
                                         Toast.LENGTH_LONG).show();
                                     try {
                                         Log.e("LOG_ERROR", response.errorBody().string());
@@ -329,6 +338,7 @@ public class AccoutFragment extends LoadingFragment implements View.OnClickListe
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        clearText();
                         mCallback.destoyFragmentUser();
 
                     }
@@ -397,18 +407,18 @@ public class AccoutFragment extends LoadingFragment implements View.OnClickListe
                     Log.e("TAG", "SUCCESS " + im.toString());
                     //Todo set link avtar for core
                     CoreManager.getUser(getContext()).setAvatar(im.getData());
-                    Toast.makeText(getContext(), "Update Avatar success!",
+                    Toast.makeText(getContext(), "Cập nhật avatar thành công!",
                             Toast.LENGTH_LONG).show();
                 } else {
                     Log.e("TAG", "ELSE" + response.errorBody().toString() + response.code());
-                    Toast.makeText(getContext(), "Update Avatar Fail",
+                    Toast.makeText(getContext(), "Cập nhật avatar lỗi",
                             Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ImgResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "Update Avatar error, please try again!",
+                Toast.makeText(getContext(), "Cập nhật avatar lỗi, xin hãy thử lại!",
                         Toast.LENGTH_LONG).show();
                 Log.d("TAG", "onFailure: " + t.getLocalizedMessage());
             }

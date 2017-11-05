@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements AccoutFragment.On
                         User u = CoreManager.getUser(context);
                         if (u == null) {
                             AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-                            dialog.setMessage("Bạn cần phải đăng nhập để xem chỉnh sửa")
+                            dialog.setMessage("Bạn cần phải đăng nhập để sử dụng tính năng này.")
                                     .setPositiveButton("Đăng nhập", positiveListener)
                                     .setNegativeButton("Hủy", null)
                                     .show();
