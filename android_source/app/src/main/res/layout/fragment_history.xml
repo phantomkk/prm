@@ -2,10 +2,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.project.barcodechecker.fragments.HistoryFragment">
+    tools:context="com.project.barcodechecker.fragments.HistoryFragment"
+    android:background="@color/color_grey_100">
     <ListView
         android:layout_marginTop="65dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:dividerHeight="5dp"
+        android:divider="@color/color_grey_100"
+        android:padding="5dp"
         android:id="@+id/list_history_frag_history"/>
 </FrameLayout>

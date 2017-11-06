@@ -9,10 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.project.barcodechecker.R;
 import com.project.barcodechecker.activities.DetailActivity;
 import com.project.barcodechecker.adapters.HistoryAdapter;
+import com.project.barcodechecker.api.APIServiceManager;
 import com.project.barcodechecker.api.services.ProductService;
 import com.project.barcodechecker.databaseHelper.ProductDatabaseHelper;
 import com.project.barcodechecker.models.Product;
@@ -55,7 +57,7 @@ public class HistoryFragment extends LoadingFragment{
         list = historyDatabaseHelper.getAllProducts();
         adapter = new HistoryAdapter(getContext(),R.layout.item_history,list);
         listView.setAdapter(adapter);
-        listView.setDivider(null);
+//        listView.setDivider(null);
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -77,9 +79,10 @@ public class HistoryFragment extends LoadingFragment{
                             });
                     messageDialogFragment.show(getFragmentManager(),getString(R.string.not_found_product_dialog_tag));
                 }else{
-                    Intent intent = new Intent(getActivity(), DetailActivity.class);
-                    intent.putExtra(AppConst.PRODUCT_PARAM, list.get(position));
-                    startActivity(intent);
+                    searchProductAndTranferToProductDetail(list.get(position).getId());
+//                    Intent intent = new Intent(getActivity(), DetailActivity.class);
+//                    intent.putExtra(AppConst.PRODUCT_PARAM, list.get(position));
+//                    startActivity(intent);
                 }
 
             }
@@ -87,15 +90,40 @@ public class HistoryFragment extends LoadingFragment{
 
         return v;
     }
+    private Product product;
+    public void searchProductAndTranferToProductDetail(int id) {
+        showLoading();
+        ProductService productService = APIServiceManager.getPService();
+        productService.getProductById(id).enqueue(new Callback<Product>() {
+            @Override
+            public void onResponse(Call<Product> call, Response<Product> response) {
+                if (response.isSuccessful()) {
+                    product = response.body();
+                    Intent intent = new Intent(getContext(), DetailActivity.class);
+                    intent.putExtra(AppConst.PRODUCT_PARAM, product);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getContext(), "Loading fail",
+                            Toast.LENGTH_LONG).show();
+                }
+                hideLoading();
+            }
 
-
+            @Override
+            public void onFailure(Call<Product> call, Throwable t) {
+                Toast.makeText(getContext(), "Loading fail",
+                        Toast.LENGTH_LONG).show();
+                hideLoading();
+            }
+        });
+    }
     public void showConfirmDeleteDialog(final int position) {
         ConfirmDialogFragment confirmDialogFragment = new ConfirmDialogFragment(getString(R.string.delete_history_dialog_title),
                getString(R.string.delete_history_dialog_message),
                 new ConfirmDialogFragment.ConfirmDialogListener() {
             @Override
             public void onDialogPositiveClick(DialogFragment dialog) {
-                historyDatabaseHelper.deleteProduct(list.get(position).getId());
+                historyDatabaseHelper.deleteProduct(list.get(position).getIdDatabase());
                 list.remove(position);
                 adapter.notifyDataSetChanged();
             }

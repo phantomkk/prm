@@ -1,34 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingTop="5dp"
-    android:layout_marginTop="5dp"
-    android:layout_marginBottom="5dp"
-    android:paddingLeft="15dp"
-    android:paddingRight="15dp"
-    >
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/txt_code_item_history"
-        android:layout_marginBottom="5dp"
-        android:text="hard"
-        style="@style/value_style"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/txt_name_item_history"
-        android:text="hard"
-        android:layout_marginBottom="5dp"
-        style="@style/value_style"
-        />
-<View
-    android:layout_width="match_parent"
-    android:layout_height="1dp"
-    android:background="@color/color_blue_grey_100"
-    />
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="5dp">
 
-</LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp">
+
+            <ImageView
+                android:id="@+id/img_product_image"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/txt_code_item_history"
+                    style="@style/value_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="hard" />
+
+                <TextView
+                    android:id="@+id/txt_name_item_history"
+                    style="@style/value_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="hard" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+</android.support.v7.widget.CardView>

@@ -55,7 +55,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DetailActivity extends BaseActivity implements CommentFragment.ButtonPostCommentClickListener {
-    private TextView txtCode, txtName, txtPrice, txtCompany, txtContact, txtDescription;
+    private TextView txtCode, txtName, txtPrice, txtCompany, txtContact, txtDescription, txtAddress, txtEmail, txtCategory;
     private RatingBar rbStar;
     private ImageView imgProduct;
     private Product product;
@@ -130,6 +130,9 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
         txtCompany = (TextView) findViewById(R.id.txt_company_detail_atv);
         txtDescription = (TextView) findViewById(R.id.txt_description_detail_atv);
         txtContact = (TextView) findViewById(R.id.txt_contact_detail_atv);
+        txtAddress = (TextView) findViewById(R.id.txt_address_detail_atv);
+        txtEmail = (TextView) findViewById(R.id.txt_email_detail_atv);
+        txtCategory = (TextView) findViewById(R.id.txt_category_detail_atv);
         imgProduct = (ImageView) findViewById(R.id.img_product_detail_atv);
         rbStar = (RatingBar) findViewById(R.id.rbar_star);
         frameComments = (FrameLayout) findViewById(R.id.frm_comment_detail_atv);
@@ -181,13 +184,16 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
             Log.e("ERROR", "DetailActivity.setValues(*): Product null");
             logError(DetailActivity.class.getSimpleName(), "setValues", "Product null");
         }
-        Picasso.with(this).load(p.getImgDefault()).networkPolicy(NetworkPolicy.NO_CACHE).into(imgProduct);
+        Picasso.with(this).load(p.getImgDefault()).into(imgProduct);
         txtCode.setText(p.getCode());
         txtName.setText(p.getName());
         txtPrice.setText(Utils.formatPrice(p.getPrice()));
         txtCompany.setText(p.getComanyName());
         txtDescription.setText(p.getDescription());
         txtContact.setText(p.getPhone());
+        txtAddress.setText(p.getAddress());
+        txtEmail.setText(p.getEmail());
+        txtCategory.setText(Utils.getCategoryString(p.getCategoryID()));
         rbStar.setRating((float) p.getAverageRating());
         u = CoreManager.getUser(DetailActivity.this);
         logError(u == null ? ("u null") : ("u khong null" + u.getName()));

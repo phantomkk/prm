@@ -27,24 +27,98 @@
             android:orientation="vertical">
 
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="15dp">
-
-                <ImageView
-                    android:id="@+id/img_product_detail_atv"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:background="@drawable/border_product"
-                    android:src="@drawable/ic_shopping_cart_black_24dp" />
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@id/img_product_detail_atv"
+                    android:orientation="vertical"
+                    android:layout_gravity="center">
+
+                    <ImageView
+                        android:id="@+id/img_product_detail_atv"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/ic_shopping_cart_black_24dp" />
+
+                    <TextView
+                        android:id="@+id/txt_name_detail_atv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textAlignment="center"
+                        android:text="name"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="25dp" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:weightSum="2"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+                            <TextView
+                                style="@style/lbl_style"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="@integer/left_side_detail_atv"
+                                android:text="@string/lbl_price" />
+
+                            <TextView
+                                android:id="@+id/txt_price_detail_atv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="@integer/right_side_detail_atv"
+                                android:textAlignment="center"
+                                android:textSize="25dp"
+                                android:text="0đ" />
+                        </LinearLayout>
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="5dp"
+                            android:background="@color/color_blue_grey_300" />
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+                            <TextView
+                                style="@style/lbl_style"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="@integer/left_side_detail_atv"
+                                android:text="@string/lbl_rating" />
+
+                            <RatingBar
+                                android:id="@+id/rbar_star"
+                                style="@style/Base.Widget.AppCompat.RatingBar.Indicator"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:scaleX="0.9"
+                                android:scaleY="0.9"
+                                android:isIndicator="false"
+                                android:theme="@style/RatingBar"
+                                android:numStars="5" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:padding="15dp">
 
@@ -72,51 +146,6 @@
 
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:orientation="horizontal"
-                        android:weightSum="100">
-
-                        <TextView
-                            style="@style/lbl_style"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="@integer/left_side_detail_atv"
-                            android:text="@string/lbl_name" />
-
-                        <TextView
-                            android:id="@+id/txt_name_detail_atv"
-                            style="@style/value_style"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="@integer/right_side_detail_atv"
-                            android:text="name" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:orientation="horizontal"
-                        android:weightSum="100">
-
-                        <TextView
-                            style="@style/lbl_style"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="@integer/left_side_detail_atv"
-                            android:text="@string/lbl_price" />
-
-                        <TextView
-                            android:id="@+id/txt_price_detail_atv"
-                            style="@style/value_style"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="@integer/right_side_detail_atv"
-                            android:text="price" />
-                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -140,13 +169,33 @@
                             android:layout_weight="@integer/right_side_detail_atv"
                             android:text="hello" />
                     </LinearLayout>
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal"
+                        android:weightSum="100">
 
+                        <TextView
+                            style="@style/lbl_style"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="@integer/left_side_detail_atv"
+                            android:text="@string/lbl_category" />
+
+                        <TextView
+                            android:id="@+id/txt_category_detail_atv"
+                            style="@style/value_style"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="@integer/right_side_detail_atv"
+                            android:text="hello" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
                         android:weightSum="100">
 
                         <TextView
@@ -164,6 +213,30 @@
                             android:layout_weight="@integer/right_side_detail_atv"
                             android:text="rating" />
                     </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:weightSum="100">
+
+                        <TextView
+                            style="@style/lbl_style"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="@integer/left_side_detail_atv"
+                            android:text="@string/lbl_email" />
+
+                        <TextView
+                            android:id="@+id/txt_email_detail_atv"
+                            style="@style/value_style"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="@integer/right_side_detail_atv"
+                            android:text="email" />
+
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -174,27 +247,20 @@
                         android:weightSum="100">
 
                         <TextView
-                            android:id="@+id/textView"
                             style="@style/lbl_style"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="@integer/left_side_detail_atv"
-                            android:text="@string/lbl_rating" />
+                            android:text="@string/lbl_addresss" />
 
-                        <LinearLayout
+                        <TextView
+                            android:id="@+id/txt_address_detail_atv"
+                            style="@style/value_style"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="@integer/right_side_detail_atv">
+                            android:layout_weight="@integer/right_side_detail_atv"
+                            android:text="address" />
 
-                            <RatingBar
-                                android:id="@+id/rbar_star"
-                                style="@style/Base.Widget.AppCompat.RatingBar.Indicator"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:backgroundTint="@color/colorSecondary"
-                                android:isIndicator="false"
-                                android:numStars="5" />
-                        </LinearLayout>
                     </LinearLayout>
 
                     <LinearLayout
@@ -252,12 +318,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="right"
-                        android:visibility="gone"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
                         <android.support.design.widget.TextInputLayout
                             android:id="@+id/priceWrapper"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
+
                             <EditText
                                 android:id="@+id/edt_price_sale"
                                 android:layout_width="250dp"
@@ -270,13 +338,14 @@
                                 android:textColorHint="@color/color_grey_500"
                                 android:textSize="15dp" />
                         </android.support.design.widget.TextInputLayout>
+
                         <ImageButton
                             android:id="@+id/add_price"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_gravity="center"
-                            android:tint="@color/colorAccent"
-                            android:background="@drawable/ic_action_add_sale"/>
+                            android:background="@drawable/ic_action_add_sale"
+                            android:tint="@color/colorAccent" />
                     </LinearLayout>
 
                     <View
@@ -373,7 +442,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
-            </RelativeLayout>
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

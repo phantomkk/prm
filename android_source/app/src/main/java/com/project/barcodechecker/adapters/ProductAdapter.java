@@ -37,33 +37,38 @@ public class ProductAdapter extends ArrayAdapter<Product> {
         this.resourceID = resource;
     }
 
-//    public ProductAdapter(Context context, List<Product> list, OnMyProductClickListener onMyProductClickListener){
+    //    public ProductAdapter(Context context, List<Product> list, OnMyProductClickListener onMyProductClickListener){
 //        this.context = context;
 //        this.list = list;
 //        this.onMyProductClickListener = onMyProductClickListener;
 //    }
-private static class ViewHolder{
-    ImageView imgProduct;
-    TextView txtProductName;
-    TextView txtProductPrice;
-}
+    private static class ViewHolder {
+        ImageView imgProduct;
+        TextView txtProductName;
+        TextView txtProductPrice;
+    }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         Product product = list.get(position);
         ViewHolder viewHolder;
         final View result;
-        if(convertView == null){
+        if (convertView == null) {
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(resourceID,null);
-            viewHolder.imgProduct =(ImageView)convertView.findViewById(R.id.img_product_item_product);
+            convertView = inflater.inflate(resourceID, null);
+            viewHolder.imgProduct = (ImageView) convertView.findViewById(R.id.img_product_item_product);
             Picasso.with(context).load(product.getImgDefault()).into(viewHolder.imgProduct);
-            viewHolder.txtProductName= (TextView) convertView.findViewById(R.id.txt_name_item_product);
-            viewHolder.txtProductPrice= (TextView) convertView.findViewById(R.id.txt_price_item_product);
-            viewHolder.txtProductName.setText(product.getName());
+            viewHolder.txtProductName = (TextView) convertView.findViewById(R.id.txt_name_item_product);
+            viewHolder.txtProductPrice = (TextView) convertView.findViewById(R.id.txt_price_item_product);
+            if (product.getName().length() > 16) {
+                String name = product.getName().substring(0,13);
+                viewHolder.txtProductName.setText(name+"...");
+            } else {
+                viewHolder.txtProductName.setText(product.getName());
+            }
             viewHolder.txtProductPrice.setText(Utils.formatPrice(product.getPrice()));
-        }else{
+        } else {
             viewHolder = (ViewHolder) convertView.getTag();
             result = convertView;
         }

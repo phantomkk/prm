@@ -36,16 +36,14 @@ import retrofit2.Response;
  */
 
 public class ChangePasswordDialog extends Dialog {
-    private String mPassword;
     private EditText mCurrentPassword, mNewPassword, mConfirmPassword;
     private TextView mNewPasswordError, mCurrentPasswordError, mConfirmPasswordError;
     private ProgressBar mPbNewPassword, mPbCurrentPassword, mPbConfirmPassword;
     private Button button;
     private Context context;
 
-    public ChangePasswordDialog(@NonNull Context context, String mPassword) {
+    public ChangePasswordDialog(@NonNull Context context) {
         super(context);
-        this.mPassword = mPassword;
         this.context = context;
     }
 
@@ -71,7 +69,7 @@ public class ChangePasswordDialog extends Dialog {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Utils.checkPassword(getContext(),mCurrentPassword,mPbCurrentPassword);
+                Utils.checkPassword(getContext(), mCurrentPassword, mPbCurrentPassword);
 //                callculator(mCurrentPassword, mPbCurrentPassword);
             }
 
@@ -88,7 +86,7 @@ public class ChangePasswordDialog extends Dialog {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Utils.checkPassword(getContext(),mNewPassword,mPbNewPassword);
+                Utils.checkPassword(getContext(), mNewPassword, mPbNewPassword);
 //                callculator(mNewPassword, mPbNewPassword);
 
             }
@@ -106,7 +104,7 @@ public class ChangePasswordDialog extends Dialog {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Utils.checkPassword(getContext(),mConfirmPassword,mPbConfirmPassword);
+                Utils.checkPassword(getContext(), mConfirmPassword, mPbConfirmPassword);
 //                callculator(mConfirmPassword, mPbConfirmPassword);
 
             }
@@ -125,13 +123,13 @@ public class ChangePasswordDialog extends Dialog {
                     User user = CoreManager.getUser(context);
 //                    user.setPassword(mNewPassword.getText().toString());
                     UserService userService = APIServiceManager.getUserService();
-                    userService.updatePassword(user.getId(),mNewPassword.getText().toString()).enqueue(new Callback<User>() {
+                    userService.updatePassword(user.getId(), mNewPassword.getText().toString(), mCurrentPassword.getText().toString()).enqueue(new Callback<User>() {
                         @Override
                         public void onResponse(Call<User> call, Response<User> response) {
                             if (response.isSuccessful()) {
                                 User userTemplate = CoreManager.getUser(context);
                                 userTemplate.setPassword(mNewPassword.getText().toString());
-                                CoreManager.setUser(context,userTemplate);
+                                CoreManager.setUser(context, userTemplate);
                                 Toast.makeText(context, "Change Password success",
                                         Toast.LENGTH_LONG).show();
                                 dismiss();
@@ -139,6 +137,9 @@ public class ChangePasswordDialog extends Dialog {
                                 try {
                                     Toast.makeText(context, response.errorBody().string().toString(),
                                             Toast.LENGTH_LONG).show();
+                                    mNewPassword.setText("");
+                                    mCurrentPassword.setText("");
+                                    mConfirmPassword.setText("");
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
@@ -165,12 +166,7 @@ public class ChangePasswordDialog extends Dialog {
         current = mCurrentPassword.getText().toString().trim();
         newPass = mNewPassword.getText().toString().trim();
         confirmPass = mConfirmPassword.getText().toString().trim();
-        if (!current.equals(mPassword)) {
-            flag = false;
-            mCurrentPassword.setText("");
-            mCurrentPasswordError.setVisibility(View.VISIBLE);
-            mCurrentPasswordError.setText(R.string.password_not_right);
-        } else if (current.length() < 1) {
+        if (current.length() < 1) {
             flag = false;
             mCurrentPasswordError.setVisibility(View.VISIBLE);
             mCurrentPasswordError.setText(R.string.password_not_empty_message);

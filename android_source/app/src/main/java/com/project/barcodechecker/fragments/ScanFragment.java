@@ -162,51 +162,6 @@ public class ScanFragment extends LoadingFragment implements MessageDialogFragme
 //        setHasOptionsMenu(true);
     }
 
-//    @Override
-//    public void onCreateOptionsMenu (Menu menu, MenuInflater inflater) {
-//        super.onCreateOptionsMenu(menu, inflater);
-//        MenuItem menuItem;
-//        if(mAutoFocus) {
-//            menuItem = menu.add(Menu.NONE, R.id.menu_auto_focus, 0, R.string.auto_focus_on);
-//        } else {
-//            menuItem = menu.add(Menu.NONE, R.id.menu_auto_focus, 0, R.string.auto_focus_off);
-//        }
-//        MenuItemCompat.setShowAsAction(menuItem, MenuItem.SHOW_AS_ACTION_NEVER);
-//
-//        menuItem = menu.add(Menu.NONE, R.id.menu_formats, 0, R.string.formats);
-//        MenuItemCompat.setShowAsAction(menuItem, MenuItem.SHOW_AS_ACTION_NEVER);
-//
-//        menuItem = menu.add(Menu.NONE, R.id.menu_camera_selector, 0, R.string.select_camera);
-//        MenuItemCompat.setShowAsAction(menuItem, MenuItem.SHOW_AS_ACTION_NEVER);
-//    }
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle presses on the action bar items
-//        switch (item.getItemId()) {
-//            case R.id.menu_auto_focus:
-//                mAutoFocus = !mAutoFocus;
-//                if(mAutoFocus) {
-//                    item.setTitle(R.string.auto_focus_on);
-//                } else {
-//                    item.setTitle(R.string.auto_focus_off);
-//                }
-//                mScannerView.setAutoFocus(mAutoFocus);
-//                return true;
-//            case R.id.menu_formats:
-//                FormatSelectorDialogFragment fragment = FormatSelectorDialogFragment.newInstance(this, mSelectedIndices);
-//                fragment.show(getFragmentManager(), "format_selector");
-//                return true;
-//            case R.id.menu_camera_selector:
-//                mScannerView.stopCamera();
-//                CameraSelectorDialogFragment cFragment = CameraSelectorDialogFragment.newInstance(this, mCameraId);
-//                cFragment.show(getFragmentManager(), "camera_selector");
-//                return true;
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
-//    }
-
     @Override
     public void onResume() {
         super.onResume();

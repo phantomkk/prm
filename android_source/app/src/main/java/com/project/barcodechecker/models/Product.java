@@ -21,6 +21,7 @@ public class Product implements Serializable {
     public Product() {
     }
 
+    private int idDatabase;
     @SerializedName("ID")
     @Expose
     private Integer id;
@@ -185,5 +186,13 @@ public class Product implements Serializable {
 
     public void setAverageRating(double averageRating) {
         this.averageRating = averageRating;
+    }
+
+    public int getIdDatabase() {
+        return idDatabase;
+    }
+
+    public void setIdDatabase(int idDatabase) {
+        this.idDatabase = idDatabase;
     }
 }

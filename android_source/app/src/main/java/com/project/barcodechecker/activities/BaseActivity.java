@@ -129,6 +129,7 @@ public abstract class BaseActivity extends Activity {
     }
 
     public void setUpAvatar() {
+//        Picasso.with(this).invalidate(CoreManager.getUser(this).getAvatar());
         Picasso.with(this).load(CoreManager.getUser(this).getAvatar()).into(imgAvatar);
     }
 

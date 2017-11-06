@@ -160,7 +160,7 @@ public class AccoutFragment extends LoadingFragment implements View.OnClickListe
 //            logError("set user info function: " + user.toString());
             tvName.setText(user.getUsername());
             imvAvatar.setImageURI(null);
-            Picasso.with(getActivity()).invalidate(u.getAvatar());
+//            Picasso.with(getActivity()).invalidate(u.getAvatar());
             Picasso.with(getContext()).load(u.getAvatar()).into(imvAvatar);
             edtName.setText(user.getName());
             edtAddress.setText(user.getAddress());
@@ -267,7 +267,7 @@ public class AccoutFragment extends LoadingFragment implements View.OnClickListe
                 break;
             case R.id.btn_edit_password:
                 //Todo sửa thành user password
-                ChangePasswordDialog changePasswordDialog = new ChangePasswordDialog(getContext(), u.getPassword());
+                ChangePasswordDialog changePasswordDialog = new ChangePasswordDialog(getContext());
                 changePasswordDialog.setTitle("Đổi Mật Khẩu");
                 changePasswordDialog.setCanceledOnTouchOutside(true);
                 changePasswordDialog.show();
@@ -403,7 +403,7 @@ public class AccoutFragment extends LoadingFragment implements View.OnClickListe
                     ImgResponse im = response.body();
                     Log.e("TAG", "SUCCESS " + im.toString());
                     //Todo set link avtar for core
-                    CoreManager.getUser(getContext()).setAvatar(im.getData());
+//                    CoreManager.getUser(getContext()).setAvatar(im.getData());
                     Picasso.with(getContext())
                             .load(im.getData())
                             .memoryPolicy(MemoryPolicy.NO_CACHE)

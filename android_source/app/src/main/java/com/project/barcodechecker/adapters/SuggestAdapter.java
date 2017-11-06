@@ -40,7 +40,11 @@ public class SuggestAdapter extends RecyclerView.Adapter<SuggestAdapter.MyViewHo
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Product p = list.get(position);
-        holder.name.setText(p.getName());
+        if(p.getName().length()>16){
+            holder.name.setText(p.getName().substring(0,13)+"...");
+        }else{
+            holder.name.setText(p.getName());
+        }
         holder.price.setText(Utils.formatPrice(p.getPrice()));
         Picasso.with(context).load(p.getImgDefault()).into(holder.productImage);
 

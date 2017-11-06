@@ -15,7 +15,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 /**
- * Created by lucky on 15-Oct-17.
+ * Created by lucky on 15-Oct-17.d
  */
 public interface UserService {
     @POST("/api/users/login")
@@ -31,6 +31,6 @@ public interface UserService {
     Call<User> update(@Path("id") int id, @Body User user);
     @FormUrlEncoded
     @POST("/api/users/updatepwd")
-    Call<User> updatePassword(@Field("id") int id, @Field("password") String password);
+    Call<User> updatePassword(@Field("id") int id, @Field("password") String password, @Field("oldpassword") String oldpassword);
 
 }

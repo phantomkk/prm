@@ -22,7 +22,7 @@ public class ProductDatabaseHelper extends SQLiteOpenHelper {
 
 
     // Tên cơ sở dữ liệu.
-    private static final String DATABASE_NAME = "BarcodeDatabase";
+    private static final String DATABASE_NAME = "BarcodeData.db";
 
     public ProductDatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -33,7 +33,8 @@ public class ProductDatabaseHelper extends SQLiteOpenHelper {
     }
     //name table
     private static final String TABLE_PRODUCT = "Product";
-    private static final String COLUMN_PRODUCT_ID = "id";
+    private static final String COLUMN_ID = "id";
+    private static final String COLUMN_PRODUCT_ID = "product_id";
     private static final String COLUMN_PRODUCT_CATEGORY_ID = "category_id";
     private static final String COLUMN_PRODUCT_NAME = "name";
     private static final String COLUMN_PRODUCT_PRICE = "price";
@@ -43,12 +44,14 @@ public class ProductDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_PRODUCT_EMAIL = "email";
     private static final String COLUMN_PRODUCT_CODE = "code";
     private static final String COLUMN_PRODUCT_DESCRIPTION = "description";
+    private static final String COLUMN_PRODUCT_Image = "image";
 
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         String script = "CREATE TABLE " + TABLE_PRODUCT + "("
-                + COLUMN_PRODUCT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT ,"
+                + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT ,"
+                + COLUMN_PRODUCT_ID + " INTEGER,"
                 + COLUMN_PRODUCT_CATEGORY_ID + " INTEGER,"
                 + COLUMN_PRODUCT_NAME + " TEXT,"
                 + COLUMN_PRODUCT_PRICE + " DOUBLE,"
@@ -57,7 +60,8 @@ public class ProductDatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_PRODUCT_PHONE + " TEXT,"
                 + COLUMN_PRODUCT_EMAIL + " TEXT,"
                 + COLUMN_PRODUCT_CODE + " TEXT,"
-                + COLUMN_PRODUCT_DESCRIPTION + " TEXT"+")";
+                + COLUMN_PRODUCT_DESCRIPTION + " TEXT,"
+                +COLUMN_PRODUCT_Image + " TEXT"+")";
         db.execSQL(script);
     }
 
@@ -81,7 +85,7 @@ public class ProductDatabaseHelper extends SQLiteOpenHelper {
 
         ArrayList<Product> products = new ArrayList<Product>();
         // Select All Query
-        String selectQuery = "SELECT  * FROM " + TABLE_PRODUCT +" ORDER BY "+ COLUMN_PRODUCT_ID+" DESC";
+        String selectQuery = "SELECT  * FROM " + TABLE_PRODUCT +" ORDER BY "+ COLUMN_ID+" DESC";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -91,16 +95,18 @@ public class ProductDatabaseHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 Product product = new Product();
-                product.setId(cursor.getInt(0));
-                product.setCategoryID(cursor.getInt(1));
-                product.setName(cursor.getString(2));
-                product.setPrice(cursor.getDouble(3));
-                product.setCountry(cursor.getString(4));
-                product.setAddress(cursor.getString(5));
-                product.setPhone(cursor.getString(6));
-                product.setEmail(cursor.getString(7));
-                product.setCode(cursor.getString(8));
-                product.setDescription(cursor.getString(9));
+                product.setIdDatabase(cursor.getInt(0));
+                product.setId(cursor.getInt(1));
+                product.setCategoryID(cursor.getInt(2));
+                product.setName(cursor.getString(3));
+                product.setPrice(cursor.getDouble(4));
+                product.setCountry(cursor.getString(5));
+                product.setAddress(cursor.getString(6));
+                product.setPhone(cursor.getString(7));
+                product.setEmail(cursor.getString(8));
+                product.setCode(cursor.getString(9));
+                product.setDescription(cursor.getString(10));
+                product.setImgDefault(cursor.getString(11));
                 // Thêm vào danh sách.
                 products.add(product);
             } while (cursor.moveToNext());
@@ -114,6 +120,7 @@ public class ProductDatabaseHelper extends SQLiteOpenHelper {
     public void addProduct(Product product) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put(COLUMN_PRODUCT_ID , product.getId());
         values.put(COLUMN_PRODUCT_CATEGORY_ID , product.getCategoryID());
         values.put(COLUMN_PRODUCT_NAME, product.getName());
         values.put(COLUMN_PRODUCT_PRICE, product.getPrice());
@@ -123,6 +130,7 @@ public class ProductDatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_PRODUCT_EMAIL, product.getEmail());
         values.put(COLUMN_PRODUCT_CODE, product.getCode());
         values.put(COLUMN_PRODUCT_DESCRIPTION, product.getDescription());
+        values.put(COLUMN_PRODUCT_Image, product.getImgDefault());
         // Insert 1 row to database.
         db.insert(TABLE_PRODUCT, null, values);
         // close connect database
@@ -133,7 +141,7 @@ public class ProductDatabaseHelper extends SQLiteOpenHelper {
         //Log.i(TAG, "MyDatabaseHelper.updateNote ... " + note.getNoteTitle() );
 
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_PRODUCT, COLUMN_PRODUCT_ID + " = ?",
+        db.delete(TABLE_PRODUCT, COLUMN_ID + " = ?",
                 new String[] { String.valueOf(id) });
         db.close();
     }
