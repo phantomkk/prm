@@ -86,7 +86,9 @@ public abstract class BaseActivity extends Activity {
     private View.OnClickListener imgClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            searchUserAndTranferToUserDetail(CoreManager.getUser(BaseActivity.this).getId());
+            if (CoreManager.getUser(BaseActivity.this) != null) {
+                searchUserAndTranferToUserDetail(CoreManager.getUser(BaseActivity.this).getId());
+            }
         }
     };
 
@@ -169,6 +171,7 @@ public abstract class BaseActivity extends Activity {
             progressDialog.show();
         }
     }
+
     public void showLoading(String message) {
         if (progressDialog == null) {
             progressDialog = new ProgressDialog(this);

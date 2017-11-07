@@ -17,9 +17,11 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.project.barcodechecker.R;
 import com.project.barcodechecker.activities.DetailActivity;
+import com.project.barcodechecker.activities.ListProductActivity;
 import com.project.barcodechecker.adapters.SearchAdapter;
 import com.project.barcodechecker.api.APIServiceManager;
 import com.project.barcodechecker.api.services.ProductService;
@@ -66,9 +68,10 @@ public class SearchFragment extends LoadingFragment {
         ItemClickSupport.addTo(rcvSearch).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                Intent intent = new Intent(getActivity(), DetailActivity.class);
-                intent.putExtra(AppConst.PRODUCT_PARAM, list.get(position));
-                startActivity(intent);
+//                Intent intent = new Intent(getActivity(), DetailActivity.class);
+//                intent.putExtra(AppConst.PRODUCT_PARAM, list.get(position));
+//                startActivity(intent);
+                searchProductAndTranferToProductDetail(list.get(position).getId());
             }
         });
         edtSearch.addTextChangedListener(new TextWatcher() {
@@ -87,6 +90,34 @@ public class SearchFragment extends LoadingFragment {
             }
         });
         return v;
+    }
+
+    private Product product;
+    public void searchProductAndTranferToProductDetail(int id) {
+        showLoading();
+        ProductService productService = APIServiceManager.getPService();
+        productService.getProductById(id).enqueue(new Callback<Product>() {
+            @Override
+            public void onResponse(Call<Product> call, Response<Product> response) {
+                if (response.isSuccessful()) {
+                    product = response.body();
+                    Intent intent = new Intent(getContext(), DetailActivity.class);
+                    intent.putExtra(AppConst.PRODUCT_PARAM, product);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getContext(), "Loading fail",
+                            Toast.LENGTH_LONG).show();
+                }
+                hideLoading();
+            }
+
+            @Override
+            public void onFailure(Call<Product> call, Throwable t) {
+                Toast.makeText(getContext(), "Loading fail",
+                        Toast.LENGTH_LONG).show();
+                hideLoading();
+            }
+        });
     }
 
     Call<Product> call;

@@ -76,16 +76,8 @@ public class ListProductFragment extends LoadingFragment implements ProductSaleM
         list = new ArrayList<>();
         adapter = new ProductSaleManagerAdapter(getContext(), R.layout.item_product_sale_manager, list, this);
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Toast.makeText(getActivity(), "Item click " + position,
-//                        Toast.LENGTH_LONG).show();
 
-            }
-        });
         setValue();
-//        listView.setDivider(null);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

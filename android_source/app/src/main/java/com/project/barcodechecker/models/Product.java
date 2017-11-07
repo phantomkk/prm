@@ -61,7 +61,8 @@ public class Product implements Serializable {
     private String comanyName;
     @SerializedName("AverageRating")
     private double averageRating;
-
+    @SerializedName("NumberRating")
+    private int numberRating;
     public String toString() {
         return "id:  " + id + "\n" +
                 "categoryID: " + categoryID + "\n" +
@@ -75,6 +76,13 @@ public class Product implements Serializable {
                 "description: " + description + "\n";
     }
 
+    public int getNumberRating() {
+        return numberRating;
+    }
+
+    public void setNumberRating(int numberRating) {
+        this.numberRating = numberRating;
+    }
 
     public Integer getId() {
         return id;

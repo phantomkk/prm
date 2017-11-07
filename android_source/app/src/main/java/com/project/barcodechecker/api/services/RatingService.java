@@ -1,5 +1,6 @@
 package com.project.barcodechecker.api.services;
 
+import com.project.barcodechecker.models.Product;
 import com.project.barcodechecker.models.Rating;
 
 import retrofit2.Call;
@@ -12,5 +13,5 @@ import retrofit2.http.POST;
 
 public interface RatingService {
     @POST("/api/ratings")
-    Call<Rating> postRating(@Body Rating rating);
+    Call<Product> postRating(@Body Rating rating);
 }

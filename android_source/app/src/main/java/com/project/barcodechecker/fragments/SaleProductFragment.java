@@ -1,6 +1,7 @@
 package com.project.barcodechecker.fragments;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -79,14 +80,7 @@ public class SaleProductFragment extends Fragment {
         rcvComment.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Product product = list.get(position).getProduct();
-                if (product == null) {
                     searchProductAndTranferToProductDetail(list.get(position).getProductId());
-                } else {
-                    Intent intent = new Intent(getContext(), DetailActivity.class);
-                    intent.putExtra(AppConst.PRODUCT_PARAM, list.get(position).getProduct());
-                    startActivity(intent);
-                }
             }
         });
         rcvComment.setHapticFeedbackEnabled(true);
@@ -98,6 +92,7 @@ public class SaleProductFragment extends Fragment {
     private Product product;
 
     public void searchProductAndTranferToProductDetail(int id) {
+        showLoading();
         ProductService productService = APIServiceManager.getPService();
         productService.getProductById(id).enqueue(new Callback<Product>() {
             @Override
@@ -111,14 +106,29 @@ public class SaleProductFragment extends Fragment {
                     Toast.makeText(getActivity(), "Loading fail",
                             Toast.LENGTH_LONG).show();
                 }
+                hideLoading();
             }
 
             @Override
             public void onFailure(Call<Product> call, Throwable t) {
                 Toast.makeText(getActivity(), "Loading fail",
                         Toast.LENGTH_LONG).show();
+                hideLoading();
             }
         });
+    }
+    private ProgressDialog mProgressDialog;
+
+    protected void showLoading(){
+
+        mProgressDialog = new ProgressDialog(getContext());
+
+        mProgressDialog.setMessage("Đang tải...");
+        mProgressDialog.show();
+    }
+
+    protected void hideLoading() {
+        mProgressDialog.dismiss();
     }
 
 }

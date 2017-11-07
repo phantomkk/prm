@@ -46,6 +46,7 @@ public class SaleUserAdapter extends ArrayAdapter<Sale> {
         CircleImageView imgAvatar;
         TextView tvName;
         TextView tvPrcie;
+        TextView tvDate;
     }
 
     @NonNull
@@ -61,6 +62,7 @@ public class SaleUserAdapter extends ArrayAdapter<Sale> {
             viewHolder.imgAvatar = (CircleImageView) convertView.findViewById(R.id.profile_image);
             viewHolder.tvName = (TextView) convertView.findViewById(R.id.saler_name);
             viewHolder.tvPrcie = (TextView) convertView.findViewById(R.id.sale_product_price);
+            viewHolder.tvDate = (TextView) convertView.findViewById(R.id.saler_date);
             result = convertView;
             convertView.setTag(viewHolder);
         } else {
@@ -68,12 +70,13 @@ public class SaleUserAdapter extends ArrayAdapter<Sale> {
             result = convertView;
         }
         if (sale.getUser() != null) {
-            viewHolder.tvName.setText(sale.getUser().getName());
+            viewHolder.tvName.setText(sale.getUser().getUsername());
             Picasso.with(context).load(sale.getUser().getAvatar()).into(viewHolder.imgAvatar);
         }
 //        searchUser(sale.getUserId(), viewHolder.imgAvatar, viewHolder.tvName);
         viewHolder.tvPrcie.setText(Utils.formatPrice(sale.getPrice()));
-
+        String d = sale.getDateCreate() == null ? "" : (sale.getDateCreate().replace("T00:00:00",""));
+        viewHolder.tvDate.setText("Ngày đăng: "+d);
         return convertView;
     }
 

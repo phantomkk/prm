@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.project.barcodechecker.R;
 import com.project.barcodechecker.adapters.ProductAdapter;
@@ -68,9 +69,10 @@ int position = -1;
                     gvProducts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Intent intent = new Intent(ListProductActivity.this, DetailActivity.class);
-                            intent.putExtra(AppConst.PRODUCT_PARAM, list.get(position));
-                            startActivity(intent);
+                            searchProductAndTranferToProductDetail(list.get(position).getId());
+//                            Intent intent = new Intent(ListProductActivity.this, DetailActivity.class);
+//                            intent.putExtra(AppConst.PRODUCT_PARAM, list.get(position));
+//                            startActivity(intent);
                         }
                     });
 //                    adapter.notifyDataSetChanged();
@@ -89,7 +91,33 @@ int position = -1;
         });
         list = new ArrayList<>();
     }
+    private Product product;
+    public void searchProductAndTranferToProductDetail(int id) {
+        showLoading();
+        ProductService productService = APIServiceManager.getPService();
+        productService.getProductById(id).enqueue(new Callback<Product>() {
+            @Override
+            public void onResponse(Call<Product> call, Response<Product> response) {
+                if (response.isSuccessful()) {
+                    product = response.body();
+                    Intent intent = new Intent(ListProductActivity.this, DetailActivity.class);
+                    intent.putExtra(AppConst.PRODUCT_PARAM, product);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(ListProductActivity.this, "Loading fail",
+                            Toast.LENGTH_LONG).show();
+                }
+                hideLoading();
+            }
 
+            @Override
+            public void onFailure(Call<Product> call, Throwable t) {
+                Toast.makeText(ListProductActivity.this, "Loading fail",
+                        Toast.LENGTH_LONG).show();
+                hideLoading();
+            }
+        });
+    }
     public void initView() {
         gvProducts = (MyGridView) findViewById(R.id.grd_list_product);
     }

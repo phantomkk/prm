@@ -114,14 +114,7 @@ public class ProductSaleManagerAdapter extends ArrayAdapter<Sale>{
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Product product = getItem(position).getProduct();
-                if (product == null) {
                     searchProductAndTranferToProductDetail(getItem(position).getProductId());
-                } else {
-                    Intent intent = new Intent(getContext(), DetailActivity.class);
-                    intent.putExtra(AppConst.PRODUCT_PARAM, getItem(position).getProduct());
-                    context.startActivity(intent);
-                }
             }
         });
         return convertView;

@@ -160,7 +160,7 @@ public class RegisterActivity extends BaseActivity {
         String phone =edtPhone.getText().toString().trim();
         String password =edtPassword.getText().toString().trim();
         String confirmPassword =edtRepassword.getText().toString().trim();
-        if(username.length()<8 || username.length()>25 ){
+        if(username.length()<3 || username.length()>25 ){
             flag=false;
             edtUsername.setText("");
             userWrapper.setError("Độ dài tài khoản không hợp lệ.");
@@ -177,7 +177,7 @@ public class RegisterActivity extends BaseActivity {
             nameWrapper.setErrorEnabled(false);
         }
 
-        if(address.length()<8 || address.length()>25 ){
+        if(address.length()<3 || address.length()>25 ){
             flag=false;
             edtAddress.setText("");
             addressWrapper.setError("Độ dài địa chỉ không hợp lệ.");
@@ -187,7 +187,7 @@ public class RegisterActivity extends BaseActivity {
         }
 
 
-        if(email.length()<8 || email.length()>25 ){
+        if(email.length()<3 || email.length()>25 ){
             flag=false;
             edtEmail.setText("");
             emailWrapper.setError("Độ dài email không hợp lệ.");

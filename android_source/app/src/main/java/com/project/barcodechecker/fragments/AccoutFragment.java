@@ -194,7 +194,7 @@ public class AccoutFragment extends LoadingFragment implements View.OnClickListe
             nameWrapper.setErrorEnabled(false);
         }
 
-        if(address.length()<8 || address.length()>25 ){
+        if(address.length()<3 || address.length()>25 ){
             flag=false;
             edtAddress.setText("");
             addressWrapper.setError("Độ dài địa chỉ không hợp lệ.");
@@ -204,7 +204,7 @@ public class AccoutFragment extends LoadingFragment implements View.OnClickListe
         }
 
 
-        if(email.length()<8 || email.length()>25 ){
+        if(email.length()<3 || email.length()>25 ){
             flag=false;
             edtEmail.setText("");
             emailWrapper.setError("Độ dài email không hợp lệ.");

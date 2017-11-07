@@ -118,7 +118,7 @@ public class LoginActivity extends BaseActivity {
         boolean flag = true;
         String username = edtUsername.getText().toString().trim();
         String password = edtPassword.getText().toString().trim();
-        if(username.length()<8 || username.length()>25 ){
+        if(username.length()<3 || username.length()>25 ){
             flag=false;
             edtUsername.setText("");
             usernameWrapper.setError("Độ dài tài khoản không hợp lệ.");

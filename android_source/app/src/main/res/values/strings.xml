@@ -41,7 +41,7 @@
     <string name="lbl_contact">Liên hệ:</string>
     <string name="lbl_description">Mô tả:</string>
     <string name="lbl_comment">Xem bình luận:</string>
-    <string name="lbl_rating">Đánh giá</string>
+    <string name="lbl_rating">Đánh giá (0)</string>
     <string name="lbl_addresss">Địa chỉ:</string>
     <string name="lbl_email">Email:</string>
     <string name="lbl_category">Loại:</string>

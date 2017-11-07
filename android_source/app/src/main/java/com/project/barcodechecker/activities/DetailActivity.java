@@ -55,7 +55,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DetailActivity extends BaseActivity implements CommentFragment.ButtonPostCommentClickListener {
-    private TextView txtCode, txtName, txtPrice, txtCompany, txtContact, txtDescription, txtAddress, txtEmail, txtCategory;
+    private TextView txtCode, txtName, txtPrice, txtCompany, txtContact, txtDescription, txtAddress, txtEmail, txtCategory,txtNumberRating;
     private RatingBar rbStar;
     private ImageView imgProduct;
     private Product product;
@@ -135,6 +135,7 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
         txtCategory = (TextView) findViewById(R.id.txt_category_detail_atv);
         imgProduct = (ImageView) findViewById(R.id.img_product_detail_atv);
         rbStar = (RatingBar) findViewById(R.id.rbar_star);
+        txtNumberRating = (TextView) findViewById(R.id.txt_number_of_rating);
         frameComments = (FrameLayout) findViewById(R.id.frm_comment_detail_atv);
         frameSales = (FrameLayout) findViewById(R.id.frm_sale_product);
         frameSuggests = (FrameLayout) findViewById(R.id.frm_suggest);
@@ -193,6 +194,7 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
         txtContact.setText(p.getPhone());
         txtAddress.setText(p.getAddress());
         txtEmail.setText(p.getEmail());
+        txtNumberRating.setText("Đánh giá ("+p.getNumberRating()+")");
         txtCategory.setText(Utils.getCategoryString(p.getCategoryID()));
         rbStar.setRating((float) p.getAverageRating());
         u = CoreManager.getUser(DetailActivity.this);
@@ -208,7 +210,7 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
         }
         rbStar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+            public void onRatingChanged(RatingBar ratingBar, final float rating, boolean fromUser) {
                 if (fromUser) {
                     Log.e("ERROR", "UP");
                     if (u == null) {
@@ -234,15 +236,22 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
                                     "proID: " + rate.getProductID() + " userid " + rate.getUserID());
                             RatingService ratingService = APIServiceManager.getRatingService();
                             showLoading();
-                            ratingService.postRating(rate).enqueue(new Callback<Rating>() {
+                            ratingService.postRating(rate).enqueue(new Callback<Product>() {
                                 @Override
-                                public void onResponse(Call<Rating> call, Response<Rating> response) {
+                                public void onResponse(Call<Product> call, Response<Product> response) {
                                     if (response.isSuccessful()) {
 //                                    logError(DetailActivity.class.getSimpleName(), "setValues", "Post rating success" + response.body().getRating() + " rating" +
 //                                            "proID: " + response.body().getProductID() + " userid " + response.body().getUserID());
-                                        u.getRatingList().add(response.body());
+                                        Rating newRating = new Rating();
+                                        newRating.setProductID(product.getId());
+                                        newRating.setUserID(u.getId());
+                                        newRating.setRating(rating);
+                                        u.getRatingList().add(newRating);
                                         CoreManager.setUser(DetailActivity.this, u);
 //                                    rbStar.setIsIndicator(true);
+                                        Product product = response.body();
+                                        rbStar.setRating((float) product.getAverageRating());
+                                        txtNumberRating.setText("Đánh giá ("+product.getNumberRating()+")");
                                         showMessage("Đánh giá sản phẩm thành công.");
                                     } else {
                                         logError(DetailActivity.class.getSimpleName(), "setValues", "Post rating onResponse but else" + response.code());
@@ -257,7 +266,7 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
                                 }
 
                                 @Override
-                                public void onFailure(Call<Rating> call, Throwable t) {
+                                public void onFailure(Call<Product> call, Throwable t) {
                                     logError(DetailActivity.class.getSimpleName(), "setValues", "OnFailure " + t.getMessage());
                                     hideLoading();
                                 }
@@ -280,7 +289,6 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
             }
         }
         return null;
-
     }
 
     private void loadComments(Product product) {
