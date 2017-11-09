@@ -85,7 +85,7 @@ public class UserFragment extends Fragment {
 
         TextView tabThree = (TextView) LayoutInflater.from(getActivity()).inflate(R.layout.custom_tab, null);
         tabThree.setText(getString(R.string.tab_message));
-        tabThree.setText(getString(R.string.tab_message));
+//        tabThree.setText(getString(R.string.tab_message));
         tabThree.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_mail_white_24dp, 0, 0);
         tabLayout.getTabAt(2).setCustomView(tabThree);
     }

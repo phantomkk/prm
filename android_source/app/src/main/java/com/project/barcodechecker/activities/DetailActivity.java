@@ -250,7 +250,7 @@ public class DetailActivity extends BaseActivity implements CommentFragment.Butt
                                         CoreManager.setUser(DetailActivity.this, u);
 //                                    rbStar.setIsIndicator(true);
                                         Product product = response.body();
-                                        rbStar.setRating((float) product.getAverageRating());
+//                                        rbStar.setRating((float) product.getAverageRating());
                                         txtNumberRating.setText("Đánh giá ("+product.getNumberRating()+")");
                                         showMessage("Đánh giá sản phẩm thành công.");
                                     } else {

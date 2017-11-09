@@ -178,8 +178,8 @@
     <string name="tab_category">Danh Sách Sản Phẩm</string>
     <string name="tab_category_list">Danh Sách</string>
     <string name="tab_user">Tài Khoản</string>
-    <string name="tab_accout">Chỉnh Sửa Tài Khoản</string>
-    <string name="tab_my_product">Sản Phẩm Của Tôi</string>
+    <string name="tab_accout">Chỉnh Sửa</string>
+    <string name="tab_my_product">Sản Phẩm</string>
     <string name="tab_message">Tin Nhắn</string>
 
 

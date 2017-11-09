@@ -162,7 +162,7 @@ public class Utils {
                 break;
 
             case 3:
-                category="Nước giải khác";
+                category="Nước giải khát";
                 break;
 
             case 4:

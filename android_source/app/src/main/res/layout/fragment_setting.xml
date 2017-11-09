@@ -16,7 +16,7 @@
         android:background="@color/colorPrimary"
         android:layout_height="@dimen/custom_tab_layout_height"
         app:tabIndicatorColor="@color/color_white"
-        app:tabIndicatorHeight="5dp"
+        app:tabIndicatorHeight="3dp"
         app:tabMode="fixed"
         app:tabGravity="fill"/>
 </android.support.design.widget.CoordinatorLayout>
