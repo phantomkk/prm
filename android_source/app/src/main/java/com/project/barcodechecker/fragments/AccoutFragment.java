@@ -161,7 +161,12 @@ public class AccoutFragment extends LoadingFragment implements View.OnClickListe
             tvName.setText(user.getUsername());
             imvAvatar.setImageURI(null);
 //            Picasso.with(getActivity()).invalidate(u.getAvatar());
-            Picasso.with(getContext()).load(u.getAvatar()).into(imvAvatar);
+//            Picasso.with(getContext()).load(u.getAvatar()).into(imvAvatar);
+            Picasso.with(getContext())
+                    .load(u.getAvatar())
+                    .memoryPolicy(MemoryPolicy.NO_CACHE)
+                    .networkPolicy(NetworkPolicy.NO_CACHE)
+                    .into(imvAvatar);
             edtName.setText(user.getName());
             edtAddress.setText(user.getAddress());
             edtEmail.setText(user.getEmail());

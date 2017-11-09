@@ -34,7 +34,7 @@ public class UserDetailActivity extends BaseActivity {
     private SaleProductFragment saleUserFragment;
     private ProgressBar pbSale;
     private List<Sale> listProducts;
-
+// mmo7 i17 n ay 5chua push, ma cung v thoi, lam gi co AccoutFragment ukm ava dau co doi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

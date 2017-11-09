@@ -104,7 +104,7 @@ public class CommentFragment extends Fragment{
         Collections.sort(list);
         adapter = new CommentAdapter(getContext(), this.list);
         rcvComment.setAdapter(adapter);
-        rcvComment.setLayoutManager(new LinearLayoutManager(getContext().getApplicationContext()));
+        rcvComment.setLayoutManager(new LinearLayoutManager(getContext()));
 
         adapter.notifyDataSetChanged();
     }

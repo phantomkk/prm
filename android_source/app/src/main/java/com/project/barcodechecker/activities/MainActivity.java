@@ -57,6 +57,8 @@ import com.project.barcodechecker.models.User;
 import com.project.barcodechecker.utils.AppConst;
 import com.project.barcodechecker.utils.CoreManager;
 import com.project.barcodechecker.utils.Utils;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -70,7 +72,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class MainActivity extends AppCompatActivity implements AccoutFragment.OnLoginListener{
+public class MainActivity extends AppCompatActivity implements AccoutFragment.OnLoginListener {
     private ProductService pService;
     private BottomNavigationView bottomNavigationView;
     private FrameLayout mainFrame;
@@ -120,7 +122,9 @@ public class MainActivity extends AppCompatActivity implements AccoutFragment.On
         viewPager.setCurrentItem(2);
         u = CoreManager.getUser(this);
         if (u != null) {
+//            Picasso.with(this).invalidate(u.getAvatar());
             Picasso.with(this).load(u.getAvatar()).into(mAvatar);
+
         } else {
             mAvatar.setImageResource(R.drawable.avatar);
         }
@@ -173,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements AccoutFragment.On
                                     .show();
                         } else {
                             if (!isLoginFirst) {
-                                isLoginFirst=true;
+                                isLoginFirst = true;
                                 mTitle.setText(R.string.tab_user);
                                 viewPagerAdapter.addFragment(new UserFragment());
                                 viewPagerAdapter.notifyDataSetChanged();
@@ -259,16 +263,21 @@ public class MainActivity extends AppCompatActivity implements AccoutFragment.On
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if(requestCode == Utils.USE_VIEW_DETAIL){
-            isLoginFirst = true;
-            u=CoreManager.getUser(this);
-            Picasso.with(this).load(u.getAvatar()).into(mAvatar);
-            mTitle.setText(R.string.tab_user);
-            viewPagerAdapter.addFragment(new UserFragment());
-            viewPagerAdapter.notifyDataSetChanged();
-            viewPager.setCurrentItem(4);
-            toolbar.setVisibility(View.GONE);
-            mAvatar.setVisibility(View.VISIBLE);
+            if (requestCode == Utils.USE_VIEW_DETAIL) {
+                isLoginFirst = true;
+                u = CoreManager.getUser(this);
+//                Picasso.with(this).load(u.getAvatar()).into(mAvatar);
+                Picasso.with(this)
+                        .load(u.getAvatar())
+                        .memoryPolicy(MemoryPolicy.NO_CACHE)
+                        .networkPolicy(NetworkPolicy.NO_CACHE)
+                        .into(mAvatar);
+                mTitle.setText(R.string.tab_user);
+                viewPagerAdapter.addFragment(new UserFragment());
+                viewPagerAdapter.notifyDataSetChanged();
+                viewPager.setCurrentItem(4);
+                toolbar.setVisibility(View.GONE);
+                mAvatar.setVisibility(View.VISIBLE);
             }
         }
     }
